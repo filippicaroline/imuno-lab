@@ -902,88 +902,88 @@
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Solúveis (no sangue/líquido extracelular) Proteína C reativa”?",
-      "Solúveis (no sangue/líquido extracelular) Proteína C reativa (PCR) → produzida principalmente pelo fígado durante a inflamação (fase aguda)."
+      "Qual é a origem e a função da proteína C reativa (PCR)?",
+      "É produzida principalmente pelo fígado durante a inflamação aguda e atua como proteína de fase aguda, ajudando na opsonização."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “De membrana (superfície da célula) Toll-like receptors”?",
+      "Quais padrões moleculares os TLR de superfície reconhecem?",
       "Os TLR de superfície reconhecem PAMPs, como LPS, peptidoglicano e flagelina, iniciando sinais da imunidade inata."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Citoplasmáticos NOD-like receptors (NLRs)”?",
-      "Citoplasmáticos NOD-like receptors (NLRs) → reconhecem componentes bacterianos dentro da célula RIG-I-like receptors (RLRs) → reconhecem RNA viral no citoplasma"
+      "O que os receptores NLR e RLR reconhecem no interior celular?",
+      "NLRs reconhecem componentes bacterianos no citoplasma; RLRs reconhecem RNA viral no citoplasma."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Endossomais (dentro da célula) Toll-like receptors (TLR3,”?",
-      "Endossomais (dentro da célula) Toll-like receptors (TLR3, TLR7, TLR9) → reconhecem RNA viral e DNA viral"
+      "O que os TLR endossomais TLR3, TLR7 e TLR9 detectam?",
+      "TLR3 e TLR7 reconhecem RNA; TLR9 reconhece DNA microbiano nos endossomos."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Lectina Ligadora de Manose (MBL”?",
-      "Lectina Ligadora de Manose (MBL – Mannose Binding Lectin) → proteína do sistema imune inato que reconhece carboidratos (manose) na superfície de microrganismos; ativa o sistema complemento (via das lectinas), facilitando a eliminação de patógenos."
+      "Como a lectina ligadora de manose (MBL) contribui para a defesa inata?",
+      "proteína do sistema imune inato que reconhece carboidratos (manose) na superfície de microrganismos; ativa o sistema complemento (via das lectinas), facilitando a eliminação de patógenos."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Serum Amyloid A (SAA)”?",
-      "Serum Amyloid A (SAA) → proteína inflamatória importante que recruta células inflamatórias (como neutrófilos); participa do metabolismo de lipídios durante inflamação. Em inflamação crônica, pode formar amiloide (amiloidose)."
+      "Qual é o papel da proteína Serum Amyloid A (SAA) na inflamação?",
+      "proteína inflamatória importante que recruta células inflamatórias (como neutrófilos); participa do metabolismo de lipídios durante inflamação. Em inflamação crônica, pode formar amiloide (amiloidose)."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “CITOCINAS INFLAMATÓRIAS IL-1 (Interleucina-1) É uma”?",
-      "CITOCINAS INFLAMATÓRIAS IL-1 (Interleucina-1) É uma das primeiras a ser produzida pelos fagócitos ativados."
+      "Quais são os principais efeitos da IL-1 na resposta inflamatória?",
+      "A IL-1 é produzida por fagócitos ativados; promove inflamação, febre e ativação do endotélio."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “TNF (Fator de Necrose Tumoral) É citocina”?",
-      "TNF (Fator de Necrose Tumoral) É citocina muito potente e tem ação parecida com a IL-1, mas mais intensa."
+      "Como o TNF contribui para a inflamação?",
+      "O TNF é uma citocina pró-inflamatória que ativa o endotélio e pode causar febre e efeitos sistêmicos."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “IL-6 (Interleucina-6) Tem um papel mais voltado”?",
-      "IL-6 (Interleucina-6) Tem um papel mais voltado para efeitos sistêmicos."
+      "Quais são os principais efeitos sistêmicos da IL-6?",
+      "A IL-6 estimula principalmente respostas sistêmicas, incluindo a produção hepática de proteínas de fase aguda."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Imunidade adaptativa Reconhecimento”?",
-      "Imunidade adaptativa Reconhecimento: Antígenos específicos (pequenas partes de proteínas, açúcares ou lipídios). Quem reconhece: Linfócitos B (anticorpos) e T (TCR). Característica: Lenta na primeira exposição, altamente específica, gera memória imunológica."
+      "Como a imunidade adaptativa reconhece antígenos e gera memória?",
+      "Linfócitos B reconhecem antígenos por BCR/anticorpos e linfócitos T por TCR; a resposta adaptativa gera memória."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Estrutura em barril (β-barrel)”?",
-      "Estrutura em barril (β-barrel): é um tipo de organização de proteína em que várias folhas beta (β-sheets) se enrolam e formam um “tubo” ou cilindro, parecido com um barril."
+      "O que caracteriza a estrutura proteica em barril β (β-barrel)?",
+      "é um tipo de organização de proteína em que várias folhas beta (β-sheets) se enrolam e formam um “tubo” ou cilindro, parecido com um barril."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre o reconhecimento de PAMPs?",
-      "Os patógenos são reconhecidos por padrões moleculares associados a patógenos (PAMPs), como LPS, peptidoglicano e RNA viral. Esses padrões são detectados por receptores de reconhecimento de padrões (PRRs), incluindo TLRs. A ligação ativa vias de sinalização intracelular, como NF-κB e IRFs, induzindo citocinas inflamatórias, quimiocinas e, em alguns contextos, interferons do tipo I."
+      "Como os PAMPs são reconhecidos pelo sistema imune inato?",
+      "PRRs, como os TLRs, reconhecem PAMPs microbianos e ativam vias que induzem citocinas e outras respostas defensivas."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “NADPH oxidase A NADPH Oxidase é”?",
-      "NADPH oxidase A NADPH Oxidase é a enzima que converte o oxigênio molecular em ânion superóxido (O₂⁻)."
+      "Qual é a função da NADPH oxidase nos fagócitos?",
+      "A NADPH Oxidase é a enzima que converte o oxigênio molecular em ânion superóxido (O₂⁻)."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Óxido Nítrico A produção de óxido nítrico”?",
-      "Óxido Nítrico A produção de óxido nítrico se dá pela enzima iNOS. O óxido nítrico pode reagir com o superóxido formando peroxinitrito (ONOO⁻), que é extremamente tóxico para o microrganismo e contribui de forma importante para a destruição do patógeno."
+      "Como o óxido nítrico participa da atividade microbicida?",
+      "A iNOS produz óxido nítrico, que pode reagir com superóxido e formar peroxinitrito microbicida."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “CONCEITO DE INFLAMAÇÃO”?",
-      "CONCEITO DE INFLAMAÇÃO: A inflamação é um processo caracterizado pela ativação de células imunes e liberação de mediadores inflamatórios, que levam a alterações locais como aumento do fluxo sanguíneo, aumento da permeabilidade vascular e recrutamento/acúmulo de leucócitos para o local da agressão."
+      "Quais alterações caracterizam a resposta inflamatória?",
+      "A inflamação envolve vasodilatação, aumento da permeabilidade vascular e recrutamento de leucócitos."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “RECRUTAMENTO DE LEUCÓCITOS o recrutamento de leucócitos”?",
-      "RECRUTAMENTO DE LEUCÓCITOS o recrutamento de leucócitos (especialmente neutrófilos e monócitos) é um processo altamente orquestrado que ocorre nas vênulas pós-capilares."
+      "Em que etapa vascular ocorre principalmente o recrutamento de leucócitos?",
+      "O recrutamento de leucócitos ocorre principalmente nas vênulas pós-capilares."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Reconhecimento de PAMP Os macrófagos residentes”?",
-      "1. Reconhecimento de PAMP Os macrófagos residentes no tecido infectado reconhecem os PAMPs (Padrões Moleculares Associados a Patógenos) via receptores de reconhecimento de padrão (como os TLRs)."
+      "Como os macrófagos residentes iniciam a resposta à presença de patógenos?",
+      "Reconhecimento de PAMP Os macrófagos residentes no tecido infectado reconhecem os PAMPs (Padrões Moleculares Associados a Patógenos) via receptores de reconhecimento de padrão (como os TLRs)."
     ],
     [
       "p1",
@@ -1002,8 +1002,8 @@
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Proteoglicanas + quimiocinas As quimiocinas ficam ligadas”?",
-      "6. Proteoglicanas + quimiocinas As quimiocinas ficam ligadas a proteoglicanas da superfície endotelial. Quando o leucócito em rolamento, agora em baixa velocidade, entra em contato com essas quimiocinas, elas se ligam a receptores acoplados à proteína G (GPCRs) presentes na membrana do leucócito."
+      "Qual é a função das proteoglicanas na apresentação de quimiocinas ao leucócito?",
+      "As proteoglicanas mantêm quimiocinas na superfície endotelial, permitindo que leucócitos em rolamento as reconheçam."
     ],
     [
       "p1",
@@ -1012,93 +1012,93 @@
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Mudança do citoesqueleo + diapedese (transmigração) Ao”?",
-      "8. Mudança do citoesqueleo + diapedese (transmigração) Ao se ligar ao endotélio, o citoesqueleto do leucócito é reorganizado e ele emite pseudópodes para passar através da parede basal, auxiliado por enzimas (colagenases) que degradam temporariamente a membrana basal para permitir a saída para o espaço extravascular."
+      "Como ocorre a diapedese dos leucócitos?",
+      "O leucócito reorganiza o citoesqueleto e atravessa o endotélio para chegar ao tecido (diapedese)."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Quimiotaxia no Tecido Uma vez no tecido,”?",
-      "9. Quimiotaxia no Tecido Uma vez no tecido, o leucócito migra em direção ao local da infecção seguindo o gradiente de concentração de quimiocinas."
+      "Como a quimiotaxia direciona os leucócitos no tecido?",
+      "O leucócito segue o gradiente de quimiocinas até o foco inflamatório."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Acúmulo de leucócitos no tecido Caracteriza”?",
-      "10. Acúmulo de leucócitos no tecido Caracteriza o infiltrado inflamatório, que é essencial para a eliminação do agente infeccioso e para o início do processo de reparo tecidual."
+      "O que representa o acúmulo de leucócitos no tecido inflamado?",
+      "O acúmulo de leucócitos forma o infiltrado inflamatório, que ajuda a eliminar o agente e iniciar o reparo."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Sem seletinas”?",
-      "Sem seletinas → sem adesão no endotélio Na ausência de seletinas, o leucócito não consegue iniciar o processo de rolamento sobre o endotélio."
+      "O que acontece com o recrutamento leucocitário na ausência de seletinas?",
+      "Sem seletinas, o leucócito não consegue realizar o rolamento inicial no endotélio."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Sem integrinas”?",
-      "Sem integrinas → há rolamento, mas não diminui velocidade Na ausência de integrinas, o leucócito ainda consegue realizar o rolamento mediado por seletinas, o que reduz sua velocidade ao longo do endotélio."
+      "Qual etapa do recrutamento leucocitário é prejudicada pela ausência de integrinas?",
+      "Sem integrinas, o leucócito pode rolar, mas não adere firmemente ao endotélio."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Consequência final para ambos os casos”?",
-      "Consequência final para ambos os casos: Em ambos os casos ocorre falha no recrutamento de leucócitos para o foco infeccioso, o que pode levar a infecções recorrentes devido à deficiência na resposta inflamatória."
+      "Qual é a consequência clínica da falha no recrutamento de leucócitos?",
+      "A falha de recrutamento reduz a chegada de leucócitos ao foco infeccioso e favorece infecções recorrentes."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Capacidade fagocítica”?",
-      "Capacidade fagocítica: quando reconhecem um patógeno, as células dendríticas conseguem: → fagocitar o microrganismo → processar seus antígenos para serem apresentados à outras células do sistema imune"
+      "Como as células dendríticas processam antígenos após a fagocitose?",
+      "Células dendríticas fagocitam microrganismos, processam seus antígenos e os apresentam a linfócitos."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Ativação da resposta adaptativa”?",
-      "Ativação da resposta adaptativa: após capturar e processar o antígeno, as células dendríticas migram para os órgãos linfóides, principalmente os linfonodos, onde apresentam o antígeno para os linfócitos."
+      "Como as células dendríticas iniciam a resposta imune adaptativa?",
+      "Elas migram aos linfonodos e apresentam antígenos aos linfócitos, iniciando a resposta adaptativa."
     ],
     [
       "p1",
-      "Qual é a ideia principal sobre “Recrutamento e inflamação”?",
-      "Recrutamento e inflamação: alguns fragmentos do complemento atuam como mediadores inflamatórios, promovendo o recrutamento de leucócitos para o local da infecção."
+      "Como o sistema complemento favorece o recrutamento de leucócitos?",
+      "C3a e C5a promovem inflamação e recrutam leucócitos para o foco infeccioso."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “TIPOS DE CÉLULAS T Células T efetoras”?",
-      "TIPOS DE CÉLULAS T Células T efetoras: geradas após a ativação das células T naïve."
+      "Quando são geradas as células T efetoras e qual é sua função?",
+      "São geradas após a ativação de linfócitos T naïve e atuam na eliminação do antígeno."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “CÉLULAS T DE MEMÓRIA As células T”?",
-      "CÉLULAS T DE MEMÓRIA As células T de memória são linfócitos T gerados após a resposta imune primária que persistem por longos períodos mesmo após a eliminação do antígeno."
+      "Como se formam e persistem os linfócitos T de memória?",
+      "São formados após a resposta primária e persistem por longos períodos, permitindo respostas futuras mais rápidas."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Sobrevivência em estado quiescente Após a eliminação”?",
-      "Sobrevivência em estado quiescente Após a eliminação do antígeno, as células T de memória entram em um estado de quiescência funcional, no qual permanecem metabolicamente ativas o suficiente para sobreviver, mas não proliferam intensamente."
+      "Como os linfócitos T de memória sobrevivem após a eliminação do antígeno?",
+      "Permanecem em quiescência funcional, sobrevivendo sem proliferar intensamente."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Resposta secundária A resposta secundária mediada”?",
-      "Resposta secundária A resposta secundária mediada por células T de memória é mais rápida porque os genes responsáveis pela produção de citocinas e outras funções efetoras já estão em um estado de cromatina mais acessível, devido a modificações epigenéticas adquiridas durante a primeira ativação."
+      "Por que a resposta secundária dos linfócitos T é mais rápida?",
+      "É mais rápida porque células de memória já estão preparadas para responder ao reencontro com o antígeno."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “As células T ativadas se diferenciam”?",
+      "Em quais tipos efetores os linfócitos T ativados podem se diferenciar?",
       "As células T ativadas se diferenciam em células efetoras (CD4 e CD8), que exercem suas funções para eliminar o antígeno."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Durante a expansão clonal, algumas células não”?",
-      "Durante a expansão clonal, algumas células não seguem a diferenciação terminal completa."
+      "Qual é o destino de parte dos linfócitos durante a expansão clonal?",
+      "Parte dos linfócitos não se diferencia terminalmente e pode originar células de memória."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “CÉLULAS T CD4 AUXILIARES Chamadas de auxiliares”?",
-      "CÉLULAS T CD4 AUXILIARES Chamadas de auxiliares (helper) pois não eliminam diretamente o microrganismo; elas coordenam a resposta imune via secreção de citocinas e de sinais de contato, ativando outras células que fazem a eliminação."
+      "Como os linfócitos T CD4 auxiliares coordenam a resposta imune?",
+      "Linfócitos T CD4 coordenam a resposta por citocinas e sinais de contato, ativando outras células imunes."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “TIPOS DE RESPOSTAS EFETORAS Resposta Th1”?",
-      "TIPOS DE RESPOSTAS EFETORAS Resposta Th1 → ATIVAR MACRÓFAGOS As células T CD4 se diferenciam em um perfil especializado (Células Th1) voltado principalmente para o combate a microrganismos intracelulares, como vírus e algumas bactérias. Participam 2 tipos de células:"
+      "Qual é a principal função efetora dos linfócitos Th1?",
+      "Th1 produzem IFN-γ e promovem a ativação clássica de macrófagos contra microrganismos intracelulares."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Células dendríticas”?",
-      "Células dendríticas: produzem citocina IL-12, que atua de forma autócrina e parácrina, estimulando esse próprio linfócito e outros próximos a se diferenciarem em Th1 por meio da ativação do fator de transcrição T-bet Além disso, essa citocina ativa Células NK."
+      "Como a IL-12 produzida por células dendríticas influencia a resposta Th1?",
+      "A IL-12 favorece a diferenciação de linfócitos T CD4 em Th1 e também ativa células NK."
     ],
     [
       "p2",
@@ -1107,68 +1107,68 @@
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Contribui para a ativação de linfócitos T”?",
-      "Contribui para a ativação de linfócitos T CD8, de forma indireta, ao intensificar o ambiente inflamatório e melhorar a função das APCs."
+      "Como a resposta Th1 favorece a ativação de linfócitos T CD8?",
+      "A resposta Th1 melhora a ativação de células apresentadoras de antígeno e favorece a resposta de linfócitos T CD8."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Atua sobre os linfócitos B, nos quais”?",
-      "Atua sobre os linfócitos B, nos quais induz a troca de classe de anticorpos de IgM → IgG (especialmente subclasses opsonizantes). Esses anticorpos facilitam a fagocitose, pois se ligam ao patógeno e permitem seu reconhecimento por receptores em fagócitos (opsonização)."
+      "Como a resposta Th1 influencia a produção de anticorpos pelos linfócitos B?",
+      "A resposta Th1 favorece a troca de classe para IgG opsonizante, facilitando a fagocitose."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Na Th1, onde a ativação de macrófagos”?",
-      "Na Th1, onde a ativação de macrófagos é mediada principalmente por IFN-γ e CD40– CD40L, os macrófagos ativados e células T podem produzir TNF (fator de necrose tumoral) que é uma citocina inflamatória geral."
+      "Quais sinais promovem a ativação clássica de macrófagos na resposta Th1?",
+      "IFN-γ e a interação CD40–CD40L são os principais sinais para ativação clássica de macrófagos."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Resposta Th2 A resposta Th2 é um”?",
-      "Resposta Th2 A resposta Th2 é um programa de diferenciação de linfócitos T CD4 naive para combate de parasitas, especialmente helmintos que são parasitas grandes e muito resistentes à fagocitose (por isso não usa Th1)."
+      "Contra quais agentes a resposta Th2 é especialmente importante?",
+      "Th2 é importante na defesa contra helmintos e participa das respostas alérgicas."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Produção de IgE”?",
-      "Produção de IgE: estimulada pela IL-4, a qual age nos linfócitos B e induz a mudança de classe (class switching) desses linfócitos B para produção de IgE."
+      "Qual citocina estimula a troca de classe para IgE?",
+      "A IL-4 estimula os linfócitos B a realizar troca de classe e produzir IgE."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Macrófagos (M2)”?",
-      "Macrófagos (M2): a IL-4 e a IL-13 induzem a ativação de macrófagos do tipo M2 (ativação alternativa), que não são altamente microbicidas, mas atuam em: reparo tecidual deposição de matriz extracelular resolução da inflamação"
+      "Quais funções os macrófagos M2 exercem na resposta Th2?",
+      "Macrófagos M2 participam do reparo tecidual e da fibrose."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Eosinófilos e mastócitos”?",
-      "Eosinófilos e mastócitos: a IL-5 recruta eosinófilos, que liberam grânulos tóxicos contra helmintos. Já os mastócitos, ativados por IgE, liberam mediadores inflamatórios que: aumentam permeabilidade vascular, promovem contração muscular, para expulsão do parasita."
+      "Como eosinófilos e mastócitos participam da defesa contra helmintos?",
+      "Eosinófilos liberam grânulos tóxicos contra helmintos; mastócitos ativados por IgE liberam mediadores inflamatórios."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Barreira imunológica”?",
-      "Barreira imunológica: fortalece barreiras epiteliais. A IL-13 é estimula: aumento de secreção de muco, contração da musculatura lisa (peristaltismo), que cria ambiente hostil para o helminto = expulsão."
+      "Como as barreiras epiteliais contribuem para a proteção imunológica?",
+      "IL-13 aumenta a produção de muco e reforça mecanismos de barreira epitelial."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Polarização Th1 vs Th2 As respostas Th1”?",
+      "Quais diferenças funcionais distinguem as respostas Th1 e Th2?",
       "Polarização Th1 vs Th2 As respostas Th1 e Th2 não coexistem porque há mecanismos de polarização cruzada negativa, em que cada subtipo reforça sua própria via e inibe a alternativa – isso é chamado de polarização."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Uma vez diferenciadas, as células Th1”?",
+      "Como as células Th1 ativadas contribuem para a eliminação de microrganismos?",
       "Uma vez diferenciadas, as células Th1 e Th2 produzem citocinas que inibem a via oposta: Th1 produz IFN-γ, que inibe a diferenciação Th2 e reduz a ação do GATA-3."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Além da inibição cruzada, há manutenção epigenética”?",
+      "Como mecanismos epigenéticos ajudam a manter a diferenciação Th1/Th2?",
       "Além da inibição cruzada, há manutenção epigenética do perfil já estabelecido, pois a célula Th1 ou Th2 mantém expressão contínua de seus fatores de transcrição."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Via mediada por receptores de morte (Fas/FasL)”?",
+      "Como a interação Fas–FasL induz a morte da célula-alvo?",
       "Via mediada por receptores de morte (Fas/FasL) Também começa com o reconhecimento do antígeno apresentado pela célula-alvo por meio de moléculas de MHC classe I."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “ATIVAÇÃO E DIFERENCIAÇÃO DE CÉLULAS B Imunidade”?",
-      "ATIVAÇÃO E DIFERENCIAÇÃO DE CÉLULAS B Imunidade humoral → é a parte da imunidade que funciona através dos anticorpos."
+      "Como ocorre a ativação e a diferenciação dos linfócitos B?",
+      "O linfócito B reconhece o antígeno e, com sinais adequados, prolifera e se diferencia em plasmócitos e células de memória."
     ],
     [
       "p2",
@@ -1177,33 +1177,33 @@
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Antígeno proteico”?",
-      "Antígeno proteico – resposta T-dependente Geralmente não conseguem ativar completamente o linfócito B sozinhos."
+      "Por que antígenos proteicos geralmente desencadeiam respostas B dependentes de linfócitos T?",
+      "Proteínas geralmente exigem ajuda de linfócitos T para ativar plenamente os linfócitos B e promover troca de classe."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Organização do órgão linfoide secundário Córtex”?",
-      "Organização do órgão linfoide secundário Córtex: região externa do linfonodo com os folículos linfoides ricos em células B."
+      "Onde ficam os folículos ricos em linfócitos B no linfonodo?",
+      "Os folículos ricos em linfócitos B ficam no córtex do linfonodo."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Centro germinativo”?",
-      "Centro germinativo: estrutura que aparece dentro do folículo secundário após ativação dos linfócitos B por antígeno e ajuda do T helper, durante respostas imunes T-dependentes."
+      "Como se forma o centro germinativo e qual é sua função?",
+      "Forma-se após ativação de linfócitos B em respostas T-dependentes; nele ocorrem seleção e maturação de afinidade."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Centro germinativo senescente”?",
-      "Centro germinativo senescente: centro germinativo em regressão, ou seja, após o término da resposta imune. Depois que o antígeno é eliminado: a proliferação diminui, muitas células sofrem apoptose, sobra apenas memória e plasmócitos selecionados."
+      "O que ocorre no centro germinativo durante a regressão da resposta imune?",
+      "Após a eliminação do antígeno, a proliferação diminui e muitas células sofrem apoptose."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Área paracortical (zona T)”?",
-      "Área paracortical (zona T): região do linfonodo rica em linfócitos T. Por isso também é chamada “zona T”. É aqui que as células dendríticas apresentam antígenos aos linfócitos T naïve."
+      "Onde se localiza a zona T do linfonodo e o que acontece nela?",
+      "A zona T fica na paracorteza, onde células dendríticas apresentam antígenos aos linfócitos T."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Antígenos chegam pela linfa aferente”?",
-      "Antígenos chegam pela linfa aferente → entram no seio subcapsular → encontram células apresentadoras de antígeno → ativam linfócitos B nos folículos e linfócitos T na área T → ocorre resposta imune adaptativa."
+      "Como os antígenos que chegam pela linfa alcançam os linfócitos no linfonodo?",
+      "Os antígenos entram pela linfa aferente e são conduzidos a regiões onde encontram linfócitos B e T."
     ],
     [
       "p2",
@@ -1217,8 +1217,8 @@
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Resposta extrafolicular Após o encontro entre linfócito”?",
-      "Resposta extrafolicular Após o encontro entre linfócito B ativado e o linfócito T helper na junção T-B, parte dos linfócitos B migra para regiões extrafoliculares do linfonodo, formando os chamados focos extrafoliculares."
+      "O que acontece na resposta extrafolicular dos linfócitos B?",
+      "Parte dos linfócitos B forma focos extrafoliculares e produz anticorpos rapidamente, geralmente com menor maturação de afinidade."
     ],
     [
       "p2",
@@ -1227,53 +1227,53 @@
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Após hipermutação somática no centro germinativo,”?",
-      "Após hipermutação somática no centro germinativo, os linfócitos B passam a expressar imunoglobulinas com diferentes afinidades pelo antígeno devido às mutações nos genes da região variável."
+      "Como a hipermutação somática altera a afinidade dos anticorpos?",
+      "Introduz mutações nas regiões variáveis dos anticorpos, criando clones com diferentes afinidades pelo antígeno."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “O reconhecimento pelo Thf leva à expressão”?",
-      "O reconhecimento pelo Thf leva à expressão de moléculas coestimuladoras, principalmente a interação CD40–CD40L, além da produção de sinais de sobrevivência, como aumento de Bcl-2."
+      "Como a interação entre Tfh e linfócito B favorece sua sobrevivência?",
+      "A interação CD40–CD40L e sinais de sobrevivência, como Bcl-2, ajudam os linfócitos B selecionados a sobreviver."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “A Bcl-2 é uma proteína antiapoptótica”?",
-      "A Bcl-2 é uma proteína antiapoptótica que inibe a via mitocondrial da apoptose, sendo crucial na seleção do centro germinativo, onde apenas células B que recebem sinais de sobrevivência de linfócitos T foliculares helper mantêm sua expressão e sobrevivem."
+      "Como a proteína Bcl-2 regula a apoptose dos linfócitos B?",
+      "Bcl-2 inibe a apoptose pela via mitocondrial e favorece a sobrevivência de linfócitos B selecionados."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Esses sinais impedem a apoptose e promovem”?",
-      "Esses sinais impedem a apoptose e promovem a sobrevivência e expansão clonal dos linfócitos B de alta afinidade."
+      "Qual é o efeito dos sinais de sobrevivência sobre os linfócitos B selecionados?",
+      "Promovem a sobrevivência e expansão clonal dos linfócitos B de maior afinidade."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Formação de plasmócitos e células de memória”?",
-      "Formação de plasmócitos e células de memória Ao final da reação do centro germinativo, parte dos linfócitos B diferencia-se em plasmócitos de longa duração, especializados na produção contínua de anticorpos de alta afinidade."
+      "Quais células são geradas ao final da reação do centro germinativo?",
+      "Formam-se plasmócitos de longa duração e linfócitos B de memória."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Plasmócito Forma terminalmente diferenciada do linfócito B,”?",
-      "Plasmócito Forma terminalmente diferenciada do linfócito B, especializada na síntese e secreção de grandes quantidades de anticorpos."
+      "Qual é a função dos plasmócitos?",
+      "Plasmócitos são células derivadas de linfócitos B especializadas em secretar anticorpos."
     ],
     [
       "p2",
-      "Qual é a ideia principal sobre “Plasmócitos de curta vida”?",
-      "Plasmócitos de curta vida: são produzidos rapidamente na resposta extrafolicular e secretam anticorpos, principalmente IgM, por um período limitado. Plasmóctiso de longa vida: são formados após a reação do centro germinativo e permanecem por longos períodos produzindo anticorpos de alta afinidade."
+      "Como diferem os plasmócitos de curta e de longa duração?",
+      "Plasmócitos de curta duração produzem anticorpos por pouco tempo; os de longa duração mantêm a produção por períodos prolongados."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Região variável (V)”?",
-      "Região variável (V) → primeiros 110 aas; parte responsável pela especificidade da resposta imune, pois é nela que ocorre o reconhecimento direto do antígeno."
+      "Qual é a função da região variável dos anticorpos?",
+      "A região variável reconhece o antígeno e determina a especificidade do anticorpo."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Região constante (C)”?",
-      "Região constante (C) → é mais semelhante entre anticorpos da mesma classe e está relacionada com as funções efetoras da molécula, como a ativação de outras partes do sistema imune."
+      "Que funções estão associadas à região constante dos anticorpos?",
+      "A região constante determina a classe do anticorpo e suas funções efetoras."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “A ligação entre anticorpo e antígeno ocorre”?",
-      "A ligação entre anticorpo e antígeno ocorre por interações não covalentes (pontes de H, hidrofóbicas, iônicas, Van der Walls), que são específicas e reversíveis."
+      "Que tipo de interação mantém o anticorpo ligado ao antígeno?",
+      "A ligação ocorre por interações não covalentes, específicas e reversíveis."
     ],
     [
       "hemato",
@@ -1282,33 +1282,33 @@
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “EXPERIMENTO DE PORTER O experimento de Rodney”?",
-      "EXPERIMENTO DE PORTER O experimento de Rodney Porter foi fundamental para entender como os anticorpos são organizados estruturalmente."
+      "O que o experimento de Rodney Porter revelou sobre a estrutura dos anticorpos?",
+      "O experimento de Porter ajudou a demonstrar a organização estrutural dos anticorpos e suas regiões funcionais."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “AUTOIMUNIDADE Sensibilidade”?",
-      "AUTOIMUNIDADE Sensibilidade → capacidade normal/fisiológica do sistema imunológico de reconhecer estímulos antigênicos e responder a eles."
+      "O que significa sensibilização imunológica?",
+      "Sensibilização é o reconhecimento de um antígeno pelo sistema imune, preparando uma resposta específica."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Ou seja, a hipersensibilidade depende da existência”?",
-      "Ou seja, a hipersensibilidade depende da existência prévia de sensibilidade imunológica."
+      "Por que a hipersensibilidade exige sensibilização prévia?",
+      "É necessária uma exposição/sensibilização prévia para que a resposta de hipersensibilidade ocorra."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Antígenos ambientais”?",
-      "Antígenos ambientais: estão frequentemente relacionados às reações alérgicas. Nesses casos, substâncias normalmente inofensivas, como pólen, ácaros, alimentos ou pelos de animais, passam a induzir resposta imune do tipo Th2, com produção de IgE. Essa imunoglobulina liga-se à superfície de mastócitos e basófilos"
+      "Como antígenos ambientais podem desencadear alergias?",
+      "Pólen, ácaros e alimentos podem induzir resposta Th2 e produção de IgE em indivíduos sensibilizados."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Portanto, a diferença central entre autoimunidade”?",
-      "Portanto, a diferença central entre autoimunidade e doença autoimune está na presença de dano funcional ou estrutural."
+      "Qual é a diferença entre autoimunidade e doença autoimune?",
+      "Autoimunidade é a resposta contra componentes próprios; doença autoimune ocorre quando ela causa dano tecidual ou funcional."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “TOLERÂNCIA IMUNOLÓGICA É o conjunto de mecanismos”?",
-      "TOLERÂNCIA IMUNOLÓGICA É o conjunto de mecanismos que impede o sistema imune de atacar os próprios tecidos do organismo. Ela é essencial para evitar autoimunidade e manter equilíbrio entre defesa e preservação dos tecidos. Esse processo ocorre em dois grandes níveis: tolerância central e tolerância periférica."
+      "O que é tolerância imunológica e por que ela é importante?",
+      "É o conjunto de mecanismos que impede respostas contra tecidos próprios e previne autoimunidade."
     ],
     [
       "hemato",
@@ -1317,13 +1317,13 @@
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Situação normal de autotolerância”?",
-      "Situação normal de autotolerância: a célula dendrítica “em repouso” apresenta um autoantígeno para o linfócito T."
+      "Como a apresentação de autoantígenos em condições não inflamatórias favorece a autotolerância?",
+      "A apresentação de autoantígenos sem coestimulação adequada favorece anergia ou tolerância dos linfócitos autorreativos."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Alguns microrganismos possuem antígenos muito parecidos”?",
-      "Alguns microrganismos possuem antígenos muito parecidos com proteínas do próprio organismo."
+      "Como o mimetismo molecular pode favorecer a autoimunidade?",
+      "O mimetismo molecular ocorre quando antígenos microbianos se parecem com moléculas próprias, podendo gerar reação cruzada."
     ],
     [
       "hemato",
@@ -1332,78 +1332,78 @@
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “OUTROS FATORES QUE FAVORECEM AUTOIMUNIDADE Lesão isquêmica”?",
-      "OUTROS FATORES QUE FAVORECEM AUTOIMUNIDADE Lesão isquêmica ou trauma: podem expor antígenos que normalmente ficam “escondidos” do sistema imune, chamados antígenos sequestrados."
+      "Como lesões isquêmicas ou traumáticas podem favorecer a autoimunidade?",
+      "A lesão pode expor antígenos antes sequestrados do sistema imune e favorecer respostas autorreativas."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “MECANISMOS IMUNOPATOLÓGICOS 1) DOENÇAS MEDIADAS POR ANTICORPOS”?",
-      "MECANISMOS IMUNOPATOLÓGICOS 1) DOENÇAS MEDIADAS POR ANTICORPOS Aqui, anticorpos contra antígenos da superfície celular ou matriz extracelular ligam-se diretamente a moléculas presentes na superfície das células ou em componentes da matriz."
+      "Como anticorpos podem causar lesão tecidual em doenças imunomediadas?",
+      "Anticorpos podem ligar-se a células ou tecidos e causar lesão por inflamação, complemento ou alteração funcional."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Anticorpos contra antígenos de matriz (estruturas fixas”?",
-      "Anticorpos contra antígenos de matriz (estruturas fixas do tecido): os anticorpos não estão contra células circulantes, mas sim contra componentes fixos dos tecidos ou da matriz extracelular."
+      "Como anticorpos contra componentes da matriz extracelular causam lesão?",
+      "Eles se ligam a componentes fixos do tecido ou da matriz extracelular e promovem inflamação local."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Além disso, é importante a organização espacial”?",
-      "Além disso, é importante a organização espacial dos anticorpos sobre o antígeno: o C1q precisa se ligar a pelo menos duas regiões Fc próximas umas das outras. Então, dependendo da quantidade de anticorpos ligados, da classe do anticorpo e da estrutura do complexo, a ativação do complemento pode ser intensa ou discreta."
+      "Por que a proximidade entre regiões Fc é importante para a ativação do complemento?",
+      "C1q precisa interagir com regiões Fc próximas de anticorpos ligados ao antígeno para iniciar a via clássica do complemento."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Hemólise Fetal e Formação de Bilirrubina”?",
-      "Hemólise Fetal e Formação de Bilirrubina Os anticorpos IgG anti-D atravessam a placenta e se ligam às hemácias fetais Rh positivas. Essas hemácias são destruídas principalmente pelos macrófagos do baço fetal. A hemoglobina liberada sofre degradação: Hemoglobina → Heme + Globina Heme → Biliverdina → Bilirrubina"
+      "Como os anticorpos anti-D provocam hemólise fetal e aumento de bilirrubina?",
+      "IgG anti-D atravessa a placenta e liga-se às hemácias fetais Rh+, que são destruídas por fagócitos; a degradação do heme gera bilirrubina."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “O aumento da bilirrubina no líquido amniótico”?",
-      "O aumento da bilirrubina no líquido amniótico é um marcador indireto da intensidade da hemólise fetal. Por isso a dosagem de bilirrubina no líquido amniótico foi utilizada no acompanhamento do caso. A elevação progressiva indicava destruição crescente das hemácias fetais."
+      "O que o aumento da bilirrubina no líquido amniótico indica?",
+      "Indica indiretamente aumento da hemólise fetal."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Anemia Fetal e Hidropisia Fetal”?",
-      "Anemia Fetal e Hidropisia Fetal Com a hemólise contínua, o número de hemácias diminui progressivamente."
+      "Como a hemólise fetal pode evoluir para anemia e hidropisia?",
+      "A hemólise persistente causa anemia; nos casos graves, pode levar a insuficiência cardíaca e hidropisia fetal."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Transfusão Intrauterina A transfusão intrauterina é”?",
-      "Transfusão Intrauterina A transfusão intrauterina é o principal tratamento da anemia fetal grave."
+      "Qual é a principal indicação da transfusão intrauterina?",
+      "É indicada principalmente para tratar anemia fetal grave por hemólise."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “A importância da temperatura nas anemias hemolíticas”?",
-      "A importância da temperatura nas anemias hemolíticas autoimunes As anemias hemolíticas autoimunes (AHAI) são tradicionalmente divididas em formas quentes e frias."
+      "Como a temperatura influencia as anemias hemolíticas autoimunes?",
+      "As formas quentes e frias diferem pela temperatura ideal de ligação dos autoanticorpos e pelos mecanismos de hemólise."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “AHAI quente”?",
-      "AHAI quente → os autoanticorpos são predominantemente da classe IgG e apresentam maior afinidade pelos antígenos eritrocitários em temperaturas próximas de 37°C. Como essa é a temperatura predominante na circulação central, a ligação ocorre principalmente em órgãos como o baço, o fígado e a medula óssea."
+      "Quais são as características da anemia hemolítica autoimune quente?",
+      "É geralmente mediada por IgG ativa a cerca de 37 °C e causa principalmente hemólise extravascular."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “AHAI fria”?",
-      "AHAI fria → os anticorpos são geralmente da classe IgM e apresentam melhor desempenho em temperaturas inferiores a 30°C. Essas temperaturas são encontradas principalmente nas extremidades corporais, como dedos das mãos, dedos dos pés, nariz e orelhas, especialmente em situações de exposição ao frio."
+      "Quais são as características da anemia hemolítica autoimune fria?",
+      "É geralmente mediada por IgM que se liga melhor em temperaturas baixas e ativa o complemento."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “A IgG é uma molécula monomérica relativamente”?",
-      "A IgG é uma molécula monomérica relativamente pequena, enquanto a IgM é um pentâmero formado por cinco unidades básicas conectadas entre si."
+      "Como diferem estruturalmente IgG e IgM?",
+      "IgG é monomérica; IgM secretada é geralmente pentamérica."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “IgG quente”?",
-      "IgG quente → opsonização e fagocitose por macrófagos, principalmente no baço. IgM fria → ativação intensa do complemento, depósito de C3 e destruição secundária das hemácias."
+      "Como diferem os mecanismos de hemólise na AHAI quente e fria?",
+      "A forma quente por IgG causa sobretudo fagocitose esplênica; a forma fria por IgM ativa complemento."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “relacionadas a presença de glicanos no Mycoplasma”?",
-      "relacionadas a presença de glicanos no Mycoplasma que são semelhantes estruturalmente às cadeias de carboidratos do antígeno I presente nas hemácias adultas."
+      "Como a semelhança antigênica entre Mycoplasma e hemácias pode favorecer aglutininas frias?",
+      "A semelhança entre glicanos do Mycoplasma e o antígeno I das hemácias pode induzir anticorpos com reação cruzada."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Por que as aglutininas frias são geralmente”?",
-      "Por que as aglutininas frias são geralmente IgM? Porque a IgM possui estrutura pentamérica, alta avidez e grande capacidade de ativar complemento em temperaturas reduzidas."
+      "Por que a IgM é eficiente na ativação do complemento em aglutininas frias?",
+      "A IgM pentamérica tem alta avidez e ativa eficientemente a via clássica do complemento."
     ],
     [
       "hemato",
@@ -1412,13 +1412,13 @@
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Tipo Ac Temp. ideal Local de ligação”?",
-      "Tipo Ac Temp. ideal Local de ligação Hemólise Coombs Associação Extravascular AHAI quente IgG 37°C Circulação central IgG ± C3 LES, LLC, linfomas (baço) Complemento + Mycoplasma, EBV, AHAI fria IgM tr<30°C Extremidades C3 isolado fígado linfomas"
+      "Quais características ajudam a diferenciar a AHAI quente da fria?",
+      "AHAI quente costuma envolver IgG e fagocitose esplênica; AHAI fria costuma envolver IgM, complemento e deposição de C3."
     ],
     [
       "hemato",
-      "Qual é a ideia principal sobre “Doador e receptor com HLA diferentes”?",
-      "Doador e receptor com HLA diferentes: Quando doador e receptor apresentam moléculas de MHC (HLA, em humanos) diferentes, o sistema imune do receptor reconhece essas moléculas como estranhas, desencadeando uma resposta denominada alorreatividade."
+      "Como a incompatibilidade de HLA entre doador e receptor pode desencadear rejeição?",
+      "O reconhecimento de HLA do doador como estranho pode ativar linfócitos do receptor e desencadear rejeição."
     ],
     [
       "hemato",
