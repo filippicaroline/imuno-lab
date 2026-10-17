@@ -7,7 +7,7 @@ import {
   HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck,
   Shuffle, Target, X, ArrowUpRight, RotateCcw, Bookmark,
   ExternalLink, PlayCircle, MessageSquare, FolderOpen, Images,
-  Search, ZoomIn, Image as ImageIcon
+  ZoomIn, Image as ImageIcon
 } from 'lucide-react';
 import studyBank from './studyBank.json';
 import './styles.css';
@@ -92,12 +92,11 @@ function App() {
   const [answers, setAnswers] = useState({});
   const [finished, setFinished] = useState(false);
 
-  // Estados da Biblioteca de Imagens
-  const [imageCategory, setImageCategory] = useState('all');
+  // Biblioteca de Imagens
+  const [imageCategory, setImageCategory] = useState('p1');
   const [imageFiles, setImageFiles] = useState({});
   const [imagesLoading, setImagesLoading] = useState(false);
   const [imagesError, setImagesError] = useState('');
-  const [imageSearch, setImageSearch] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
   const visibleCards = cards.filter(
@@ -133,7 +132,7 @@ function App() {
     nav('quiz');
   };
 
-  // Consulta a API pública do GitHub e lista as imagens existentes.
+  // Carrega as imagens das três pastas do repositório público.
   useEffect(() => {
     if (view !== 'images') return;
 
@@ -147,7 +146,6 @@ function App() {
         const results = await Promise.all(
           imageCategories.map(async (category) => {
             const url = `${GITHUB_API}/${encodeURIComponent(category.folder)}`;
-
             const response = await fetch(url);
 
             if (!response.ok) {
@@ -165,10 +163,7 @@ function App() {
               )
               .map(file => ({
                 name: file.name,
-                url: `/biblioteca/${encodeURIComponent(category.folder)}/${file.name
-                  .split('/')
-                  .map(encodeURIComponent)
-                  .join('/')}`,
+                url: `/biblioteca/${encodeURIComponent(category.folder)}/${encodeURIComponent(file.name)}`,
                 category: category.name,
                 id: `${category.id}-${file.name}`
               }));
@@ -198,22 +193,7 @@ function App() {
     };
   }, [view]);
 
-  const allImages = imageCategories.flatMap(
-    category => imageFiles[category.id] || []
-  );
-
-  const visibleImages = allImages.filter(image => {
-    const matchesCategory =
-      imageCategory === 'all' || imageCategory === imageCategories.find(
-        category => category.id === imageCategory
-      )?.id;
-
-    const matchesSearch = image.name
-      .toLowerCase()
-      .includes(imageSearch.trim().toLowerCase());
-
-    return matchesCategory && matchesSearch;
-  });
+  const visibleImages = imageFiles[imageCategory] || [];
 
   const headings = {
     home: 'Visão geral',
@@ -360,25 +340,16 @@ function App() {
                 </p>
 
                 <div className="hero-actions">
-                  <button
-                    className="btn primary"
-                    onClick={() => nav('flashcards')}
-                  >
+                  <button className="btn primary" onClick={() => nav('flashcards')}>
                     <BookOpen size={17} /> Estudar flashcards
                   </button>
 
-                  <button
-                    className="btn ghost"
-                    onClick={() => startQuiz('all')}
-                  >
+                  <button className="btn ghost" onClick={() => startQuiz('all')}>
                     <Target size={17} /> Fazer um simulado
                     <ChevronRight size={16} />
                   </button>
 
-                  <button
-                    className="btn secondary"
-                    onClick={() => nav('images')}
-                  >
+                  <button className="btn secondary" onClick={() => nav('images')}>
                     <Images size={17} /> Biblioteca de imagens
                   </button>
                 </div>
@@ -863,7 +834,7 @@ function App() {
           </section>
         )}
 
-        {/* BIBLIOTECA DE IMAGENS */}
+        {/* BIBLIOTECA DE IMAGENS: SOMENTE TRÊS EIXOS */}
         {view === 'images' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -871,64 +842,27 @@ function App() {
                 <div className="eyebrow">ACERVO VISUAL</div>
                 <h1>Biblioteca de Imagens</h1>
                 <p>
-                  Consulte imagens de Imunologia P1, Imunologia P2 e Imuno-Hemato.
+                  Explore as imagens separadas por eixo de estudo.
                   Selecione uma imagem para ampliá-la.
                 </p>
               </div>
               <div className="counter-pill">
-                <Images size={16} /> {allImages.length} imagens
+                <Images size={16} />
+                {(imageFiles[imageCategory] || []).length} imagens
               </div>
             </div>
 
-            <div className="aside-box" style={{ marginBottom: 24 }}>
-              <div className="filter-tabs" style={{ flexWrap: 'wrap' }}>
+            <div className="filter-tabs" style={{ flexWrap: 'wrap', marginBottom: 24 }}>
+              {imageCategories.map(category => (
                 <button
-                  className={imageCategory === 'all' ? 'tab active' : 'tab'}
-                  onClick={() => setImageCategory('all')}
+                  key={category.id}
+                  className={imageCategory === category.id ? 'tab active' : 'tab'}
+                  onClick={() => setImageCategory(category.id)}
                 >
-                  Todas as categorias
+                  {category.name}
+                  {' '}({(imageFiles[category.id] || []).length})
                 </button>
-                {imageCategories.map(category => (
-                  <button
-                    key={category.id}
-                    className={imageCategory === category.id ? 'tab active' : 'tab'}
-                    onClick={() => setImageCategory(category.id)}
-                  >
-                    {category.name}
-                    {` (${(imageFiles[category.id] || []).length})`}
-                  </button>
-                ))}
-              </div>
-
-              <div style={{ position: 'relative', marginTop: 18 }}>
-                <Search
-                  size={18}
-                  style={{
-                    position: 'absolute',
-                    left: 14,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    opacity: 0.6
-                  }}
-                />
-                <input
-                  type="search"
-                  value={imageSearch}
-                  onChange={e => setImageSearch(e.target.value)}
-                  placeholder="Buscar pelo nome do arquivo..."
-                  aria-label="Buscar imagens"
-                  style={{
-                    width: '100%',
-                    boxSizing: 'border-box',
-                    padding: '12px 14px 12px 42px',
-                    borderRadius: 10,
-                    border: '1px solid var(--border, #d8dce5)',
-                    background: 'var(--surface, #fff)',
-                    color: 'inherit',
-                    font: 'inherit'
-                  }}
-                />
-              </div>
+              ))}
             </div>
 
             {imagesLoading && (
@@ -950,6 +884,7 @@ function App() {
                   className="btn primary"
                   onClick={() => {
                     setImageFiles({});
+                    setImagesError('');
                     setView('home');
                     setTimeout(() => setView('images'), 0);
                   }}
@@ -964,9 +899,8 @@ function App() {
                 <ImageIcon size={34} style={{ opacity: 0.55 }} />
                 <h3>Nenhuma imagem encontrada</h3>
                 <p>
-                  {allImages.length === 0
-                    ? 'Não foram encontrados arquivos de imagem nas pastas da biblioteca.'
-                    : 'Nenhuma imagem corresponde à busca. Tente outro termo ou categoria.'}
+                  Não foram encontrados arquivos de imagem nesta pasta.
+                  Verifique se os arquivos estão dentro da pasta correspondente ao eixo.
                 </p>
               </div>
             )}
@@ -975,8 +909,8 @@ function App() {
               <>
                 <div className="section-head">
                   <div>
-                    <h2>Imagens disponíveis</h2>
-                    <p>{visibleImages.length} arquivo(s) nesta seleção.</p>
+                    <h2>{imageCategories.find(c => c.id === imageCategory)?.name}</h2>
+                    <p>{visibleImages.length} arquivo(s) nesta categoria.</p>
                   </div>
                 </div>
 
@@ -1030,6 +964,7 @@ function App() {
                           }}
                         />
                       </div>
+
                       <span style={{
                         fontSize: 13,
                         fontWeight: 600,
@@ -1037,14 +972,15 @@ function App() {
                       }}>
                         {image.name}
                       </span>
+
                       <span style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: 6,
-                        color: imageCategories.find(c => c.name === image.category)?.color,
+                        color: imageCategories.find(c => c.id === imageCategory)?.color,
                         fontSize: 12
                       }}>
-                        <ZoomIn size={14} /> {image.category}
+                        <ZoomIn size={14} /> Ampliar imagem
                       </span>
                     </button>
                   ))}
@@ -1235,6 +1171,7 @@ function App() {
                 background: '#fff'
               }}
             />
+
             <p style={{
               color: '#fff',
               textAlign: 'center',
@@ -1243,6 +1180,7 @@ function App() {
             }}>
               {selectedImage.name} · {selectedImage.category}
             </p>
+
             <a
               href={selectedImage.url}
               target="_blank"
