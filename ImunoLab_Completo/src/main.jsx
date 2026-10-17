@@ -18,6 +18,27 @@ const VIDEO_URL = 'https://www.youtube.com/embed/0J59CxIrZhM';
 
 const DRIVE_URL = 'https://drive.google.com/drive/folders/17_nMqeLzmExhUY-maLjUX8f6feIg3Sug';
 
+const NOTEBOOK_FLASHCARDS = [
+  {
+    title: 'Flashcards 1',
+    description: 'Acesse o primeiro conjunto de flashcards no NotebookLM.',
+    url: 'https://notebooklm.link.google/0bQkVL56rqRW',
+    color: '#64d8c5'
+  },
+  {
+    title: 'Flashcards 2',
+    description: 'Acesse o segundo conjunto de flashcards no NotebookLM.',
+    url: 'https://notebooklm.link.google/OgqkejAOkrqb',
+    color: '#a69aff'
+  },
+  {
+    title: 'Flashcards 3',
+    description: 'Acesse o terceiro conjunto de flashcards no NotebookLM.',
+    url: 'https://notebooklm.link.google/SPDW2gOtHg2J',
+    color: '#ffab8a'
+  }
+];
+
 const GITHUB_API_BASE =
   'https://api.github.com/repos/filippicaroline/imuno-lab/contents/ImunoLab_Completo/public/biblioteca';
 
@@ -101,7 +122,6 @@ function App() {
   const [finished, setFinished] = useState(false);
   const [topic, setTopic] = useState('');
 
-  // Estado da Biblioteca de Imagens
   const [imageAxis, setImageAxis] = useState('p1');
   const [libraryImages, setLibraryImages] = useState({
     p1: [],
@@ -146,8 +166,6 @@ function App() {
     nav('quiz');
   };
 
-  // Carrega os arquivos de imagem diretamente das três pastas públicas
-  // do repositório GitHub.
   useEffect(() => {
     if (view !== 'images') return;
 
@@ -230,7 +248,6 @@ function App() {
     setLibraryError('');
     setView('home');
 
-    // A troca de tela permite executar novamente o carregamento.
     window.setTimeout(() => {
       setView('images');
     }, 0);
@@ -588,6 +605,54 @@ function App() {
               </div>
             </div>
 
+            {/* Flashcards externos do NotebookLM */}
+            <div className="notebook-section">
+              <div className="notebook-heading">
+                <div>
+                  <div className="eyebrow">MATERIAIS COMPLEMENTARES</div>
+                  <h2>Flashcards no NotebookLM</h2>
+                  <p>
+                    Acesse os conjuntos de cartões para revisar os conteúdos
+                    de Imunologia.
+                  </p>
+                </div>
+                <ExternalLink size={20} />
+              </div>
+
+              <div className="notebook-grid">
+                {NOTEBOOK_FLASHCARDS.map((item, index) => (
+                  <article className="notebook-card" key={item.url}>
+                    <div
+                      className="notebook-card-icon"
+                      style={{
+                        color: item.color,
+                        background: `${item.color}18`
+                      }}
+                    >
+                      <Layers size={22} />
+                    </div>
+
+                    <span className="notebook-number">
+                      MATERIAL 0{index + 1}
+                    </span>
+
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+
+                    <a
+                      className="btn secondary notebook-link"
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Abrir flashcards <ExternalLink size={15} />
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            {/* Sistema de flashcards original — mantido */}
             <div className="filter-tabs">
               {[
                 ['all', 'Todos os eixos'],
@@ -1145,7 +1210,6 @@ function App() {
           </section>
         )}
 
-        {/* NOVA ABA: BIBLIOTECA DE IMAGENS */}
         {view === 'images' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -1177,20 +1241,13 @@ function App() {
                   className={imageAxis === id ? 'tab active' : 'tab'}
                   onClick={() => setImageAxis(id)}
                 >
-                  {label}
-                  {' '}
-                  <span>
-                    ({libraryImages[id].length})
-                  </span>
+                  {label} <span>({libraryImages[id].length})</span>
                 </button>
               ))}
             </div>
 
             {libraryLoading && (
-              <div
-                className="aside-box"
-                style={{ marginTop: 24, padding: 28 }}
-              >
+              <div className="aside-box" style={{ marginTop: 24, padding: 28 }}>
                 <div className="aside-title">
                   <Microscope size={20} />
                   <h3>Carregando biblioteca...</h3>
@@ -1202,10 +1259,7 @@ function App() {
             )}
 
             {!libraryLoading && libraryError && (
-              <div
-                className="aside-box"
-                style={{ marginTop: 24, padding: 28 }}
-              >
+              <div className="aside-box" style={{ marginTop: 24, padding: 28 }}>
                 <div className="aside-title">
                   <ShieldCheck size={20} />
                   <h3>Não foi possível carregar as imagens</h3>
@@ -1216,10 +1270,7 @@ function App() {
                   {' '}<code>public/biblioteca</code> no repositório
                   <code> imuno-lab</code> e se o repositório está público.
                 </p>
-                <button
-                  className="btn primary"
-                  onClick={retryLibrary}
-                >
+                <button className="btn primary" onClick={retryLibrary}>
                   <RotateCcw size={16} /> Tentar novamente
                 </button>
               </div>
@@ -1227,10 +1278,7 @@ function App() {
 
             {!libraryLoading && !libraryError && (
               <>
-                <div
-                  className="section-head"
-                  style={{ marginTop: 28 }}
-                >
+                <div className="section-head" style={{ marginTop: 28 }}>
                   <div>
                     <div className="eyebrow">EIXO SELECIONADO</div>
                     <h2>{axes.find(a => a.id === imageAxis)?.name}</h2>
@@ -1247,10 +1295,7 @@ function App() {
                 </div>
 
                 {libraryImages[imageAxis].length === 0 ? (
-                  <div
-                    className="aside-box"
-                    style={{ marginTop: 20, padding: 28 }}
-                  >
+                  <div className="aside-box" style={{ marginTop: 20, padding: 28 }}>
                     <div className="aside-title">
                       <FolderOpen size={20} />
                       <h3>Nenhuma imagem encontrada</h3>
@@ -1265,10 +1310,7 @@ function App() {
                         {imageFolders[imageAxis]}/
                       </code>
                     </p>
-                    <button
-                      className="btn secondary"
-                      onClick={retryLibrary}
-                    >
+                    <button className="btn secondary" onClick={retryLibrary}>
                       <RotateCcw size={16} /> Atualizar biblioteca
                     </button>
                   </div>
@@ -1297,10 +1339,7 @@ function App() {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Abrir imagem em tamanho original"
-                          style={{
-                            display: 'block',
-                            cursor: 'zoom-in'
-                          }}
+                          style={{ display: 'block', cursor: 'zoom-in' }}
                         >
                           <img
                             src={img.url}
@@ -1366,14 +1405,8 @@ function App() {
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 28 }}
-            >
-              <div
-                className="feature-icon teal-bg"
-                style={{ marginBottom: 18 }}
-              >
+            <div className="feature-panel" style={{ display: 'block', padding: 28 }}>
+              <div className="feature-icon teal-bg" style={{ marginBottom: 18 }}>
                 <MessageSquare size={22} />
               </div>
               <h2>Queremos ouvir você!</h2>
@@ -1415,10 +1448,7 @@ function App() {
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 20 }}
-            >
+            <div className="feature-panel" style={{ display: 'block', padding: 20 }}>
               <div
                 style={{
                   position: 'relative',
@@ -1453,10 +1483,7 @@ function App() {
                 href="https://www.youtube.com/watch?v=0J59CxIrZhM"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  textDecoration: 'none'
-                }}
+                style={{ display: 'inline-flex', textDecoration: 'none' }}
               >
                 Assistir no YouTube <ExternalLink size={16} />
               </a>
@@ -1478,14 +1505,8 @@ function App() {
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 28 }}
-            >
-              <div
-                className="feature-icon teal-bg"
-                style={{ marginBottom: 18 }}
-              >
+            <div className="feature-panel" style={{ display: 'block', padding: 28 }}>
+              <div className="feature-icon teal-bg" style={{ marginBottom: 18 }}>
                 <FolderOpen size={24} />
               </div>
               <h2>Materiais da turma</h2>
