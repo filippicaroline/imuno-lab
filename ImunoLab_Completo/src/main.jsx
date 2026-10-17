@@ -20,19 +20,19 @@ const DRIVE_URL = 'https://drive.google.com/drive/folders/17_nMqeLzmExhUY-maLjUX
 
 const NOTEBOOK_FLASHCARDS = [
   {
-    title: 'Flashcards 1',
+    title: 'Imunologia P1',
     description: 'Acesse o primeiro conjunto de flashcards no NotebookLM.',
     url: 'https://notebooklm.link.google/0bQkVL56rqRW',
     color: '#64d8c5'
   },
   {
-    title: 'Flashcards 2',
+    title: 'Imunologia P2',
     description: 'Acesse o segundo conjunto de flashcards no NotebookLM.',
     url: 'https://notebooklm.link.google/OgqkejAOkrqb',
     color: '#a69aff'
   },
   {
-    title: 'Flashcards 3',
+    title: 'Imuno-Hemato',
     description: 'Acesse o terceiro conjunto de flashcards no NotebookLM.',
     url: 'https://notebooklm.link.google/SPDW2gOtHg2J',
     color: '#ffab8a'
