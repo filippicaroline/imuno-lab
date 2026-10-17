@@ -1,21 +1,28 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Activity, BookOpen, Brain, CheckCircle2, ChevronLeft,
   ChevronRight, ClipboardList, Clock3, GraduationCap,
   HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck,
   Shuffle, Target, X, ArrowUpRight, RotateCcw, Bookmark,
-  ExternalLink, PlayCircle, MessageSquare, FolderOpen
+  ExternalLink, PlayCircle, MessageSquare, FolderOpen, Images,
+  Search, ZoomIn, Image as ImageIcon
 } from 'lucide-react';
 import studyBank from './studyBank.json';
 import './styles.css';
 
 const FORM_URL = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=w_YeiiSDA0G_ShMoxdw2U3et3sbX1jFFrJYR6Yrgy4VUQUpRNDk0UEpHWFE0RVU0WEs3TDVSVkkyVS4u';
-
 const VIDEO_URL = 'https://www.youtube.com/embed/0J59CxIrZhM';
-
 const DRIVE_URL = 'https://drive.google.com/drive/folders/17_nMqeLzmExhUY-maLjUX8f6feIg3Sug';
+
+const GITHUB_API = 'https://api.github.com/repos/filippicaroline/imuno-lab/contents/ImunoLab_Completo/public/biblioteca';
+
+const imageCategories = [
+  { id: 'p1', name: 'Imunologia P1', folder: 'Imunologia P1', color: '#64d8c5' },
+  { id: 'p2', name: 'Imunologia P2', folder: 'Imunologia P2', color: '#9d91ff' },
+  { id: 'hemato', name: 'Imuno-Hemato', folder: 'ImunoHemato', color: '#ff9b78' }
+];
 
 const notebookLinks = [
   {
@@ -85,6 +92,14 @@ function App() {
   const [answers, setAnswers] = useState({});
   const [finished, setFinished] = useState(false);
 
+  // Estados da Biblioteca de Imagens
+  const [imageCategory, setImageCategory] = useState('all');
+  const [imageFiles, setImageFiles] = useState({});
+  const [imagesLoading, setImagesLoading] = useState(false);
+  const [imagesError, setImagesError] = useState('');
+  const [imageSearch, setImageSearch] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const visibleCards = cards.filter(
     c => axis === 'all' || c[0] === axis
   );
@@ -118,19 +133,103 @@ function App() {
     nav('quiz');
   };
 
+  // Consulta a API pública do GitHub e lista as imagens existentes.
+  useEffect(() => {
+    if (view !== 'images') return;
+
+    let cancelled = false;
+
+    async function loadImages() {
+      setImagesLoading(true);
+      setImagesError('');
+
+      try {
+        const results = await Promise.all(
+          imageCategories.map(async (category) => {
+            const url = `${GITHUB_API}/${encodeURIComponent(category.folder)}`;
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+              throw new Error(
+                `Não foi possível acessar a pasta ${category.name}.`
+              );
+            }
+
+            const files = await response.json();
+
+            const validImages = files
+              .filter(file =>
+                file.type === 'file' &&
+                /\.(png|jpe?g|webp|gif|svg|avif)$/i.test(file.name)
+              )
+              .map(file => ({
+                name: file.name,
+                url: `/biblioteca/${encodeURIComponent(category.folder)}/${file.name
+                  .split('/')
+                  .map(encodeURIComponent)
+                  .join('/')}`,
+                category: category.name,
+                id: `${category.id}-${file.name}`
+              }));
+
+            return [category.id, validImages];
+          })
+        );
+
+        if (!cancelled) {
+          setImageFiles(Object.fromEntries(results));
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setImagesError(
+            'Não foi possível carregar a biblioteca. Verifique sua conexão e tente novamente.'
+          );
+        }
+      } finally {
+        if (!cancelled) setImagesLoading(false);
+      }
+    }
+
+    loadImages();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [view]);
+
+  const allImages = imageCategories.flatMap(
+    category => imageFiles[category.id] || []
+  );
+
+  const visibleImages = allImages.filter(image => {
+    const matchesCategory =
+      imageCategory === 'all' || imageCategory === imageCategories.find(
+        category => category.id === imageCategory
+      )?.id;
+
+    const matchesSearch = image.name
+      .toLowerCase()
+      .includes(imageSearch.trim().toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+
   const headings = {
     home: 'Visão geral',
     flashcards: 'Flashcards',
     quiz: 'Simulados',
     satisfaction: 'Pesquisa de Satisfação Institucional',
     alternative: 'Complemento — Via Alternativa',
-    drive: 'Drive da Turma'
+    drive: 'Drive da Turma',
+    images: 'Biblioteca de Imagens'
   };
 
   const navItems = [
     ['home', Home, 'Visão geral'],
     ['flashcards', Layers, 'Flashcards'],
     ['quiz', ClipboardList, 'Simulados'],
+    ['images', Images, 'Biblioteca de Imagens'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -192,12 +291,10 @@ function App() {
                 className="axis-dot"
                 style={{ background: a.color }}
               />
-
               <span>
                 <b>{a.name}</b>
                 <small>{a.desc}</small>
               </span>
-
               <ChevronRight size={15} />
             </button>
           ))}
@@ -208,13 +305,10 @@ function App() {
             <div className="study-icon">
               <GraduationCap size={18} />
             </div>
-
             <b>Aprenda no seu ritmo</b>
-
             <p>
               Revise conceitos, teste seu conhecimento e estude por eixos.
             </p>
-
             <button onClick={() => startQuiz('all')}>
               Começar simulado <ArrowUpRight size={14} />
             </button>
@@ -247,6 +341,7 @@ function App() {
           </div>
         </header>
 
+        {/* VISÃO GERAL */}
         {view === 'home' && (
           <section className="content-wrap">
             <div className="hero">
@@ -256,9 +351,7 @@ function App() {
                   SUA PLATAFORMA DE APRENDIZAGEM
                 </div>
 
-                <h1>
-                  Imunologia, <span>conectada.</span>
-                </h1>
+                <h1>Imunologia, <span>conectada.</span></h1>
 
                 <p>
                   Do reconhecimento do antígeno à resposta efetora.
@@ -271,55 +364,49 @@ function App() {
                     className="btn primary"
                     onClick={() => nav('flashcards')}
                   >
-                    <BookOpen size={17} />
-                    Estudar flashcards
+                    <BookOpen size={17} /> Estudar flashcards
                   </button>
 
                   <button
                     className="btn ghost"
                     onClick={() => startQuiz('all')}
                   >
-                    <Target size={17} />
-                    Fazer um simulado
+                    <Target size={17} /> Fazer um simulado
                     <ChevronRight size={16} />
+                  </button>
+
+                  <button
+                    className="btn secondary"
+                    onClick={() => nav('images')}
+                  >
+                    <Images size={17} /> Biblioteca de imagens
                   </button>
                 </div>
 
                 <div className="hero-meta">
-                  <span>
-                    <CheckCircle2 size={14} /> 3 eixos de estudo
-                  </span>
-                  <span>
-                    <ShieldCheck size={14} /> Sem cadastro
-                  </span>
-                  <span>
-                    <Clock3 size={14} /> No seu ritmo
-                  </span>
+                  <span><CheckCircle2 size={14} /> 3 eixos de estudo</span>
+                  <span><ShieldCheck size={14} /> Sem cadastro</span>
+                  <span><Clock3 size={14} /> No seu ritmo</span>
                 </div>
               </div>
 
               <div className="hero-art">
                 <div className="orbit orbit-a" />
                 <div className="orbit orbit-b" />
-
                 <div className="cell cell-main">
                   <div className="cell-core" />
                   <div className="cell-nucleus" />
                   <i /><i /><i />
                 </div>
-
                 <div className="float-tag tag-a">
                   <span className="tag-dot teal" /> Antígeno
                 </div>
-
                 <div className="float-tag tag-b">
                   <span className="tag-dot purple" /> Linfócito T
                 </div>
-
                 <div className="float-tag tag-c">
                   <span className="tag-dot orange" /> Anticorpo
                 </div>
-
                 <div className="hero-spark spark-one">✳</div>
                 <div className="hero-spark spark-two">+</div>
               </div>
@@ -327,35 +414,18 @@ function App() {
 
             <div className="stats-grid">
               <div className="stat-card">
-                <div className="stat-icon teal-bg">
-                  <Layers size={19} />
-                </div>
-                <div>
-                  <strong>{cards.length}</strong>
-                  <span>flashcards</span>
-                </div>
+                <div className="stat-icon teal-bg"><Layers size={19} /></div>
+                <div><strong>{cards.length}</strong><span>flashcards</span></div>
                 <small>revisão ativa</small>
               </div>
-
               <div className="stat-card">
-                <div className="stat-icon purple-bg">
-                  <ClipboardList size={19} />
-                </div>
-                <div>
-                  <strong>{questions.length}</strong>
-                  <span>questões</span>
-                </div>
+                <div className="stat-icon purple-bg"><ClipboardList size={19} /></div>
+                <div><strong>{questions.length}</strong><span>questões</span></div>
                 <small>com justificativas</small>
               </div>
-
               <div className="stat-card">
-                <div className="stat-icon orange-bg">
-                  <Activity size={19} />
-                </div>
-                <div>
-                  <strong>3</strong>
-                  <span>eixos integrados</span>
-                </div>
+                <div className="stat-icon orange-bg"><Activity size={19} /></div>
+                <div><strong>3</strong><span>eixos integrados</span></div>
                 <small>estudo organizado</small>
               </div>
             </div>
@@ -364,15 +434,9 @@ function App() {
               <div>
                 <div className="eyebrow">TRILHAS DE APRENDIZAGEM</div>
                 <h2>Escolha seu eixo</h2>
-                <p>
-                  Selecione um eixo para revisar os conteúdos com flashcards.
-                </p>
+                <p>Selecione um eixo para revisar os conteúdos com flashcards.</p>
               </div>
-
-              <button
-                className="text-link"
-                onClick={() => nav('flashcards')}
-              >
+              <button className="text-link" onClick={() => nav('flashcards')}>
                 Ver flashcards <ArrowUpRight size={16} />
               </button>
             </div>
@@ -380,39 +444,22 @@ function App() {
             <div className="axis-cards">
               {axes.map((a, i) => {
                 const Icon = a.icon;
-
                 return (
                   <article className="axis-card" key={a.id}>
                     <div className="axis-card-top">
                       <div
                         className="axis-symbol"
-                        style={{
-                          color: a.color,
-                          background: a.color + '16'
-                        }}
+                        style={{ color: a.color, background: a.color + '16' }}
                       >
                         <Icon size={21} />
                       </div>
-
-                      <span className="axis-number">
-                        0{i + 1}
-                      </span>
+                      <span className="axis-number">0{i + 1}</span>
                     </div>
-
                     <h3>{a.name}</h3>
-
-                    <p>
-                      {a.desc}. Revise os principais conceitos
-                      com cartões de estudo.
-                    </p>
-
+                    <p>{a.desc}. Revise os principais conceitos com cartões de estudo.</p>
                     <div className="axis-card-meta">
-                      <span>
-                        <Layers size={14} />
-                        {' '}{cards.filter(c => c[0] === a.id).length} cards
-                      </span>
+                      <span><Layers size={14} /> {cards.filter(c => c[0] === a.id).length} cards</span>
                     </div>
-
                     <button
                       className="card-open"
                       onClick={() => {
@@ -429,25 +476,15 @@ function App() {
 
             <div className="bottom-grid">
               <article className="feature-panel flash-feature">
-                <div className="feature-icon purple-bg">
-                  <Layers size={20} />
-                </div>
-
+                <div className="feature-icon purple-bg"><Layers size={20} /></div>
                 <div className="feature-copy">
                   <div className="eyebrow">REVISÃO ATIVA</div>
                   <h3>Fixe o conteúdo com flashcards</h3>
-                  <p>
-                    Recupere a informação antes de revelar a resposta.
-                  </p>
-
-                  <button
-                    className="btn secondary"
-                    onClick={() => nav('flashcards')}
-                  >
+                  <p>Recupere a informação antes de revelar a resposta.</p>
+                  <button className="btn secondary" onClick={() => nav('flashcards')}>
                     Estudar flashcards <ChevronRight size={16} />
                   </button>
                 </div>
-
                 <div className="mini-cards">
                   <div className="mini-card mini-back">Fc</div>
                   <div className="mini-card mini-front">Ag</div>
@@ -455,25 +492,15 @@ function App() {
               </article>
 
               <article className="feature-panel quiz-feature">
-                <div className="feature-icon orange-bg">
-                  <Target size={20} />
-                </div>
-
+                <div className="feature-icon orange-bg"><Target size={20} /></div>
                 <div className="feature-copy">
                   <div className="eyebrow">PRATIQUE E AVALIE</div>
                   <h3>Simulados com feedback</h3>
-                  <p>
-                    Questões de múltipla escolha com justificativas.
-                  </p>
-
-                  <button
-                    className="btn secondary"
-                    onClick={() => startQuiz('all')}
-                  >
+                  <p>Questões de múltipla escolha com justificativas.</p>
+                  <button className="btn secondary" onClick={() => startQuiz('all')}>
                     Iniciar simulado <ChevronRight size={16} />
                   </button>
                 </div>
-
                 <div className="quiz-visual">
                   <div className="quiz-ring"><span>Q</span></div>
                   <div className="quiz-line line-1" />
@@ -493,6 +520,7 @@ function App() {
           </section>
         )}
 
+        {/* FLASHCARDS */}
         {view === 'flashcards' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -500,11 +528,10 @@ function App() {
                 <div className="eyebrow">ACTIVE RECALL</div>
                 <h1>Flashcards</h1>
                 <p>
-                  Escolha um conjunto de cartões do NotebookLM ou
-                  revise os flashcards disponíveis na plataforma.
+                  Escolha um conjunto de cartões do NotebookLM ou revise
+                  os flashcards disponíveis na plataforma.
                 </p>
               </div>
-
               <div className="counter-pill">
                 <Layers size={15} /> {visibleCards.length} cartões locais
               </div>
@@ -515,22 +542,17 @@ function App() {
                 <div>
                   <div className="eyebrow">NOTEBOOKLM</div>
                   <h2>Flashcards por eixo</h2>
-                  <p>
-                    Acesse os materiais externos de cada eixo de estudo.
-                  </p>
+                  <p>Acesse os materiais externos de cada eixo de estudo.</p>
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))',
-                  gap: 18
-                }}
-              >
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))',
+                gap: 18
+              }}>
                 {notebookLinks.map(notebook => {
                   const Icon = notebook.icon;
-
                   return (
                     <a
                       key={notebook.id}
@@ -538,42 +560,25 @@ function App() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="axis-card"
-                      style={{
-                        display: 'block',
-                        color: 'inherit',
-                        textDecoration: 'none'
-                      }}
+                      style={{ display: 'block', color: 'inherit', textDecoration: 'none' }}
                     >
                       <div className="axis-card-top">
-                        <div
-                          className="axis-symbol"
-                          style={{
-                            color: notebook.color,
-                            background: notebook.color + '16'
-                          }}
-                        >
+                        <div className="axis-symbol" style={{
+                          color: notebook.color,
+                          background: notebook.color + '16'
+                        }}>
                           <Icon size={21} />
                         </div>
-
-                        <ExternalLink
-                          size={17}
-                          aria-label="Abrir NotebookLM"
-                        />
+                        <ExternalLink size={17} />
                       </div>
-
                       <h3>{notebook.title}</h3>
                       <p>{notebook.description}</p>
-
-                      <div
-                        className="card-open"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        Acessar flashcards
-                        <ArrowUpRight size={16} />
+                      <div className="card-open" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}>
+                        Acessar flashcards <ArrowUpRight size={16} />
                       </div>
                     </a>
                   );
@@ -585,22 +590,13 @@ function App() {
               <div>
                 <div className="eyebrow">REVISÃO NA PLATAFORMA</div>
                 <h2>Flashcards locais</h2>
-                <p>
-                  Responda mentalmente antes de virar o cartão.
-                </p>
+                <p>Responda mentalmente antes de virar o cartão.</p>
               </div>
             </div>
 
             <div className="filter-tabs">
-              {[
-                ['all', 'Todos os eixos'],
-                ...axes.map(a => [a.id, a.name])
-              ].map(([id, label]) => (
-                <button
-                  key={id}
-                  className={axis === id ? 'tab active' : 'tab'}
-                  onClick={() => chooseAxis(id)}
-                >
+              {[['all', 'Todos os eixos'], ...axes.map(a => [a.id, a.name])].map(([id, label]) => (
+                <button key={id} className={axis === id ? 'tab active' : 'tab'} onClick={() => chooseAxis(id)}>
                   {label}
                 </button>
               ))}
@@ -610,41 +606,23 @@ function App() {
               <div className="flash-layout">
                 <div className="flash-main">
                   <div className="flash-progress">
-                    <span>
-                      Cartão {cardIndex % visibleCards.length + 1}
-                      {' '}de {visibleCards.length}
-                    </span>
-
+                    <span>Cartão {cardIndex % visibleCards.length + 1} de {visibleCards.length}</span>
                     <div className="progress-track">
-                      <div
-                        style={{
-                          width: `${
-                            ((cardIndex % visibleCards.length + 1) /
-                              visibleCards.length) * 100
-                          }%`
-                        }}
-                      />
+                      <div style={{ width: `${((cardIndex % visibleCards.length + 1) / visibleCards.length) * 100}%` }} />
                     </div>
                   </div>
 
-                  <button
-                    className={`flashcard ${flipped ? 'flipped' : ''}`}
-                    onClick={() => setFlipped(f => !f)}
-                  >
+                  <button className={`flashcard ${flipped ? 'flipped' : ''}`} onClick={() => setFlipped(f => !f)}>
                     <div className="flash-topline">
                       <span className={`tag-axis ${currentCard[0]}`}>
                         {axes.find(a => a.id === currentCard[0])?.name}
                       </span>
-
                       <span>{flipped ? 'RESPOSTA' : 'PERGUNTA'}</span>
                     </div>
-
                     <div className="flash-content">
                       {flipped ? (
                         <>
-                          <div className="answer-check">
-                            <CheckCircle2 size={24} />
-                          </div>
+                          <div className="answer-check"><CheckCircle2 size={24} /></div>
                           <p>{currentCard[2]}</p>
                         </>
                       ) : (
@@ -653,51 +631,30 @@ function App() {
                           <h2>{currentCard[1]}</h2>
                         </>
                       )}
-
                       <div className="flip-hint">
                         <RotateCcw size={15} />
-                        {flipped
-                          ? 'Clique para ver a pergunta'
-                          : 'Clique para revelar a resposta'}
+                        {flipped ? 'Clique para ver a pergunta' : 'Clique para revelar a resposta'}
                       </div>
                     </div>
                   </button>
 
                   <div className="flash-controls">
-                    <button
-                      className="btn secondary"
-                      onClick={() => {
-                        setCardIndex(
-                          i => (i - 1 + visibleCards.length) %
-                            visibleCards.length
-                        );
-                        setFlipped(false);
-                      }}
-                    >
+                    <button className="btn secondary" onClick={() => {
+                      setCardIndex(i => (i - 1 + visibleCards.length) % visibleCards.length);
+                      setFlipped(false);
+                    }}>
                       <ChevronLeft size={17} /> Anterior
                     </button>
-
-                    <button
-                      className="btn ghost"
-                      onClick={() => {
-                        setCardIndex(
-                          Math.floor(Math.random() * visibleCards.length)
-                        );
-                        setFlipped(false);
-                      }}
-                    >
+                    <button className="btn ghost" onClick={() => {
+                      setCardIndex(Math.floor(Math.random() * visibleCards.length));
+                      setFlipped(false);
+                    }}>
                       <Shuffle size={16} /> Aleatório
                     </button>
-
-                    <button
-                      className="btn primary"
-                      onClick={() => {
-                        setCardIndex(
-                          i => (i + 1) % visibleCards.length
-                        );
-                        setFlipped(false);
-                      }}
-                    >
+                    <button className="btn primary" onClick={() => {
+                      setCardIndex(i => (i + 1) % visibleCards.length);
+                      setFlipped(false);
+                    }}>
                       Próximo <ChevronRight size={17} />
                     </button>
                   </div>
@@ -705,61 +662,26 @@ function App() {
 
                 <aside className="flash-aside">
                   <div className="aside-box">
-                    <div className="aside-title">
-                      <Brain size={17} />
-                      <h3>Revisão eficiente</h3>
-                    </div>
-
-                    <p className="aside-copy">
-                      Explique o conceito com suas próprias palavras
-                      antes de conferir.
-                    </p>
-
-                    <div className="mini-rule">
-                      <span>1</span>
-                      <p>
-                        <b>Recupere</b>
-                        <small>Responda sem consultar.</small>
-                      </p>
-                    </div>
-
-                    <div className="mini-rule">
-                      <span>2</span>
-                      <p>
-                        <b>Confira</b>
-                        <small>Compare com a resposta.</small>
-                      </p>
-                    </div>
-
-                    <div className="mini-rule">
-                      <span>3</span>
-                      <p>
-                        <b>Repita</b>
-                        <small>Volte aos cartões difíceis.</small>
-                      </p>
-                    </div>
+                    <div className="aside-title"><Brain size={17} /><h3>Revisão eficiente</h3></div>
+                    <p className="aside-copy">Explique o conceito com suas próprias palavras antes de conferir.</p>
+                    {[
+                      ['1', 'Recupere', 'Responda sem consultar.'],
+                      ['2', 'Confira', 'Compare com a resposta.'],
+                      ['3', 'Repita', 'Volte aos cartões difíceis.']
+                    ].map(([n, title, desc]) => (
+                      <div className="mini-rule" key={n}>
+                        <span>{n}</span><p><b>{title}</b><small>{desc}</small></p>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="aside-box">
-                    <div className="aside-title">
-                      <Bookmark size={17} />
-                      <h3>Atalhos por eixo</h3>
-                    </div>
-
+                    <div className="aside-title"><Bookmark size={17} /><h3>Atalhos por eixo</h3></div>
                     {axes.map(a => (
-                      <button
-                        className="shortcut"
-                        key={a.id}
-                        onClick={() => chooseAxis(a.id)}
-                      >
-                        <span
-                          className="axis-dot"
-                          style={{ background: a.color }}
-                        />
+                      <button className="shortcut" key={a.id} onClick={() => chooseAxis(a.id)}>
+                        <span className="axis-dot" style={{ background: a.color }} />
                         {a.name}
-                        <span>
-                          {cards.filter(c => c[0] === a.id).length}
-                        </span>
+                        <span>{cards.filter(c => c[0] === a.id).length}</span>
                       </button>
                     ))}
                   </div>
@@ -768,50 +690,31 @@ function App() {
             ) : (
               <div className="aside-box">
                 <h3>Nenhum flashcard disponível neste eixo</h3>
-                <p>
-                  Selecione outro eixo ou escolha “Todos os eixos”.
-                </p>
-                <button
-                  className="btn secondary"
-                  onClick={() => chooseAxis('all')}
-                >
-                  Ver todos os flashcards
-                </button>
+                <p>Selecione outro eixo ou escolha “Todos os eixos”.</p>
+                <button className="btn secondary" onClick={() => chooseAxis('all')}>Ver todos os flashcards</button>
               </div>
             )}
           </section>
         )}
 
+        {/* SIMULADOS */}
         {view === 'quiz' && (
           <section className="content-wrap">
             <div className="section-head">
               <div>
                 <div className="eyebrow">AVALIAÇÃO FORMATIVA</div>
                 <h1>Simulados</h1>
-                <p>
-                  Questões de múltipla escolha com explicação
-                  da alternativa correta.
-                </p>
+                <p>Questões de múltipla escolha com explicação da alternativa correta.</p>
               </div>
-
               <div className="counter-pill">
                 <Clock3 size={15} />
-                {finished
-                  ? 'Finalizado'
-                  : `${quizIndex + 1} de ${quiz.length}`}
+                {finished ? 'Finalizado' : `${quizIndex + 1} de ${quiz.length}`}
               </div>
             </div>
 
             <div className="filter-tabs">
-              {[
-                ['all', 'Todos os eixos'],
-                ...axes.map(a => [a.id, a.name])
-              ].map(([id, label]) => (
-                <button
-                  key={id}
-                  className={quizAxis === id ? 'tab active' : 'tab'}
-                  onClick={() => startQuiz(id)}
-                >
+              {[['all', 'Todos os eixos'], ...axes.map(a => [a.id, a.name])].map(([id, label]) => (
+                <button key={id} className={quizAxis === id ? 'tab active' : 'tab'} onClick={() => startQuiz(id)}>
                   {label}
                 </button>
               ))}
@@ -823,122 +726,62 @@ function App() {
                   <div className="quiz-progress">
                     <div className="quiz-progress-top">
                       <span>QUESTÃO {quizIndex + 1}</span>
-                      <span>
-                        {quiz.filter(
-                          x => answers[x.id] !== undefined
-                        ).length} respondidas
-                      </span>
+                      <span>{quiz.filter(x => answers[x.id] !== undefined).length} respondidas</span>
                     </div>
-
                     <div className="progress-track">
-                      <div
-                        style={{
-                          width: `${
-                            ((quizIndex + 1) / quiz.length) * 100
-                          }%`
-                        }}
-                      />
+                      <div style={{ width: `${((quizIndex + 1) / quiz.length) * 100}%` }} />
                     </div>
                   </div>
 
                   <div className="question-panel">
                     <div className="question-meta">
-                      <span className={`tag-axis ${q.axis}`}>
-                        {axes.find(a => a.id === q.axis)?.name}
-                      </span>
+                      <span className={`tag-axis ${q.axis}`}>{axes.find(a => a.id === q.axis)?.name}</span>
                       <span>Escolha uma alternativa</span>
                     </div>
-
                     <h2>{q.q}</h2>
 
                     <div className="options-list">
                       {q.opts.map((opt, i) => {
                         const selected = answers[q.id] === i;
                         const revealed = answers[q.id] !== undefined;
-
                         return (
                           <button
                             key={opt}
                             disabled={revealed}
-                            className={`option ${
-                              selected ? 'selected' : ''
-                            } ${
-                              revealed && i === q.correct
-                                ? 'correct'
-                                : ''
-                            } ${
-                              revealed && selected && i !== q.correct
-                                ? 'incorrect'
-                                : ''
-                            }`}
-                            onClick={() =>
-                              setAnswers(a => ({ ...a, [q.id]: i }))
-                            }
+                            className={`option ${selected ? 'selected' : ''} ${revealed && i === q.correct ? 'correct' : ''} ${revealed && selected && i !== q.correct ? 'incorrect' : ''}`}
+                            onClick={() => setAnswers(a => ({ ...a, [q.id]: i }))}
                           >
-                            <span className="option-letter">
-                              {String.fromCharCode(65 + i)}
-                            </span>
-
+                            <span className="option-letter">{String.fromCharCode(65 + i)}</span>
                             <span>{opt}</span>
-
-                            {revealed && i === q.correct && (
-                              <CheckCircle2 size={18} />
-                            )}
-
-                            {revealed && selected && i !== q.correct && (
-                              <X size={18} />
-                            )}
+                            {revealed && i === q.correct && <CheckCircle2 size={18} />}
+                            {revealed && selected && i !== q.correct && <X size={18} />}
                           </button>
                         );
                       })}
                     </div>
 
                     {answers[q.id] !== undefined && (
-                      <div
-                        className={`explanation ${
-                          answers[q.id] === q.correct ? 'good' : 'bad'
-                        }`}
-                      >
+                      <div className={`explanation ${answers[q.id] === q.correct ? 'good' : 'bad'}`}>
                         <div className="explanation-icon">
-                          {answers[q.id] === q.correct
-                            ? <CheckCircle2 size={18} />
-                            : <Activity size={18} />}
+                          {answers[q.id] === q.correct ? <CheckCircle2 size={18} /> : <Activity size={18} />}
                         </div>
-
                         <div>
-                          <b>
-                            {answers[q.id] === q.correct
-                              ? 'Resposta correta'
-                              : 'Revise este conceito'}
-                          </b>
+                          <b>{answers[q.id] === q.correct ? 'Resposta correta' : 'Revise este conceito'}</b>
                           <p>{q.why}</p>
                         </div>
                       </div>
                     )}
 
                     <div className="question-footer">
-                      <button
-                        className="btn secondary"
-                        disabled={quizIndex === 0}
-                        onClick={() => setQuizIndex(i => i - 1)}
-                      >
+                      <button className="btn secondary" disabled={quizIndex === 0} onClick={() => setQuizIndex(i => i - 1)}>
                         <ChevronLeft size={16} /> Anterior
                       </button>
-
                       {quizIndex < quiz.length - 1 ? (
-                        <button
-                          className="btn primary"
-                          disabled={answers[q.id] === undefined}
-                          onClick={() => setQuizIndex(i => i + 1)}
-                        >
+                        <button className="btn primary" disabled={answers[q.id] === undefined} onClick={() => setQuizIndex(i => i + 1)}>
                           Próxima questão <ChevronRight size={16} />
                         </button>
                       ) : (
-                        <button
-                          className="btn primary"
-                          disabled={answers[q.id] === undefined}
-                          onClick={() => setFinished(true)}
-                        >
+                        <button className="btn primary" disabled={answers[q.id] === undefined} onClick={() => setFinished(true)}>
                           Ver resultado <CheckCircle2 size={16} />
                         </button>
                       )}
@@ -949,69 +792,34 @@ function App() {
                 <aside className="quiz-aside">
                   <div className="aside-box score-box">
                     <div className="score-circle">
-                      <span>
-                        {Math.round(
-                          (quiz.filter(
-                            x => answers[x.id] !== undefined
-                          ).length / quiz.length) * 100
-                        )}%
-                      </span>
+                      <span>{quiz.length ? Math.round((quiz.filter(x => answers[x.id] !== undefined).length / quiz.length) * 100) : 0}%</span>
                     </div>
-
                     <h3>Seu progresso</h3>
-                    <p>
-                      Acompanhe seu desempenho neste simulado.
-                    </p>
-
+                    <p>Acompanhe seu desempenho neste simulado.</p>
                     <div className="score-row">
                       <span>Respondidas</span>
-                      <b>
-                        {quiz.filter(
-                          x => answers[x.id] !== undefined
-                        ).length}/{quiz.length}
-                      </b>
+                      <b>{quiz.filter(x => answers[x.id] !== undefined).length}/{quiz.length}</b>
                     </div>
-
                     <div className="score-row">
                       <span>Corretas até agora</span>
-                      <b>
-                        {quiz.filter(
-                          x => answers[x.id] === x.correct
-                        ).length}
-                      </b>
+                      <b>{quiz.filter(x => answers[x.id] === x.correct).length}</b>
                     </div>
                   </div>
 
                   <div className="aside-box">
-                    <div className="aside-title">
-                      <ClipboardList size={17} />
-                      <h3>Questões</h3>
-                    </div>
-
+                    <div className="aside-title"><ClipboardList size={17} /><h3>Questões</h3></div>
                     <div className="question-numbers">
                       {quiz.map((x, i) => (
-                        <button
-                          key={x.id}
-                          onClick={() => setQuizIndex(i)}
-                          className={`${
-                            i === quizIndex ? 'current' : ''
-                          } ${
-                            answers[x.id] !== undefined ? 'done' : ''
-                          }`}
-                        >
+                        <button key={x.id} onClick={() => setQuizIndex(i)} className={`${i === quizIndex ? 'current' : ''} ${answers[x.id] !== undefined ? 'done' : ''}`}>
                           {i + 1}
                         </button>
                       ))}
                     </div>
-
-                    <button
-                      className="btn secondary full"
-                      onClick={() => {
-                        setAnswers({});
-                        setQuizIndex(0);
-                        setFinished(false);
-                      }}
-                    >
+                    <button className="btn secondary full" onClick={() => {
+                      setAnswers({});
+                      setQuizIndex(0);
+                      setFinished(false);
+                    }}>
                       <RotateCcw size={15} /> Reiniciar simulado
                     </button>
                   </div>
@@ -1019,102 +827,33 @@ function App() {
               </div>
             ) : (
               <div className="result-panel">
-                <div className="result-icon">
-                  <GraduationCap size={27} />
-                </div>
-
+                <div className="result-icon"><GraduationCap size={27} /></div>
                 <div className="eyebrow">RESULTADO DO SIMULADO</div>
-
-                <h2>
-                  {quiz.filter(
-                    x => answers[x.id] === x.correct
-                  ).length} de {quiz.length} acertos
-                </h2>
-
+                <h2>{quiz.filter(x => answers[x.id] === x.correct).length} de {quiz.length} acertos</h2>
                 <p>
-                  Você acertou {
-                    Math.round(
-                      quiz.filter(
-                        x => answers[x.id] === x.correct
-                      ).length / quiz.length * 100
-                    )
-                  }% das questões. Revise as justificativas e refaça
-                  as questões para consolidar o aprendizado.
+                  Você acertou {quiz.length ? Math.round(quiz.filter(x => answers[x.id] === x.correct).length / quiz.length * 100) : 0}% das questões.
+                  {' '}Revise as justificativas e refaça as questões para consolidar o aprendizado.
                 </p>
-
                 <div className="result-stats">
-                  <div>
-                    <strong>
-                      {quiz.filter(
-                        x => answers[x.id] === x.correct
-                      ).length}
-                    </strong>
-                    <span>Corretas</span>
-                  </div>
-
-                  <div>
-                    <strong>
-                      {quiz.filter(
-                        x => answers[x.id] !== undefined &&
-                          answers[x.id] !== x.correct
-                      ).length}
-                    </strong>
-                    <span>Incorretas</span>
-                  </div>
-
-                  <div>
-                    <strong>
-                      {quiz.filter(
-                        x => answers[x.id] === undefined
-                      ).length}
-                    </strong>
-                    <span>Em branco</span>
-                  </div>
+                  <div><strong>{quiz.filter(x => answers[x.id] === x.correct).length}</strong><span>Corretas</span></div>
+                  <div><strong>{quiz.filter(x => answers[x.id] !== undefined && answers[x.id] !== x.correct).length}</strong><span>Incorretas</span></div>
+                  <div><strong>{quiz.filter(x => answers[x.id] === undefined).length}</strong><span>Em branco</span></div>
                 </div>
-
                 <div className="result-actions">
-                  <button
-                    className="btn primary"
-                    onClick={() => startQuiz(quizAxis)}
-                  >
-                    <RotateCcw size={16} /> Refazer simulado
-                  </button>
-
-                  <button
-                    className="btn secondary"
-                    onClick={() => nav('flashcards')}
-                  >
-                    <Layers size={16} /> Revisar flashcards
-                  </button>
-
-                  <button
-                    className="btn ghost"
-                    onClick={() => nav('home')}
-                  >
-                    Voltar ao início
-                  </button>
+                  <button className="btn primary" onClick={() => startQuiz(quizAxis)}><RotateCcw size={16} /> Refazer simulado</button>
+                  <button className="btn secondary" onClick={() => nav('flashcards')}><Layers size={16} /> Revisar flashcards</button>
+                  <button className="btn ghost" onClick={() => nav('home')}>Voltar ao início</button>
                 </div>
-
                 <div className="review-answers">
                   <h3>Revisão das respostas</h3>
-
                   {quiz.map((x, i) => (
                     <div className="review-row" key={x.id}>
-                      <span
-                        className={
-                          answers[x.id] === x.correct
-                            ? 'review-correct'
-                            : 'review-wrong'
-                        }
-                      >
+                      <span className={answers[x.id] === x.correct ? 'review-correct' : 'review-wrong'}>
                         {answers[x.id] === x.correct ? '✓' : '!'}
                       </span>
-
                       <div>
                         <b>{i + 1}. {x.q}</b>
-                        <p>
-                          Correta: {x.opts[x.correct]} — {x.why}
-                        </p>
+                        <p>Correta: {x.opts[x.correct]} — {x.why}</p>
                       </div>
                     </div>
                   ))}
@@ -1124,6 +863,198 @@ function App() {
           </section>
         )}
 
+        {/* BIBLIOTECA DE IMAGENS */}
+        {view === 'images' && (
+          <section className="content-wrap">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">ACERVO VISUAL</div>
+                <h1>Biblioteca de Imagens</h1>
+                <p>
+                  Consulte imagens de Imunologia P1, Imunologia P2 e Imuno-Hemato.
+                  Selecione uma imagem para ampliá-la.
+                </p>
+              </div>
+              <div className="counter-pill">
+                <Images size={16} /> {allImages.length} imagens
+              </div>
+            </div>
+
+            <div className="aside-box" style={{ marginBottom: 24 }}>
+              <div className="filter-tabs" style={{ flexWrap: 'wrap' }}>
+                <button
+                  className={imageCategory === 'all' ? 'tab active' : 'tab'}
+                  onClick={() => setImageCategory('all')}
+                >
+                  Todas as categorias
+                </button>
+                {imageCategories.map(category => (
+                  <button
+                    key={category.id}
+                    className={imageCategory === category.id ? 'tab active' : 'tab'}
+                    onClick={() => setImageCategory(category.id)}
+                  >
+                    {category.name}
+                    {` (${(imageFiles[category.id] || []).length})`}
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ position: 'relative', marginTop: 18 }}>
+                <Search
+                  size={18}
+                  style={{
+                    position: 'absolute',
+                    left: 14,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0.6
+                  }}
+                />
+                <input
+                  type="search"
+                  value={imageSearch}
+                  onChange={e => setImageSearch(e.target.value)}
+                  placeholder="Buscar pelo nome do arquivo..."
+                  aria-label="Buscar imagens"
+                  style={{
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    padding: '12px 14px 12px 42px',
+                    borderRadius: 10,
+                    border: '1px solid var(--border, #d8dce5)',
+                    background: 'var(--surface, #fff)',
+                    color: 'inherit',
+                    font: 'inherit'
+                  }}
+                />
+              </div>
+            </div>
+
+            {imagesLoading && (
+              <div className="aside-box" style={{ textAlign: 'center', padding: 36 }}>
+                <div className="eyebrow">CARREGANDO ACERVO</div>
+                <p>Buscando as imagens no repositório do ImunoLab...</p>
+              </div>
+            )}
+
+            {!imagesLoading && imagesError && (
+              <div className="aside-box" style={{ padding: 24 }}>
+                <h3>Não foi possível carregar as imagens</h3>
+                <p>{imagesError}</p>
+                <p>
+                  Confira se as imagens estão no repositório público e se
+                  a Vercel está publicando a pasta ImunoLab_Completo.
+                </p>
+                <button
+                  className="btn primary"
+                  onClick={() => {
+                    setImageFiles({});
+                    setView('home');
+                    setTimeout(() => setView('images'), 0);
+                  }}
+                >
+                  <RotateCcw size={16} /> Tentar novamente
+                </button>
+              </div>
+            )}
+
+            {!imagesLoading && !imagesError && visibleImages.length === 0 && (
+              <div className="aside-box" style={{ textAlign: 'center', padding: 36 }}>
+                <ImageIcon size={34} style={{ opacity: 0.55 }} />
+                <h3>Nenhuma imagem encontrada</h3>
+                <p>
+                  {allImages.length === 0
+                    ? 'Não foram encontrados arquivos de imagem nas pastas da biblioteca.'
+                    : 'Nenhuma imagem corresponde à busca. Tente outro termo ou categoria.'}
+                </p>
+              </div>
+            )}
+
+            {!imagesLoading && !imagesError && visibleImages.length > 0 && (
+              <>
+                <div className="section-head">
+                  <div>
+                    <h2>Imagens disponíveis</h2>
+                    <p>{visibleImages.length} arquivo(s) nesta seleção.</p>
+                  </div>
+                </div>
+
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))',
+                  gap: 18
+                }}>
+                  {visibleImages.map(image => (
+                    <button
+                      type="button"
+                      key={image.id}
+                      onClick={() => setSelectedImage(image)}
+                      title={`Ampliar ${image.name}`}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        textAlign: 'left',
+                        padding: 10,
+                        gap: 10,
+                        minWidth: 0,
+                        borderRadius: 14,
+                        border: '1px solid var(--border, #e0e4eb)',
+                        background: 'var(--surface, #fff)',
+                        color: 'inherit',
+                        cursor: 'pointer',
+                        boxShadow: '0 3px 12px rgba(20,30,50,0.05)'
+                      }}
+                    >
+                      <div style={{
+                        width: '100%',
+                        height: 180,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
+                        borderRadius: 9,
+                        background: '#f3f5f8'
+                      }}>
+                        <img
+                          src={image.url}
+                          alt={image.name}
+                          loading="lazy"
+                          onError={e => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain'
+                          }}
+                        />
+                      </div>
+                      <span style={{
+                        fontSize: 13,
+                        fontWeight: 600,
+                        overflowWrap: 'anywhere'
+                      }}>
+                        {image.name}
+                      </span>
+                      <span style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        color: imageCategories.find(c => c.name === image.category)?.color,
+                        fontSize: 12
+                      }}>
+                        <ZoomIn size={14} /> {image.category}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        )}
+
+        {/* PESQUISA INSTITUCIONAL */}
         {view === 'satisfaction' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -1137,110 +1068,66 @@ function App() {
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 28 }}
-            >
-              <div
-                className="feature-icon teal-bg"
-                style={{ marginBottom: 18 }}
-              >
+            <div className="feature-panel" style={{ display: 'block', padding: 28 }}>
+              <div className="feature-icon teal-bg" style={{ marginBottom: 18 }}>
                 <MessageSquare size={22} />
               </div>
-
               <h2>Queremos ouvir você!</h2>
-
               <p>
-                Sua participação é importante para identificarmos
-                pontos fortes e oportunidades de melhoria na monitoria.
+                Sua participação é importante para identificarmos pontos
+                fortes e oportunidades de melhoria na monitoria.
               </p>
-
-              <p>
-                Toque no botão abaixo para responder ao formulário
-                institucional.
-              </p>
-
-              <a
-                className="btn primary"
-                href={FORM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  textDecoration: 'none',
-                  marginTop: 12
-                }}
-              >
+              <p>Toque no botão abaixo para responder ao formulário institucional.</p>
+              <a className="btn primary" href={FORM_URL} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}>
                 Responder à pesquisa <ExternalLink size={16} />
               </a>
             </div>
           </section>
         )}
 
+        {/* VÍDEO COMPLEMENTAR */}
         {view === 'alternative' && (
           <section className="content-wrap">
             <div className="section-head">
               <div>
                 <div className="eyebrow">MATERIAL COMPLEMENTAR</div>
                 <h1>Complemento — Via Alternativa</h1>
-                <p>
-                  Assista ao vídeo complementar sobre a via alternativa
-                  do sistema complemento.
-                </p>
+                <p>Assista ao vídeo complementar sobre a via alternativa do sistema complemento.</p>
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 20 }}
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '16 / 9',
-                  overflow: 'hidden',
-                  borderRadius: 12,
-                  background: '#101522'
-                }}
-              >
+            <div className="feature-panel" style={{ display: 'block', padding: 20 }}>
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '16 / 9',
+                overflow: 'hidden',
+                borderRadius: 12,
+                background: '#101522'
+              }}>
                 <iframe
                   src={VIDEO_URL}
                   title="Complemento — Via Alternativa"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    border: 0
-                  }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
               </div>
-
               <p style={{ marginTop: 16 }}>
-                Se o vídeo não carregar, você pode abri-lo diretamente
-                no YouTube.
+                Se o vídeo não carregar, você pode abri-lo diretamente no YouTube.
               </p>
-
-              <a
-                className="btn secondary"
-                href="https://www.youtube.com/watch?v=0J59CxIrZhM"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  textDecoration: 'none'
-                }}
-              >
+              <a className="btn secondary" href="https://www.youtube.com/watch?v=0J59CxIrZhM"
+                target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none' }}>
                 Assistir no YouTube <ExternalLink size={16} />
               </a>
             </div>
           </section>
         )}
 
+        {/* DRIVE DA TURMA */}
         {view === 'drive' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -1249,46 +1136,25 @@ function App() {
                 <h1>Drive da Turma</h1>
                 <p>
                   Acesse a pasta compartilhada para consultar os arquivos
-                  disponibilizados pela monitoria e acompanhar os novos
-                  materiais.
+                  disponibilizados pela monitoria e acompanhar os novos materiais.
                 </p>
               </div>
             </div>
 
-            <div
-              className="feature-panel"
-              style={{ display: 'block', padding: 28 }}
-            >
-              <div
-                className="feature-icon teal-bg"
-                style={{ marginBottom: 18 }}
-              >
+            <div className="feature-panel" style={{ display: 'block', padding: 28 }}>
+              <div className="feature-icon teal-bg" style={{ marginBottom: 18 }}>
                 <FolderOpen size={24} />
               </div>
-
               <h2>Materiais da turma</h2>
-
               <p>
-                Reunimos nesta pasta os arquivos complementares e os
-                materiais que forem sendo adicionados ao longo da monitoria.
+                Reunimos nesta pasta os arquivos complementares e os materiais
+                que forem sendo adicionados ao longo da monitoria.
               </p>
-
               <p>
-                Toque no botão abaixo para abrir o Google Drive e consultar
-                os documentos disponíveis.
+                Toque no botão abaixo para abrir o Google Drive e consultar os documentos disponíveis.
               </p>
-
-              <a
-                className="btn primary"
-                href={DRIVE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  textDecoration: 'none',
-                  marginTop: 12
-                }}
-              >
+              <a className="btn primary" href={DRIVE_URL} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}>
                 Abrir Drive da Turma <ExternalLink size={16} />
               </a>
             </div>
@@ -1297,11 +1163,98 @@ function App() {
 
         <footer className="footer">
           <span>© ImunoLab · Monitoria de Imunologia</span>
-          <span>
-            Feito para estudar melhor <span className="footer-heart">✳</span>
-          </span>
+          <span>Feito para estudar melhor <span className="footer-heart">✳</span></span>
         </footer>
       </main>
+
+      {/* VISUALIZAÇÃO AMPLIADA DA IMAGEM */}
+      {selectedImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Imagem ampliada"
+          onClick={() => setSelectedImage(null)}
+          onKeyDown={e => {
+            if (e.key === 'Escape') setSelectedImage(null);
+          }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 20,
+            background: 'rgba(10, 15, 28, 0.88)'
+          }}
+        >
+          <button
+            type="button"
+            aria-label="Fechar imagem"
+            onClick={() => setSelectedImage(null)}
+            style={{
+              position: 'absolute',
+              top: 18,
+              right: 18,
+              zIndex: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 42,
+              height: 42,
+              borderRadius: '50%',
+              border: '1px solid rgba(255,255,255,0.35)',
+              background: '#20283a',
+              color: '#fff',
+              cursor: 'pointer'
+            }}
+          >
+            <X size={22} />
+          </button>
+
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 12,
+              width: '100%',
+              maxWidth: 1100,
+              maxHeight: '92vh'
+            }}
+          >
+            <img
+              src={selectedImage.url}
+              alt={selectedImage.name}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '78vh',
+                objectFit: 'contain',
+                borderRadius: 8,
+                background: '#fff'
+              }}
+            />
+            <p style={{
+              color: '#fff',
+              textAlign: 'center',
+              overflowWrap: 'anywhere',
+              margin: 0
+            }}>
+              {selectedImage.name} · {selectedImage.category}
+            </p>
+            <a
+              href={selectedImage.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ color: '#fff' }}
+            >
+              Abrir imagem em outra aba <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
