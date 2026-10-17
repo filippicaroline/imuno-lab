@@ -7,13 +7,16 @@ import {
   GraduationCap, HeartPulse, Home, Layers, Menu,
   Microscope, ShieldCheck, Shuffle, Target, X,
   ArrowUpRight, RotateCcw, Bookmark, ExternalLink,
-  PlayCircle, MessageSquare
+  PlayCircle, MessageSquare, FolderOpen
 } from 'lucide-react';
 import studyBank from './studyBank.json';
 import './styles.css';
 
 const FORM_URL = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=w_YeiiSDA0G_ShMoxdw2U3et3sbX1jFFrJYR6Yrgy4VUQUpRNDk0UEpHWFE0RVU0WEs3TDVSVkkyVS4u';
+
 const VIDEO_URL = 'https://www.youtube.com/embed/0J59CxIrZhM';
+
+const DRIVE_URL = 'https://drive.google.com/drive/folders/17_nMqeLzmExhUY-maLjUX8f6feIg3Sug';
 
 const axes = [
   { id: 'p1', name: 'Imunologia P1', short: 'P1', desc: 'Fundamentos e imunidade inata', color: '#64d8c5', icon: ShieldCheck },
@@ -69,6 +72,7 @@ function App() {
   const [topic, setTopic] = useState('');
 
   const visibleCards = cards.filter(c => axis === 'all' || c[0] === axis);
+
   const currentCard = visibleCards.length
     ? visibleCards[cardIndex % visibleCards.length]
     : null;
@@ -103,7 +107,8 @@ function App() {
     quiz: 'Simulados',
     explore: 'Explorar tópicos',
     satisfaction: 'Pesquisa de Satisfação Institucional',
-    alternative: 'Complemento — Via Alternativa'
+    alternative: 'Complemento — Via Alternativa',
+    drive: 'Drive da Turma'
   };
 
   const navItems = [
@@ -112,7 +117,8 @@ function App() {
     ['quiz', ClipboardList, 'Simulados'],
     ['explore', FlaskConical, 'Explorar tópicos'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
-    ['alternative', PlayCircle, 'Complemento — Via Alternativa']
+    ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
+    ['drive', FolderOpen, 'Drive da Turma']
   ];
 
   return (
@@ -820,6 +826,45 @@ function App() {
                 style={{ display: 'inline-flex', textDecoration: 'none' }}
               >
                 Assistir no YouTube <ExternalLink size={16} />
+              </a>
+            </div>
+          </section>
+        )}
+
+        {view === 'drive' && (
+          <section className="content-wrap">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">ARQUIVOS COMPARTILHADOS</div>
+                <h1>Drive da Turma</h1>
+                <p>
+                  Acesse a pasta compartilhada para consultar os arquivos
+                  disponibilizados pela monitoria e acompanhar os novos materiais.
+                </p>
+              </div>
+            </div>
+
+            <div className="feature-panel" style={{ display: 'block', padding: 28 }}>
+              <div className="feature-icon teal-bg" style={{ marginBottom: 18 }}>
+                <FolderOpen size={24} />
+              </div>
+              <h2>Materiais da turma</h2>
+              <p>
+                Reunimos nesta pasta os arquivos complementares e os materiais
+                que forem sendo adicionados ao longo da monitoria.
+              </p>
+              <p>
+                Toque no botão abaixo para abrir o Google Drive e consultar
+                os documentos disponíveis.
+              </p>
+              <a
+                className="btn primary"
+                href={DRIVE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}
+              >
+                Abrir Drive da Turma <ExternalLink size={16} />
               </a>
             </div>
           </section>
