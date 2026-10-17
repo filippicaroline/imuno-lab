@@ -21,19 +21,19 @@ const NOTEBOOK_FLASHCARDS = [
   {
     title: 'Imunologia P1',
     description: 'Acesse o primeiro conjunto de flashcards no NotebookLM.',
-    url: 'https://notebooklm.link.google/0bQkVL56rqRW',
+    url: 'https://notebooklm.link.google/e2agb1dxatNz',
     color: '#64d8c5'
   },
   {
     title: 'Imunologia P2',
     description: 'Acesse o segundo conjunto de flashcards no NotebookLM.',
-    url: 'https://notebooklm.link.google/OgqkejAOkrqb',
+    url: 'https://notebooklm.link.google/B74RTxanQQWi',
     color: '#a69aff'
   },
   {
     title: 'Imuno-Hemato',
     description: 'Acesse o terceiro conjunto de flashcards no NotebookLM.',
-    url: 'https://notebooklm.link.google/SPDW2gOtHg2J',
+    url: 'https://notebooklm.link.google/URqK3u39jJVd',
     color: '#ffab8a'
   }
 ];
