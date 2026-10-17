@@ -1,126 +1,96 @@
-        "Hemólise Fetal e Formação de Bilirrubina Os anticorpos IgG anti-D atravessam a placenta e se ligam às hemácias fetais Rh positivas.",
-        "IgG ou IgM reconhecem antígenos celulares ou da matriz, promovendo complemento, opsonização ou alteração funcional de receptores.",
-        "IgG−/IgM− sugere suscetibilidade; IgG+/IgM− sugere infecção passada; IgM positiva exige contexto e, quando indicado, avidez de IgG."
-      ],
-      "correct": 3,
-      "why": "IgG−/IgM− sugere suscetibilidade; IgG+/IgM− sugere infecção passada; IgM positiva exige contexto e, quando indicado, avidez de IgG."
-    },
-    {
-      "id": 292,
-      "axis": "hemato",
-      "q": "Qual é a ideia principal sobre “AUTOIMUNIDADE Sensibilidade”?",
-      "opts": [
-        "OUTROS FATORES QUE FAVORECEM AUTOIMUNIDADE Lesão isquêmica ou trauma: podem expor antígenos que normalmente ficam “escondidos” do sistema imune",
-        "EXPERIMENTO DE PORTER O experimento de Rodney Porter foi fundamental para entender como os anticorpos são organizados estruturalmente.",
-        "AUTOIMUNIDADE Sensibilidade → capacidade normal/fisiológica do sistema imunológico de reconhecer estímulos antigênicos e responder a eles.",
-        "A IgG é uma molécula monomérica relativamente pequena, enquanto a IgM é um pentâmero formado por cinco unidades básicas conectadas entre si."
-      ],
-      "correct": 2,
-      "why": "AUTOIMUNIDADE Sensibilidade → capacidade normal/fisiológica do sistema imunológico de reconhecer estímulos antigênicos e responder a eles."
-    },
-    {
-      "id": 293,
-      "axis": "hemato",
-      "q": "Conceito-chave: Como a anemia hemolítica perinatal pode ocorrer no sistema Rh?",
-      "opts": [
-        "IgM, IgD, IgG, IgA e IgE, com diferenças de estrutura, distribuição e função efetora.",
-        "Anticorpos IgG (assim como a proteínas C3b do complemento) são consideradas opsoninas",
-        "Anticorpos contra antígenos celulares ou teciduais, com lesão ou alteração funcional.",
-        "Anti-D materno IgG pode atravessar a placenta e destruir hemácias fetais D positivas."
-      ],
-      "correct": 3,
-      "why": "Anti-D materno IgG pode atravessar a placenta e destruir hemácias fetais D positivas."
-    },
-    {
-      "id": 294,
-      "axis": "hemato",
-      "q": "O que detecta o teste de antiglobulina direta (Coombs direto)?",
-      "opts": [
-        "Imunoglobulinas e/ou complemento já ligados à superfície das hemácias do paciente.",
-        "Variantes genéticas de loci HLA do doador e receptor para estimar compatibilidade.",
-        "Linfócitos autorreativos escapam do controle e podem atacar componentes próprios.",
-        "É o precursor sobre o qual as transferases A ou B adicionam açúcares específicos."
-      ],
-      "correct": 0,
-      "why": "Imunoglobulinas e/ou complemento já ligados à superfície das hemácias do paciente."
-    },
-    {
-      "id": 295,
-      "axis": "hemato",
-      "q": "Qual é a ideia principal sobre “Anemia Fetal e Hidropisia Fetal”?",
-      "opts": [
-        "O aumento da bilirrubina no líquido amniótico é um marcador indireto da intensidade da hemólise fetal.",
-        "Anemia Fetal e Hidropisia Fetal Com a hemólise contínua, o número de hemácias diminui progressivamente.",
-        "Regiões hipervariáveis das cadeias de imunoglobulina que contribuem para o sítio de ligação ao antígeno.",
-        "Não treponêmicos (ex.: VDRL/RPR) detectam anticorpos contra antígenos lipídicos e auxiliam no seguimento"
-      ],
-      "correct": 1,
-      "why": "Anemia Fetal e Hidropisia Fetal Com a hemólise contínua, o número de hemácias diminui progressivamente."
-    },
-    {
-      "id": 296,
-      "axis": "hemato",
-      "q": "O que detecta o teste de antiglobulina indireta (Coombs indireto)?",
-      "opts": [
-        "Mecanismos que limitam respostas contra antígenos próprios e ajudam a prevenir autoimunidade.",
-        "Detectam alvos diferentes e ajudam a interpretar atividade, histórico e resposta ao tratamento.",
-        "Anticorpos livres no soro capazes de se ligar a antígenos eritrocitários em hemácias de teste.",
-        "Doador e receptor com HLA diferentes: Quando doador e receptor apresentam moléculas de MHC (HLA"
-      ],
-      "correct": 2,
-      "why": "Anticorpos livres no soro capazes de se ligar a antígenos eritrocitários em hemácias de teste."
-    },
-    {
-      "id": 297,
-      "axis": "hemato",
-      "q": "Qual é a ideia principal sobre “Situação normal de autotolerância”?",
-      "opts": [
-        "Ausência do antígeno H por deficiência de FUT1; não se expressam A ou B mesmo que os alelos ABO estejam presentes.",
-        "Mãe RhD negativa sensibilizada produz IgG anti-D, que atravessa a placenta e destrói hemácias fetais RhD positivas.",
-        "Situação normal de autotolerância: a célula dendrítica “em repouso” apresenta um autoantígeno para o linfócito T.",
-        "Alérgeno induz IgE; a IgE fixa-se em mastócitos e a reexposição desencadeia degranulação e mediadores imediatos."
-      ],
-      "correct": 2,
-      "why": "Situação normal de autotolerância: a célula dendrítica “em repouso” apresenta um autoantígeno para o linfócito T."
-    },
-    {
-      "id": 298,
-      "axis": "hemato",
-      "q": "Como diferem os testes treponêmicos e não treponêmicos para sífilis?",
-      "opts": [
-        "São testes não treponêmicos usados na avaliação inicial conforme algoritmo e no acompanhamento de títulos.",
-        "Regiões hipervariáveis das cadeias de imunoglobulina que contribuem para o sítio de ligação ao antígeno.",
-        "Não treponêmicos (ex.: VDRL/RPR) detectam anticorpos contra antígenos lipídicos e auxiliam no seguimento",
-        "Anemia Fetal e Hidropisia Fetal Com a hemólise contínua, o número de hemácias diminui progressivamente."
-      ],
-      "correct": 2,
-      "why": "Não treponêmicos (ex.: VDRL/RPR) detectam anticorpos contra antígenos lipídicos e auxiliam no seguimento; treponêmicos detectam anticorpos específicos contra Treponema pallidum e frequentemente permanecem reagentes após tratamento."
-    },
-    {
-      "id": 299,
-      "axis": "hemato",
-      "q": "Como a anemia hemolítica autoimune quente costuma destruir hemácias?",
-      "opts": [
-        "Sensibilidade: proporção de doentes com teste positivo; especificidade: proporção de não doentes com teste negativo.",
-        "Formação visível de agregados de partículas ou hemácias mediada por anticorpos que reconhecem antígenos na superfície.",
-        "IgG liga-se às hemácias; macrófagos esplênicos reconhecem a porção Fc e removem parcialmente ou fagocitam as células.",
-        "Portanto, a diferença central entre autoimunidade e doença autoimune está na presença de dano funcional ou estrutural."
-      ],
-      "correct": 2,
-      "why": "IgG liga-se às hemácias; macrófagos esplênicos reconhecem a porção Fc e removem parcialmente ou fagocitam as células."
-    },
-    {
-      "id": 300,
-      "axis": "hemato",
-      "q": "Por que os testes treponêmicos e não treponêmicos são complementares?",
-      "opts": [
-        "Doador e receptor com HLA diferentes: Quando doador e receptor apresentam moléculas de MHC (HLA",
-        "Detectam alvos diferentes e ajudam a interpretar atividade, histórico e resposta ao tratamento.",
-        "Método analítico que usa reconhecimento antígeno–anticorpo para detectar ou quantificar um alvo.",
-        "Anticorpos livres no soro capazes de se ligar a antígenos eritrocitários em hemácias de teste."
-      ],
-      "correct": 1,
-      "why": "Detectam alvos diferentes e ajudam a interpretar atividade, histórico e resposta ao tratamento."
-    }
-  ]
-}
+{
+  "cards": [
+    [
+      "hemato",
+      "O que é aglutinação em imuno-hematologia?",
+      "Formação visível de agregados de partículas ou hemácias mediada por anticorpos que reconhecem antígenos na superfície."
+    ],
+    [
+      "hemato",
+      "Como se define alorreconhecimento?",
+      "Reconhecimento de aloantígenos geneticamente distintos entre indivíduos da mesma espécie, como moléculas HLA em transplantes."
+    ],
+    [
+      "hemato",
+      "Quais são os quatro tipos clássicos de hipersensibilidade?",
+      "I: imediata mediada por IgE; II: anticorpos contra antígenos celulares/teciduais; III: imunocomplexos; IV: resposta celular mediada por linfócitos T."
+    ],
+    [
+      "hemato",
+      "Como diferem os testes treponêmicos e não treponêmicos para sífilis?",
+      "Não treponêmicos (ex.: VDRL/RPR) detectam anticorpos contra antígenos lipídicos e auxiliam no seguimento; treponêmicos detectam anticorpos específicos contra Treponema pallidum e frequentemente permanecem reagentes após tratamento."
+    ],
+    [
+      "hemato",
+      "O que caracteriza o sistema Rh, especialmente o antígeno D?",
+      "O antígeno D é altamente imunogênico. Indivíduos RhD negativos podem produzir anti-D após exposição a hemácias D positivas, relevante em transfusão e gestação."
+    ],
+    [
+      "hemato",
+      "Qual é a base molecular do sistema ABO?",
+      "Os antígenos A e B resultam de glicosiltransferases que modificam o antígeno H: a transferase A adiciona N-acetilgalactosamina e a B adiciona galactose; o grupo O geralmente não produz transferase funcional."
+    ],
+    [
+      "hemato",
+      "Quais classes de imunoglobulinas existem?",
+      "IgM, IgD, IgG, IgA e IgE, com diferenças de estrutura, distribuição e função efetora."
+    ],
+    [
+      "hemato",
+      "O que são epítopo e parátopo?",
+      "Epítopo é a porção do antígeno reconhecida; parátopo é a região do anticorpo que se liga ao epítopo."
+    ],
+    [
+      "hemato",
+      "Quais são as regiões funcionais Fab e Fc de um anticorpo?",
+      "Fab contém os sítios de ligação ao antígeno; Fc medeia funções efetoras, como interação com receptores Fc e ativação do complemento."
+    ],
+    [
+      "p2",
+      "O que significa contração da resposta imune?",
+      "Após a redução do antígeno, a maioria das células efetoras expandidas sofre apoptose; uma fração persiste como população de memória."
+    ],
+    [
+      "p2",
+      "Qual é a diferença entre memória T central e efetora?",
+      "Tcm expressa CCR7/CD62L, recircula em órgãos linfoides e tem maior potencial proliferativo; Tem circula em tecidos periféricos e exerce resposta efetora mais imediata."
+    ],
+    [
+      "p2",
+      "O que é citotoxicidade celular dependente de anticorpos (ADCC)?",
+      "Células efetoras, especialmente NK via CD16/FcγRIII, reconhecem a porção Fc de IgG ligada à célula-alvo e induzem sua morte."
+    ],
+    [
+      "p2",
+      "Como anticorpos promovem opsonização?",
+      "A porção Fab reconhece o antígeno e a porção Fc é reconhecida por receptores Fc em fagócitos, facilitando a ingestão do alvo. C3b também é importante na opsonização."
+    ],
+    [
+      "p2",
+      "O que é neutralização por anticorpos?",
+      "Anticorpos ligam-se a vírus, toxinas ou microrganismos e bloqueiam sua ligação/entrada em células ou sua atividade biológica."
+    ],
+    [
+      "p2",
+      "Como linfócitos T CD8+ eliminam células-alvo?",
+      "Principalmente por liberação de perforina e granzimas, que induzem apoptose, e também por interação FasL–Fas."
+    ],
+    [
+      "p2",
+      "Quais citocinas apoiam a manutenção de células T de memória?",
+      "IL-7 e IL-15 contribuem para sobrevivência e renovação homeostática."
+    ],
+    [
+      "p2",
+      "Qual é a função de CCR7 e CD62L em células T de memória central?",
+      "CCR7 orienta a migração em resposta a quimiocinas dos órgãos linfoides; CD62L favorece adesão às vênulas de endotélio alto e entrada nos linfonodos."
+    ],
+    [
+      "p2",
+      "Quais são os principais destinos de um linfócito T após ativação?",
+      "Diferenciação em células efetoras, que atuam na eliminação do antígeno, e em células de memória, que persistem e respondem mais rapidamente em reexposições."
+    ],
+    [
+      "p1",
+      "O que caracteriza a doença granulomatosa crônica?",
+      "Defeito da NADPH oxidase dos fagócitos, com redução da produção de espécies reativas de oxigênio e suscetibilidade a certos microrganismos catalase-positivos."
