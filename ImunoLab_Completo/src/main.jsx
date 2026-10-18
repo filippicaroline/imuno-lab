@@ -309,8 +309,30 @@ function App() {
         style={{ height: '100vh', maxHeight: '100vh', boxSizing: 'border-box', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
       >
         <div className="brand" style={{ flexShrink: 0 }}>
-          <div className="brand-mark">
-            <Microscope size={23} />
+          <div className="brand-mark" aria-label="Anticorpo" title="Anticorpo">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 5.5L15.9 14.2L24 5.5M15.9 14.2V25.8"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.5 3.5L10.5 8.5M21.5 8.5L26.5 3.5M12.4 25.8H19.4"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
 
           <div>
@@ -326,8 +348,6 @@ function App() {
             <X size={18} />
           </button>
         </div>
-
-        <div className="side-label" style={{ flexShrink: 0, marginTop: '8px', marginBottom: '6px' }}>ESPAÇO DE ESTUDO</div>
 
         <nav className="nav-list" style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '10px', scrollbarWidth: 'thin' }}>
           {navItems.map(([id, Icon, label]) => (
@@ -1316,6 +1336,7 @@ function App() {
         <footer className="footer">
           <span>© ImunoLab · Monitoria de Imunologia</span>
           <span>Feito para estudar melhor <span className="footer-heart">✳</span></span>
+          <span>Idealizado por: Caroline Filippi - Monitora de Imunologia da Escola de Medicina da PUCPR.</span>
         </footer>
       </main>
 
