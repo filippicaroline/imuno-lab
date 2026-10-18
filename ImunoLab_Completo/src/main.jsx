@@ -631,8 +631,6 @@ function App() {
                       Próximo <ChevronRight size={17} />
                     </button>
                   </div>
-
-                  </div>
                 </div>
 
                 <aside className="flash-aside">
@@ -995,7 +993,6 @@ function App() {
         )}
 
         {/* PESQUISA INSTITUCIONAL */}
-
         {view === 'satisfaction' && (
           <section className="content-wrap">
             <div className="section-head">
