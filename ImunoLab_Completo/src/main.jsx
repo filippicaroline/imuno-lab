@@ -306,7 +306,14 @@ function App() {
     <div className="app-shell">
       <aside
         className={`sidebar ${mobile ? 'open' : ''}`}
-        style={{ height: '100vh', maxHeight: '100vh', boxSizing: 'border-box', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        style={{
+          height: '100vh',
+          maxHeight: '100vh',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
       >
         <div className="brand" style={{ flexShrink: 0 }}>
           <div className="brand-mark" aria-label="Anticorpo" title="Anticorpo">
@@ -349,12 +356,32 @@ function App() {
           </button>
         </div>
 
-        <nav className="nav-list" style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '10px', scrollbarWidth: 'thin' }}>
+        <nav
+          className="nav-list"
+          style={{
+            flex: '1 1 auto',
+            minHeight: 0,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            paddingBottom: '10px',
+            scrollbarWidth: 'thin'
+          }}
+        >
           {navItems.map(([id, Icon, label]) => (
             <button
               key={id}
               className={`nav-item ${view === id ? 'active' : ''}`}
-              style={{ paddingTop: '7px', paddingBottom: '7px', marginTop: '1px', marginBottom: '1px', minHeight: '34px', boxSizing: 'border-box', gap: '9px', lineHeight: 1.2, fontSize: '13px' }}
+              style={{
+                paddingTop: '7px',
+                paddingBottom: '7px',
+                marginTop: '1px',
+                marginBottom: '1px',
+                minHeight: '34px',
+                boxSizing: 'border-box',
+                gap: '9px',
+                lineHeight: 1.2,
+                fontSize: '13px'
+              }}
               onClick={() => nav(id)}
             >
               <Icon size={18} />
@@ -362,7 +389,6 @@ function App() {
             </button>
           ))}
         </nav>
-
       </aside>
 
       <main className="main-area">
@@ -465,6 +491,7 @@ function App() {
               </div>
             </div>
 
+            {/* LABORATÓRIO VIRTUAL */}
             <section
               aria-labelledby="laboratorio-virtual-title"
               style={{
@@ -476,31 +503,107 @@ function App() {
                 background: 'linear-gradient(135deg, rgba(100,216,197,0.07), rgba(157,145,255,0.07))'
               }}
             >
-              <div className="section-head" style={{ marginBottom: 18 }}>
+              <div className="section-head" style={{ marginBottom: 22 }}>
                 <div>
-                  <div className="eyebrow"><span className="live-dot" /> LABORATÓRIO VIRTUAL</div>
-                  <h2 id="laboratorio-virtual-title">Aprenda na prática</h2>
-                  <p>
+                  <h2
+                    id="laboratorio-virtual-title"
+                    style={{
+                      fontSize: '30px',
+                      fontWeight: 750,
+                      lineHeight: 1.2,
+                      marginTop: 0,
+                      marginBottom: 8
+                    }}
+                  >
+                    Laboratório Virtual
+                  </h2>
+
+                  <p
+                    style={{
+                      fontSize: '15px',
+                      fontWeight: 600,
+                      marginTop: 0,
+                      marginBottom: 8,
+                      opacity: 0.9
+                    }}
+                  >
+                    Aprenda na prática
+                  </p>
+
+                  <p style={{ marginTop: 0 }}>
                     Explore os testes imunológicos, acompanhe os procedimentos e pratique
                     a interpretação dos resultados em um ambiente virtual interativo.
                   </p>
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
-                  gap: 12
-                }}
-              >
+              {/* Grade responsiva: três cartões por linha em telas maiores */}
+              <style>{`
+                .lab-tests-grid {
+                  display: grid;
+                  grid-template-columns: repeat(3, minmax(0, 1fr));
+                  gap: 12px;
+                  align-items: stretch;
+                  width: 100%;
+                }
+
+                @media (max-width: 760px) {
+                  .lab-tests-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                  }
+                }
+
+                @media (max-width: 480px) {
+                  .lab-tests-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                  }
+                }
+              `}</style>
+
+              <div className="lab-tests-grid">
                 {[
-                  { id: 'fenotipagem', title: 'Fenotipagem ABO/Rh', description: 'Tipagem sanguínea e aglutinação', Icon: Droplets, color: '#64d8c5' },
-                  { id: 'chagas', title: 'Sorologia de Chagas', description: 'Hemaglutinação indireta (HAI)', Icon: Microscope, color: '#9d91ff' },
-                  { id: 'sifilis', title: 'Diagnóstico da Sífilis', description: 'Prática de testes sorológicos', Icon: ShieldCheck, color: '#ff9b78' },
-                  { id: 'anticorpo', title: 'Anticorpo', description: 'Explore a estrutura da imunoglobulina', Icon: Brain, color: '#d6a8ff' },
-                  { id: 'coombs', title: 'Teste de Coombs', description: 'Investigação de aglutinação eritrocitária', Icon: Droplets, color: '#e6b84f' },
-                  { id: 'elisa', title: 'ELISA', description: 'Etapas do ensaio imunoenzimático', Icon: FlaskConical, color: '#55cbb6' }
+                  {
+                    id: 'fenotipagem',
+                    title: 'Fenotipagem ABO/Rh',
+                    description: 'Tipagem sanguínea e aglutinação',
+                    Icon: Droplets,
+                    color: '#64d8c5'
+                  },
+                  {
+                    id: 'chagas',
+                    title: 'Sorologia de Chagas',
+                    description: 'Hemaglutinação indireta (HAI)',
+                    Icon: Microscope,
+                    color: '#9d91ff'
+                  },
+                  {
+                    id: 'sifilis',
+                    title: 'Diagnóstico da Sífilis',
+                    description: 'Prática de testes sorológicos',
+                    Icon: ShieldCheck,
+                    color: '#ff9b78'
+                  },
+                  {
+                    id: 'anticorpo',
+                    title: 'Anticorpo',
+                    description: 'Explore a estrutura da imunoglobulina',
+                    Icon: Brain,
+                    color: '#d6a8ff'
+                  },
+                  {
+                    id: 'coombs',
+                    title: 'Teste de Coombs',
+                    description: 'Investigação de aglutinação eritrocitária',
+                    Icon: Droplets,
+                    color: '#e6b84f'
+                  },
+                  {
+                    id: 'elisa',
+                    title: 'ELISA',
+                    description: 'Etapas do ensaio imunoenzimático',
+                    Icon: FlaskConical,
+                    color: '#55cbb6'
+                  }
                 ].map(({ id, title, description, Icon, color }) => (
                   <button
                     key={id}
@@ -511,6 +614,7 @@ function App() {
                       alignItems: 'center',
                       gap: 13,
                       width: '100%',
+                      minWidth: 0,
                       minHeight: 84,
                       padding: '15px 16px',
                       textAlign: 'left',
@@ -519,10 +623,15 @@ function App() {
                       border: '1px solid var(--border, #283244)',
                       borderRadius: 14,
                       cursor: 'pointer',
-                      transition: 'transform 160ms ease, border-color 160ms ease'
+                      transition: 'transform 160ms ease, border-color 160ms ease',
+                      boxSizing: 'border-box'
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = color; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border, #283244)'; }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = color;
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--border, #283244)';
+                    }}
                   >
                     <span
                       style={{
@@ -539,59 +648,41 @@ function App() {
                     >
                       <Icon size={21} />
                     </span>
-                    <span style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0 }}>
+
+                    <span
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 5,
+                        minWidth: 0
+                      }}
+                    >
                       <strong style={{ fontSize: 14 }}>{title}</strong>
-                      <span style={{ fontSize: 12, lineHeight: 1.4, opacity: 0.76 }}>{description}</span>
+                      <span
+                        style={{
+                          fontSize: 12,
+                          lineHeight: 1.4,
+                          opacity: 0.76
+                        }}
+                      >
+                        {description}
+                      </span>
                     </span>
-                    <ChevronRight size={17} style={{ marginLeft: 'auto', flexShrink: 0, opacity: 0.7 }} />
+
+                    <ChevronRight
+                      size={17}
+                      style={{
+                        marginLeft: 'auto',
+                        flexShrink: 0,
+                        opacity: 0.7
+                      }}
+                    />
                   </button>
                 ))}
               </div>
             </section>
 
-            <div className="section-head home-section-head">
-              <div>
-                <div className="eyebrow">TRILHAS DE APRENDIZAGEM</div>
-                <h2>Escolha seu eixo</h2>
-                <p>Selecione um eixo para revisar os conteúdos com flashcards.</p>
-              </div>
-              <button className="text-link" onClick={() => nav('flashcards')}>
-                Ver flashcards <ArrowUpRight size={16} />
-              </button>
-            </div>
-
-            <div className="axis-cards">
-              {axes.map((a, i) => {
-                const Icon = a.icon;
-                return (
-                  <article className="axis-card" key={a.id}>
-                    <div className="axis-card-top">
-                      <div
-                        className="axis-symbol"
-                        style={{ color: a.color, background: a.color + '16' }}
-                      >
-                        <Icon size={21} />
-                      </div>
-                      <span className="axis-number">0{i + 1}</span>
-                    </div>
-                    <h3>{a.name}</h3>
-                    <p>{a.desc}. Revise os principais conceitos com cartões de estudo.</p>
-                    <div className="axis-card-meta">
-                      <span><Layers size={14} /> {cards.filter(c => c[0] === a.id).length} cards</span>
-                    </div>
-                    <button
-                      className="card-open"
-                      onClick={() => {
-                        chooseAxis(a.id);
-                        nav('flashcards');
-                      }}
-                    >
-                      Estudar eixo <ArrowUpRight size={16} />
-                    </button>
-                  </article>
-                );
-              })}
-            </div>
+            {/* TRILHAS DE APRENDIZAGEM REMOVIDAS */}
 
             <div className="bottom-grid">
               <article className="feature-panel flash-feature">
@@ -712,7 +803,11 @@ function App() {
 
             <div className="filter-tabs">
               {[['all', 'Todos os eixos'], ...axes.map(a => [a.id, a.name])].map(([id, label]) => (
-                <button key={id} className={axis === id ? 'tab active' : 'tab'} onClick={() => chooseAxis(id)}>
+                <button
+                  key={id}
+                  className={axis === id ? 'tab active' : 'tab'}
+                  onClick={() => chooseAxis(id)}
+                >
                   {label}
                 </button>
               ))}
@@ -724,11 +819,16 @@ function App() {
                   <div className="flash-progress">
                     <span>Cartão {cardIndex % visibleCards.length + 1} de {visibleCards.length}</span>
                     <div className="progress-track">
-                      <div style={{ width: `${((cardIndex % visibleCards.length + 1) / visibleCards.length) * 100}%` }} />
+                      <div style={{
+                        width: `${((cardIndex % visibleCards.length + 1) / visibleCards.length) * 100}%`
+                      }} />
                     </div>
                   </div>
 
-                  <button className={`flashcard ${flipped ? 'flipped' : ''}`} onClick={() => setFlipped(f => !f)}>
+                  <button
+                    className={`flashcard ${flipped ? 'flipped' : ''}`}
+                    onClick={() => setFlipped(f => !f)}
+                  >
                     <div className="flash-topline">
                       <span className={`tag-axis ${currentCard[0]}`}>
                         {axes.find(a => a.id === currentCard[0])?.name}
@@ -830,7 +930,11 @@ function App() {
 
             <div className="filter-tabs">
               {[['all', 'Todos os eixos'], ...axes.map(a => [a.id, a.name])].map(([id, label]) => (
-                <button key={id} className={quizAxis === id ? 'tab active' : 'tab'} onClick={() => startQuiz(id)}>
+                <button
+                  key={id}
+                  className={quizAxis === id ? 'tab active' : 'tab'}
+                  onClick={() => startQuiz(id)}
+                >
                   {label}
                 </button>
               ))}
@@ -889,15 +993,27 @@ function App() {
                     )}
 
                     <div className="question-footer">
-                      <button className="btn secondary" disabled={quizIndex === 0} onClick={() => setQuizIndex(i => i - 1)}>
+                      <button
+                        className="btn secondary"
+                        disabled={quizIndex === 0}
+                        onClick={() => setQuizIndex(i => i - 1)}
+                      >
                         <ChevronLeft size={16} /> Anterior
                       </button>
                       {quizIndex < quiz.length - 1 ? (
-                        <button className="btn primary" disabled={answers[q.id] === undefined} onClick={() => setQuizIndex(i => i + 1)}>
+                        <button
+                          className="btn primary"
+                          disabled={answers[q.id] === undefined}
+                          onClick={() => setQuizIndex(i => i + 1)}
+                        >
                           Próxima questão <ChevronRight size={16} />
                         </button>
                       ) : (
-                        <button className="btn primary" disabled={answers[q.id] === undefined} onClick={() => setFinished(true)}>
+                        <button
+                          className="btn primary"
+                          disabled={answers[q.id] === undefined}
+                          onClick={() => setFinished(true)}
+                        >
                           Ver resultado <CheckCircle2 size={16} />
                         </button>
                       )}
@@ -1169,8 +1285,13 @@ function App() {
                 fortes e oportunidades de melhoria na monitoria.
               </p>
               <p>Toque no botão abaixo para responder ao formulário institucional.</p>
-              <a className="btn primary" href={FORM_URL} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}>
+              <a
+                className="btn primary"
+                href={FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}
+              >
                 Responder à pesquisa <ExternalLink size={16} />
               </a>
             </div>
@@ -1209,9 +1330,13 @@ function App() {
               <p style={{ marginTop: 16 }}>
                 Se o vídeo não carregar, você pode abri-lo diretamente no YouTube.
               </p>
-              <a className="btn secondary" href="https://www.youtube.com/watch?v=0J59CxIrZhM"
-                target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', textDecoration: 'none' }}>
+              <a
+                className="btn secondary"
+                href="https://www.youtube.com/watch?v=0J59CxIrZhM"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none' }}
+              >
                 Assistir no YouTube <ExternalLink size={16} />
               </a>
             </div>
@@ -1244,8 +1369,13 @@ function App() {
               <p>
                 Toque no botão abaixo para abrir o Google Drive e consultar os documentos disponíveis.
               </p>
-              <a className="btn primary" href={DRIVE_URL} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}>
+              <a
+                className="btn primary"
+                href={DRIVE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}
+              >
                 Abrir Drive da Turma <ExternalLink size={16} />
               </a>
             </div>
