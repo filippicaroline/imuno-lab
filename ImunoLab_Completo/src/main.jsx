@@ -203,7 +203,8 @@ function App() {
     alternative: 'Complemento — Via Alternativa',
     drive: 'Drive da Turma',
     images: 'Biblioteca de Imagens',
-    fenotipagem: 'Fenotipagem ABO/Rh'
+    fenotipagem: 'Fenotipagem ABO/Rh',
+    chagas: 'Sorologia de Chagas'
   };
 
   const navItems = [
@@ -212,6 +213,7 @@ function App() {
     ['quiz', ClipboardList, 'Simulados'],
     ['images', Images, 'Biblioteca de Imagens'],
     ['fenotipagem', Droplets, 'Fenotipagem ABO/Rh'],
+    ['chagas', Microscope, 'Sorologia de Chagas'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -1130,6 +1132,45 @@ function App() {
                   width: '100%',
                   minHeight: '850px',
                   height: 'calc(100vh - 190px)',
+                  border: 0
+                }}
+                loading="lazy"
+              />
+            </div>
+          </section>
+        )}
+
+        {/* SIMULADOR DE SOROLOGIA DE CHAGAS */}
+        {view === 'chagas' && (
+          <section className="content-wrap">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">PRÁTICA DE IMUNOLOGIA E PARASITOLOGIA</div>
+                <h1>Sorologia de Chagas</h1>
+                <p>
+                  Simule a técnica de hemaglutinação indireta (HAI), acompanhe
+                  as etapas do procedimento e interprete o resultado sorológico.
+                </p>
+              </div>
+            </div>
+
+            <div
+              style={{
+                width: '100%',
+                overflow: 'hidden',
+                border: '1px solid var(--border, #283244)',
+                borderRadius: 16,
+                background: 'var(--surface, #fff)'
+              }}
+            >
+              <iframe
+                src="/simulador_sorologia_chagas.html"
+                title="Simulador de Sorologia de Chagas por Hemaglutinação Indireta"
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  minHeight: '900px',
+                  height: 'calc(100vh - 170px)',
                   border: 0
                 }}
                 loading="lazy"
