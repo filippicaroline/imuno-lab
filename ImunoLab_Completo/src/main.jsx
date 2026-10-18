@@ -78,6 +78,81 @@ const axes = [
   }
 ];
 
+const antibodyParts = {
+  fab: {
+    title: 'Região Fab (fragment antigen-binding)',
+    subtitle: 'Braços do anticorpo · ligação ao antígeno',
+    color: '#8b7cf6',
+    description: 'A região Fab corresponde aos dois braços do anticorpo. Cada braço contém domínios variáveis e constantes das cadeias leve e pesada; a extremidade variável forma o sítio de ligação ao antígeno.',
+    function: 'Permite o reconhecimento específico do antígeno. Um anticorpo monomérico possui dois sítios de ligação e pode ligar epítopos idênticos simultaneamente.',
+    location: 'Nas duas extremidades do Y.'
+  },
+  fc: {
+    title: 'Região Fc (fragment crystallizable)',
+    subtitle: 'Base do Y · funções efetoras',
+    color: '#f59e7b',
+    description: 'A região Fc é formada pelas porções constantes das cadeias pesadas na base do anticorpo. Não é a região que reconhece diretamente o antígeno.',
+    function: 'Interage com receptores Fc de células imunes, como fagócitos e células NK, e pode participar da ativação do sistema complemento. A região constante da cadeia pesada também determina a classe da imunoglobulina.',
+    location: 'Na haste inferior do Y.'
+  },
+  hinge: {
+    title: 'Região de dobradiça (hinge)',
+    subtitle: 'Flexibilidade entre os braços e a haste',
+    color: '#e6b84f',
+    description: 'Em imunoglobulinas que possuem dobradiça, essa região flexível conecta os braços Fab à porção Fc. A sequência de aminoácidos e o comprimento variam conforme a classe de imunoglobulina.',
+    function: 'Permite que os braços se ajustem à distância e à orientação dos epítopos. Pontes dissulfeto entre as cadeias pesadas contribuem para manter a estrutura unida.',
+    location: 'Na junção central do Y.'
+  },
+  variable: {
+    title: 'Região variável (V)',
+    subtitle: 'Extremidades N-terminais das cadeias leve e pesada',
+    color: '#8b7cf6',
+    description: 'Cada cadeia leve e cada cadeia pesada possui um domínio variável na extremidade N-terminal. A sequência desses domínios varia entre os anticorpos e contribui para a especificidade do reconhecimento.',
+    function: 'Os domínios variáveis das cadeias leve e pesada se associam para formar o sítio de ligação ao antígeno, incluindo as regiões CDR.',
+    location: 'Nas pontas dos dois braços do Y.'
+  },
+  cdr: {
+    title: 'Regiões determinantes de complementaridade (CDRs)',
+    subtitle: 'Loops hipervariáveis que formam o sítio de ligação',
+    color: '#d6a8ff',
+    description: 'Cada domínio variável possui três CDRs: CDR1, CDR2 e CDR3. Assim, o sítio de ligação reúne seis CDRs — três da cadeia leve e três da cadeia pesada.',
+    function: 'As CDRs entram em contato com o epítopo por interações não covalentes, como ligações de hidrogênio, interações iônicas, hidrofóbicas e forças de Van der Waals. A CDR3 costuma apresentar a maior variabilidade e contribui fortemente para a especificidade.',
+    location: 'Na extremidade dos domínios variáveis, formando a superfície de contato com o antígeno.'
+  },
+  constant: {
+    title: 'Região constante (C)',
+    subtitle: 'Estrutura e funções efetoras',
+    color: '#55cbb6',
+    description: 'As regiões constantes são mais conservadas entre anticorpos da mesma classe. Estão presentes nas cadeias leve e pesada, embora a porção constante da cadeia pesada seja especialmente importante para definir a classe da imunoglobulina.',
+    function: 'Contribui para a estrutura do anticorpo e, na cadeia pesada, para interações com receptores Fc e componentes do complemento. Não é a principal responsável pela especificidade de reconhecimento do antígeno.',
+    location: 'Na maior parte dos braços abaixo das regiões variáveis e na haste inferior.'
+  },
+  chains: {
+    title: 'Cadeias pesadas (H) e leves (L)',
+    subtitle: 'Quatro cadeias polipeptídicas',
+    color: '#6f879f',
+    description: 'Um anticorpo monomérico possui duas cadeias pesadas idênticas e duas cadeias leves idênticas. As cadeias se organizam em uma estrutura quaternária característica em forma de Y.',
+    function: 'A associação das quatro cadeias constrói os braços de ligação ao antígeno e a região Fc. As pontes dissulfeto e interações não covalentes ajudam a estabilizar a estrutura.',
+    location: 'As cadeias pesadas formam o interior dos braços e a haste; as cadeias leves ficam na porção externa dos braços.'
+  },
+  disulfide: {
+    title: 'Pontes dissulfeto',
+    subtitle: 'Estabilidade estrutural',
+    color: '#e6b84f',
+    description: 'São ligações covalentes entre resíduos de cisteína que ajudam a manter as cadeias do anticorpo unidas.',
+    function: 'Contribuem para a estabilidade da molécula, incluindo a ligação entre as cadeias pesadas e, conforme a estrutura, entre cadeias pesadas e leves.',
+    location: 'Representadas na região central do Y e nas junções entre cadeias.'
+  },
+  paratope: {
+    title: 'Parátopo e epítopo',
+    subtitle: 'Duas faces complementares do reconhecimento',
+    color: '#d6a8ff',
+    description: 'O parátopo é a região do anticorpo que entra em contato com o antígeno; o epítopo é a parte específica do antígeno reconhecida pelo anticorpo. O parátopo é formado principalmente pelas regiões variáveis, incluindo as CDRs.',
+    function: 'A complementaridade química e tridimensional favorece uma ligação específica e reversível, mediada por interações não covalentes.',
+    location: 'O parátopo fica na ponta do braço do anticorpo; o epítopo fica na superfície ou na estrutura do antígeno.'
+  }
+};
+
 const cards = studyBank.cards;
 const questions = studyBank.questions;
 
@@ -98,6 +173,7 @@ function App() {
   const [imagesLoading, setImagesLoading] = useState(false);
   const [imagesError, setImagesError] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedAntibodyPart, setSelectedAntibodyPart] = useState('fab');
 
   const visibleCards = cards.filter(
     c => axis === 'all' || c[0] === axis
@@ -204,7 +280,8 @@ function App() {
     drive: 'Drive da Turma',
     images: 'Biblioteca de Imagens',
     fenotipagem: 'Fenotipagem ABO/Rh',
-    chagas: 'Sorologia de Chagas'
+    chagas: 'Sorologia de Chagas',
+    anticorpo: 'Regiões do Anticorpo'
   };
 
   const navItems = [
@@ -214,6 +291,7 @@ function App() {
     ['images', Images, 'Biblioteca de Imagens'],
     ['fenotipagem', Droplets, 'Fenotipagem ABO/Rh'],
     ['chagas', Microscope, 'Sorologia de Chagas'],
+    ['anticorpo', ShieldCheck, 'Regiões do Anticorpo'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -1176,6 +1254,26 @@ function App() {
                 loading="lazy"
               />
             </div>
+          </section>
+        )}
+
+        {/* REGIÕES DO ANTICORPO — DIAGRAMA INTERATIVO */}
+        {view === 'anticorpo' && (
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/interface_anticorpo_interativa.html"
+              title="ImunoLab — Regiões do anticorpo"
+              style={{
+                display: 'block',
+                width: '100%',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
+                borderRadius: 16,
+                background: '#0b0f17'
+              }}
+              loading="lazy"
+            />
           </section>
         )}
 
