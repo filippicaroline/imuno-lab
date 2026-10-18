@@ -281,7 +281,8 @@ function App() {
     images: 'Biblioteca de Imagens',
     fenotipagem: 'Fenotipagem ABO/Rh',
     chagas: 'Sorologia de Chagas',
-    anticorpo: 'Regiões do Anticorpo'
+    sifilis: 'Diagnóstico da Sífilis',
+    anticorpo: 'Anticorpo'
   };
 
   const navItems = [
@@ -291,7 +292,8 @@ function App() {
     ['images', Images, 'Biblioteca de Imagens'],
     ['fenotipagem', Droplets, 'Fenotipagem ABO/Rh'],
     ['chagas', Microscope, 'Sorologia de Chagas'],
-    ['anticorpo', ShieldCheck, 'Regiões do Anticorpo'],
+    ['sifilis', ShieldCheck, 'Diagnóstico da Sífilis'],
+    ['anticorpo', ShieldCheck, 'Anticorpo'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -1263,12 +1265,32 @@ function App() {
           </section>
         )}
 
-        {/* REGIÕES DO ANTICORPO — DIAGRAMA INTERATIVO */}
+        {/* DIAGNÓSTICO IMUNOLÓGICO DA SÍFILIS */}
+        {view === 'sifilis' && (
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/imunolab_diagnostico_sifilis.html"
+              title="ImunoLab — Diagnóstico da Sífilis"
+              style={{
+                display: 'block',
+                width: '100%',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
+                borderRadius: 16,
+                background: '#0b0f17'
+              }}
+              loading="lazy"
+            />
+          </section>
+        )}
+
+        {/* ANTICORPO — DIAGRAMA INTERATIVO */}
         {view === 'anticorpo' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
             <iframe
               src="/interface_anticorpo_interativa.html"
-              title="ImunoLab — Regiões do anticorpo"
+              title="ImunoLab — Anticorpo"
               style={{
                 display: 'block',
                 width: '100%',
