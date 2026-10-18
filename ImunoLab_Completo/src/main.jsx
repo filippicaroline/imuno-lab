@@ -326,7 +326,7 @@ function App() {
                 strokeLinejoin="round"
               />
               <path
-                d="M5.5 3.5L10.5 8.5M21.5 8.5L26.5 3.5M12.4 25.8H19.4"
+                d="M5.5 3.5L10.5 8.5M21.5 8.5L26.5 3.5"
                 stroke="currentColor"
                 strokeWidth="3"
                 strokeLinecap="round"
@@ -464,6 +464,90 @@ function App() {
                 <small>estudo organizado</small>
               </div>
             </div>
+
+            <section
+              aria-labelledby="laboratorio-virtual-title"
+              style={{
+                marginTop: 30,
+                marginBottom: 34,
+                padding: '24px',
+                border: '1px solid var(--border, #283244)',
+                borderRadius: 20,
+                background: 'linear-gradient(135deg, rgba(100,216,197,0.07), rgba(157,145,255,0.07))'
+              }}
+            >
+              <div className="section-head" style={{ marginBottom: 18 }}>
+                <div>
+                  <div className="eyebrow"><span className="live-dot" /> LABORATÓRIO VIRTUAL</div>
+                  <h2 id="laboratorio-virtual-title">Aprenda na prática</h2>
+                  <p>
+                    Explore os testes imunológicos, acompanhe os procedimentos e pratique
+                    a interpretação dos resultados em um ambiente virtual interativo.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
+                  gap: 12
+                }}
+              >
+                {[
+                  { id: 'fenotipagem', title: 'Fenotipagem ABO/Rh', description: 'Tipagem sanguínea e aglutinação', Icon: Droplets, color: '#64d8c5' },
+                  { id: 'chagas', title: 'Sorologia de Chagas', description: 'Hemaglutinação indireta (HAI)', Icon: Microscope, color: '#9d91ff' },
+                  { id: 'sifilis', title: 'Diagnóstico da Sífilis', description: 'Prática de testes sorológicos', Icon: ShieldCheck, color: '#ff9b78' },
+                  { id: 'anticorpo', title: 'Anticorpo', description: 'Explore a estrutura da imunoglobulina', Icon: Brain, color: '#d6a8ff' },
+                  { id: 'coombs', title: 'Teste de Coombs', description: 'Investigação de aglutinação eritrocitária', Icon: Droplets, color: '#e6b84f' },
+                  { id: 'elisa', title: 'ELISA', description: 'Etapas do ensaio imunoenzimático', Icon: FlaskConical, color: '#55cbb6' }
+                ].map(({ id, title, description, Icon, color }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => nav(id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 13,
+                      width: '100%',
+                      minHeight: 84,
+                      padding: '15px 16px',
+                      textAlign: 'left',
+                      color: 'inherit',
+                      background: 'var(--card, rgba(15, 23, 42, 0.62))',
+                      border: '1px solid var(--border, #283244)',
+                      borderRadius: 14,
+                      cursor: 'pointer',
+                      transition: 'transform 160ms ease, border-color 160ms ease'
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = color; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border, #283244)'; }}
+                  >
+                    <span
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        width: 42,
+                        height: 42,
+                        color,
+                        background: `${color}18`,
+                        borderRadius: 12
+                      }}
+                    >
+                      <Icon size={21} />
+                    </span>
+                    <span style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0 }}>
+                      <strong style={{ fontSize: 14 }}>{title}</strong>
+                      <span style={{ fontSize: 12, lineHeight: 1.4, opacity: 0.76 }}>{description}</span>
+                    </span>
+                    <ChevronRight size={17} style={{ marginLeft: 'auto', flexShrink: 0, opacity: 0.7 }} />
+                  </button>
+                ))}
+              </div>
+            </section>
 
             <div className="section-head home-section-head">
               <div>
