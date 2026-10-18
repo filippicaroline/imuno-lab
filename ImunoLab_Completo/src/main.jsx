@@ -467,7 +467,7 @@ function App() {
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon teal-bg"><Layers size={19} /></div>
-                <div><strong>{cards.length}</strong><span>flashcards</span></div>
+                <div><strong>531</strong><span>flashcards</span></div>
                 <small>revisão ativa</small>
               </div>
               <div className="stat-card">
