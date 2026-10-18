@@ -304,8 +304,11 @@ function App() {
 
   return (
     <div className="app-shell">
-      <aside className={`sidebar ${mobile ? 'open' : ''}`}>
-        <div className="brand">
+      <aside
+        className={`sidebar ${mobile ? 'open' : ''}`}
+        style={{ height: '100vh', maxHeight: '100vh', boxSizing: 'border-box', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+      >
+        <div className="brand" style={{ flexShrink: 0 }}>
           <div className="brand-mark">
             <Microscope size={23} />
           </div>
@@ -324,13 +327,14 @@ function App() {
           </button>
         </div>
 
-        <div className="side-label">ESPAÇO DE ESTUDO</div>
+        <div className="side-label" style={{ flexShrink: 0, marginTop: '8px', marginBottom: '6px' }}>ESPAÇO DE ESTUDO</div>
 
-        <nav className="nav-list">
+        <nav className="nav-list" style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '10px', scrollbarWidth: 'thin' }}>
           {navItems.map(([id, Icon, label]) => (
             <button
               key={id}
               className={`nav-item ${view === id ? 'active' : ''}`}
+              style={{ paddingTop: '7px', paddingBottom: '7px', marginTop: '1px', marginBottom: '1px', minHeight: '34px', boxSizing: 'border-box', gap: '9px', lineHeight: 1.2, fontSize: '13px' }}
               onClick={() => nav(id)}
             >
               <Icon size={18} />
