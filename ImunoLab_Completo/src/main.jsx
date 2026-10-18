@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -7,7 +6,7 @@ import {
   HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck, Droplets,
   Shuffle, Target, X, ArrowUpRight, RotateCcw, Bookmark,
   ExternalLink, PlayCircle, MessageSquare, FolderOpen, Images,
-  ZoomIn, Image as ImageIcon
+  ZoomIn, Image as ImageIcon, FlaskConical
 } from 'lucide-react';
 import studyBank from './studyBank.json';
 import './styles.css';
@@ -283,7 +282,8 @@ function App() {
     chagas: 'Sorologia de Chagas',
     sifilis: 'Diagnóstico da Sífilis',
     anticorpo: 'Anticorpo',
-    coombs: 'Teste de Coombs'
+    coombs: 'Teste de Coombs',
+    elisa: 'ELISA'
   };
 
   const navItems = [
@@ -296,6 +296,7 @@ function App() {
     ['sifilis', ShieldCheck, 'Diagnóstico da Sífilis'],
     ['anticorpo', ShieldCheck, 'Anticorpo'],
     ['coombs', Droplets, 'Teste de Coombs'],
+    ['elisa', FlaskConical, 'ELISA'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -1241,7 +1242,6 @@ function App() {
           </section>
         )}
 
-
         {/* TESTE DE COOMBS DIRETO E INDIRETO */}
         {view === 'coombs' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
@@ -1268,6 +1268,33 @@ function App() {
             <iframe
               src="/interface_anticorpo_interativa.html"
               title="ImunoLab — Anticorpo"
+              style={{
+                display: 'block',
+                width: '100%',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
+                borderRadius: 16,
+                background: '#0b0f17'
+              }}
+              loading="lazy"
+            />
+          </section>
+        )}
+
+        {/* INTERFACE INTERATIVA ELISA */}
+        {view === 'elisa' && (
+          <section
+            className="content-wrap"
+            style={{
+              padding: 0,
+              width: '100%',
+              maxWidth: 'none'
+            }}
+          >
+            <iframe
+              src="/imunolab_elisa_interativo_legenda_corrigida.html"
+              title="ImunoLab — ELISA"
               style={{
                 display: 'block',
                 width: '100%',
