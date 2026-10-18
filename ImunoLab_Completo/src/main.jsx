@@ -282,7 +282,8 @@ function App() {
     fenotipagem: 'Fenotipagem ABO/Rh',
     chagas: 'Sorologia de Chagas',
     sifilis: 'Diagnóstico da Sífilis',
-    anticorpo: 'Anticorpo'
+    anticorpo: 'Anticorpo',
+    coombs: 'Teste de Coombs'
   };
 
   const navItems = [
@@ -294,6 +295,7 @@ function App() {
     ['chagas', Microscope, 'Sorologia de Chagas'],
     ['sifilis', ShieldCheck, 'Diagnóstico da Sífilis'],
     ['anticorpo', ShieldCheck, 'Anticorpo'],
+    ['coombs', Droplets, 'Teste de Coombs'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -336,52 +338,6 @@ function App() {
           ))}
         </nav>
 
-        <div className="side-label axes-label">
-          EIXOS DE IMUNOLOGIA
-        </div>
-
-        <div className="axis-list">
-          {axes.map(a => (
-            <button
-              key={a.id}
-              className={`axis-item ${axis === a.id ? 'selected' : ''}`}
-              onClick={() => {
-                chooseAxis(a.id);
-                nav('flashcards');
-              }}
-            >
-              <span
-                className="axis-dot"
-                style={{ background: a.color }}
-              />
-              <span>
-                <b>{a.name}</b>
-                <small>{a.desc}</small>
-              </span>
-              <ChevronRight size={15} />
-            </button>
-          ))}
-        </div>
-
-        <div className="sidebar-bottom">
-          <div className="study-card">
-            <div className="study-icon">
-              <GraduationCap size={18} />
-            </div>
-            <b>Aprenda no seu ritmo</b>
-            <p>
-              Revise conceitos, teste seu conhecimento e estude por eixos.
-            </p>
-            <button onClick={() => startQuiz('all')}>
-              Começar simulado <ArrowUpRight size={14} />
-            </button>
-          </div>
-
-          <div className="side-foot">
-            <span className="status-dot" />
-            Conteúdo local · sem login
-          </div>
-        </div>
       </aside>
 
       <main className="main-area">
@@ -1279,6 +1235,27 @@ function App() {
                 border: 0,
                 borderRadius: 16,
                 background: '#0b0f17'
+              }}
+              loading="lazy"
+            />
+          </section>
+        )}
+
+
+        {/* TESTE DE COOMBS DIRETO E INDIRETO */}
+        {view === 'coombs' && (
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/imunolab_coombs_interativo.html"
+              title="ImunoLab — Teste de Coombs Direto e Indireto"
+              style={{
+                display: 'block',
+                width: '100%',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
+                borderRadius: 16,
+                background: '#061014'
               }}
               loading="lazy"
             />
