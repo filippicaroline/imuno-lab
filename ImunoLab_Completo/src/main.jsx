@@ -330,7 +330,6 @@ function App() {
             >
               <Icon size={18} />
               <span>{label}</span>
-              {id === 'flashcards' && <em>{cards.length}</em>}
             </button>
           ))}
         </nav>
@@ -584,9 +583,6 @@ function App() {
                   Escolha um conjunto de cartões do NotebookLM ou revise
                   os flashcards disponíveis na plataforma.
                 </p>
-              </div>
-              <div className="counter-pill">
-                <Layers size={15} /> {visibleCards.length} cartões locais
               </div>
             </div>
 
@@ -863,7 +859,17 @@ function App() {
                     <div className="aside-title"><ClipboardList size={17} /><h3>Questões</h3></div>
                     <div className="question-numbers">
                       {quiz.map((x, i) => (
-                        <button key={x.id} onClick={() => setQuizIndex(i)} className={`${i === quizIndex ? 'current' : ''} ${answers[x.id] !== undefined ? 'done' : ''}`}>
+                        <button
+                          key={x.id}
+                          onClick={() => setQuizIndex(i)}
+                          className={`${i === quizIndex ? 'current' : ''} ${answers[x.id] !== undefined ? (answers[x.id] === x.correct ? 'correct-answer' : 'wrong-answer') : ''}`}
+                          style={answers[x.id] === undefined ? undefined : {
+                            backgroundColor: answers[x.id] === x.correct ? 'rgba(52, 211, 153, 0.18)' : 'rgba(248, 113, 113, 0.20)',
+                            borderColor: answers[x.id] === x.correct ? '#34d399' : '#f87171',
+                            color: answers[x.id] === x.correct ? '#6ee7b7' : '#fca5a5'
+                          }}
+                          aria-label={`Questão ${i + 1}: ${answers[x.id] === undefined ? 'não respondida' : answers[x.id] === x.correct ? 'resposta correta' : 'resposta incorreta'}`}
+                        >
                           {i + 1}
                         </button>
                       ))}
