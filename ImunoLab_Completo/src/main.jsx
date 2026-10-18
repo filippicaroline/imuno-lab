@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import {
   Activity, BookOpen, Brain, CheckCircle2, ChevronLeft,
   ChevronRight, ClipboardList, Clock3, GraduationCap,
-  HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck,
+  HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck, Droplets,
   Shuffle, Target, X, ArrowUpRight, RotateCcw, Bookmark,
   ExternalLink, PlayCircle, MessageSquare, FolderOpen, Images,
   ZoomIn, Image as ImageIcon
@@ -202,7 +202,8 @@ function App() {
     satisfaction: 'Pesquisa de Satisfação Institucional',
     alternative: 'Complemento — Via Alternativa',
     drive: 'Drive da Turma',
-    images: 'Biblioteca de Imagens'
+    images: 'Biblioteca de Imagens',
+    fenotipagem: 'Fenotipagem ABO/Rh'
   };
 
   const navItems = [
@@ -210,6 +211,7 @@ function App() {
     ['flashcards', Layers, 'Flashcards'],
     ['quiz', ClipboardList, 'Simulados'],
     ['images', Images, 'Biblioteca de Imagens'],
+    ['fenotipagem', Droplets, 'Fenotipagem ABO/Rh'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -629,6 +631,8 @@ function App() {
                       Próximo <ChevronRight size={17} />
                     </button>
                   </div>
+
+                  </div>
                 </div>
 
                 <aside className="flash-aside">
@@ -991,6 +995,7 @@ function App() {
         )}
 
         {/* PESQUISA INSTITUCIONAL */}
+
         {view === 'satisfaction' && (
           <section className="content-wrap">
             <div className="section-head">
@@ -1093,6 +1098,45 @@ function App() {
                 style={{ display: 'inline-flex', textDecoration: 'none', marginTop: 12 }}>
                 Abrir Drive da Turma <ExternalLink size={16} />
               </a>
+            </div>
+          </section>
+        )}
+
+        {/* SIMULADOR DE FENOTIPAGEM ABO/Rh */}
+        {view === 'fenotipagem' && (
+          <section className="content-wrap">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">PRÁTICA DE IMUNO-HEMATOLOGIA</div>
+                <h1>Fenotipagem ABO/Rh</h1>
+                <p>
+                  Simule a tipagem sanguínea em lâmina com os reagentes anti-A,
+                  anti-B e anti-D, observe a aglutinação e interprete o resultado.
+                </p>
+              </div>
+            </div>
+
+            <div
+              style={{
+                width: '100%',
+                overflow: 'hidden',
+                border: '1px solid var(--border, #283244)',
+                borderRadius: 16,
+                background: '#0b0f17'
+              }}
+            >
+              <iframe
+                src="/simulador_fenotipagem_abo_rh_dark.html"
+                title="Simulador de Fenotipagem ABO e Rh"
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  minHeight: '850px',
+                  height: 'calc(100vh - 190px)',
+                  border: 0
+                }}
+                loading="lazy"
+              />
             </div>
           </section>
         )}
