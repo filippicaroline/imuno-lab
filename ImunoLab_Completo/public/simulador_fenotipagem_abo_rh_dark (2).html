@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImunoLab | Fenotipagem ABO e Rh</title>
+<style>
+:root{--navy:#f1f5f9;--blue:#8fb4df;--teal:#65d6c4;--ink:#e5eaf2;--muted:#9aa8ba;--bg:#080b10;--line:#273140;--red:#ef6977;--pale:#151d28}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#14202b 0%,#080b10 48%,#080b10 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+header{background:linear-gradient(120deg,#0b1018,#121b27);border-bottom:1px solid #263241;color:white;padding:22px clamp(18px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand{font-weight:800;letter-spacing:.08em;font-size:13px}.brand span{color:#9ed5cc}.header-sub{font-size:12px;color:#9aa8ba;margin-top:4px}
+main{max-width:1180px;margin:26px auto;padding:0 18px 44px}.intro{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:20px}.eyebrow{color:var(--teal);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:11px}h1{font-size:clamp(24px,3vw,34px);margin:5px 0 7px;color:var(--navy)}.intro p{margin:0;color:var(--muted);max-width:720px;line-height:1.5;font-size:14px}
+.progress-wrap{min-width:180px}.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px}.progress{height:7px;background:#202a37;border-radius:20px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--teal);transition:width .3s}
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.85fr);gap:18px;align-items:start}
+.panel{background:#10151d;border:1px solid #273140;border-radius:16px;box-shadow:0 12px 32px #00000026;overflow:hidden}.panel-head{padding:17px 20px;border-bottom:1px solid var(--line);background:#121923;display:flex;justify-content:space-between;align-items:center;gap:12px}.panel-head h2{font-size:15px;margin:0;color:var(--navy)}.step-pill{font-size:11px;background:#15312f;color:#79dfd0;border-radius:20px;padding:6px 10px;font-weight:700}
+.work{padding:20px}.instruction{background:#141e28;border-left:3px solid var(--teal);padding:12px 14px;border-radius:7px;font-size:13px;line-height:1.5;margin-bottom:18px}
+.bench{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}.supply-title,.slide-title{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800;margin:0 0 10px}
+.reagent-list{display:grid;gap:9px}.reagent{display:flex;align-items:center;gap:11px;padding:10px;border:1px solid var(--line);border-radius:11px;background:#141a23;cursor:grab;user-select:none;transition:.15s}.reagent:hover{border-color:#8eb8b1;transform:translateY(-1px)}.reagent:active{cursor:grabbing}.reagent.used{opacity:.42;cursor:not-allowed}.bottle{width:35px;height:42px;border-radius:8px 8px 10px 10px;border:1px solid #465264;position:relative;display:grid;place-items:center;font-size:10px;font-weight:900;color:white;flex:none}.bottle:before{content:"";position:absolute;top:-5px;width:17px;height:6px;background:#aab7c5;border-radius:3px 3px 0 0}.antiA{background:#d7a52f}.antiB{background:#3476b8}.antiD{background:#7957a8}.blood{background:#a83c48}.reagent strong{display:block;font-size:12px}.reagent small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.slide{background:#0b1017;border:1px solid #2a3544;border-radius:14px;padding:14px;min-height:255px}.slide-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.slide-top span{font-size:11px;color:var(--muted)}.wells{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.well{background:#121923;border:1px dashed #465264;border-radius:12px;padding:9px 7px;min-height:142px;text-align:center;transition:.2s;position:relative}.well.over{border:2px solid var(--teal);background:#142a2a}.well h3{font-size:12px;margin:0 0 8px;color:var(--navy)}.dropzone{height:75px;border-radius:50%;width:75px;margin:0 auto 8px;background:#25171c;border:1px solid #59323a;display:grid;place-items:center;position:relative;overflow:hidden}.dropzone.ready{background:#25171c}.dropzone .drop{font-size:10px;color:#c58e96}.well-status{font-size:10px;color:var(--muted);min-height:13px}.well .mini{font-size:9px;color:#8999ad;margin-top:4px}
+.drops{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:10px}.dot{width:11px;height:11px;border-radius:50%;background:#a83c48;border:1px solid #7e2731}.dot.reag{background:#e7bd58;border-color:#bd9133;width:9px;height:9px}
+.well-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;font-size:12px;cursor:pointer;background:var(--navy);color:white}.btn.secondary{background:#202a37;color:#e3eaf3;border:1px solid #354253}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.teal{background:var(--teal)}
+.side{display:grid;gap:18px}.side-body{padding:17px 19px}.checklist{display:grid;gap:12px}.check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.4;color:#a5b2c3}.check b{color:var(--navy)}.num{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#202a37;color:#a8b8cb;font-size:10px;font-weight:800;flex:none}.check.done .num{background:#15312f;color:#79dfd0}
+.timer{font-size:30px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;text-align:center;margin:4px 0}.timer-note{text-align:center;font-size:11px;color:var(--muted);margin-bottom:12px}
+.result{padding:16px 18px;background:#0b1017;border:1px solid var(--line);border-radius:12px}.result h3{font-size:12px;margin:0 0 8px;color:var(--navy)}.bloodtype{font-size:32px;font-weight:850;color:var(--navy);letter-spacing:-.04em}.result p{font-size:12px;line-height:1.5;color:#a5b2c3;margin:7px 0 0}
+.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:13px;font-size:10px;color:var(--muted)}.legend span{display:flex;align-items:center;gap:5px}.swatch{width:9px;height:9px;border-radius:50%;background:#a83c48}.swatch.clump{background:#a83c48;box-shadow:4px 2px 0 #a83c48,-3px -2px 0 #a83c48}
+.feedback{font-size:12px;line-height:1.5;margin-top:12px;padding:10px 12px;border-radius:9px;background:#332918;color:#f2d69b;display:none}.feedback.show{display:block}
+footer{font-size:10px;color:#76869a;text-align:center;margin-top:20px;line-height:1.5}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.intro{align-items:flex-start;flex-direction:column}.progress-wrap{width:100%}}
+@media(max-width:540px){.bench{grid-template-columns:1fr}.wells{gap:5px}.well{padding:8px 3px}.dropzone{width:65px;height:65px}.panel-head{padding:14px}.work{padding:14px}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">IMUNO<span>LAB</span> <span style="color:#9aa8ba">/ MONITORIA</span></div><div class="header-sub">Laboratório virtual de imuno-hematologia</div></div><div style="font-size:11px;color:#9aa8ba;text-align:right">MÓDULO 01<br>FENOTIPAGEM ABO + Rh(D)</div></header>
+<main>
+  <section class="intro">
+    <div><div class="eyebrow">Simulação prática guiada</div><h1>Tipagem sanguínea em lâmina</h1><p>Realize a prova direta: adicione os reagentes, aplique a amostra de sangue, homogeneíze e observe a hemaglutinação para interpretar os antígenos A, B e D.</p></div>
+    <div class="progress-wrap"><div class="progress-label"><span>PROGRESSO DA PRÁTICA</span><b id="progressText">0%</b></div><div class="progress"><div id="progressBar"></div></div></div>
+  </section>
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-head"><h2>01 · Bancada de procedimento</h2><span class="step-pill" id="stepPill">Etapa 1 de 4</span></div>
+      <div class="work">
+        <div class="instruction" id="instruction"><b>Comece pelos reagentes.</b> Arraste uma gota de cada reagente (anti-A, anti-B e anti-D) para o círculo correspondente na lâmina. Mantenha os três pontos separados.</div>
+        <div class="bench">
+          <div><p class="supply-title">Materiais / reagentes</p><div class="reagent-list" id="reagentList">
+            <div class="reagent" draggable="true" data-kind="antiA"><div class="bottle antiA">A</div><div><strong>Reagente anti-A</strong><small>Anticorpo conhecido</small></div></div>
+            <div class="reagent" draggable="true" data-kind="antiB"><div class="bottle antiB">B</div><div><strong>Reagente anti-B</strong><small>Anticorpo conhecido</small></div></div>
+            <div class="reagent" draggable="true" data-kind="antiD"><div class="bottle antiD">D</div><div><strong>Reagente anti-D</strong><small>Determinação Rh</small></div></div>
+            <div class="reagent" draggable="true" data-kind="blood"><div class="bottle blood">S</div><div><strong>Sangue do paciente</strong><small>Amostra simulada</small></div></div>
+          </div></div>
+          <div><div class="slide-top"><p class="slide-title" style="margin:0">Lâmina de reação</p><span>Superfície plana · fundo branco</span></div>
+            <div class="slide"><div class="wells">
+              <div class="well" data-well="antiA"><h3>ANTI-A</h3><div class="dropzone"><div class="drops" id="drops-antiA"></div><span class="drop">Adicionar</span></div><div class="well-status" id="status-antiA">Aguardando</div><div class="mini">Antígeno A?</div></div>
+              <div class="well" data-well="antiB"><h3>ANTI-B</h3><div class="dropzone"><div class="drops" id="drops-antiB"></div><span class="drop">Adicionar</span></div><div class="well-status" id="status-antiB">Aguardando</div><div class="mini">Antígeno B?</div></div>
+              <div class="well" data-well="antiD"><h3>ANTI-D</h3><div class="dropzone"><div class="drops" id="drops-antiD"></div><span class="drop">Adicionar</span></div><div class="well-status" id="status-antiD">Aguardando</div><div class="mini">Antígeno D?</div></div>
+            </div><div class="legend"><span><i class="swatch"></i> Suspensão de hemácias</span><span><i class="swatch clump"></i> Grumos (aglutinação)</span></div></div>
+            <div class="well-controls"><button class="btn secondary" id="mixBtn" disabled>Homogeneizar</button><button class="btn secondary" id="rockBtn" disabled>Inclinar / agitar</button><button class="btn teal" id="observeBtn" disabled>Observar resultados</button></div>
+          </div>
+        </div>
+        <div class="feedback" id="feedback" role="status"></div>
+      </div>
+    </section>
+    <aside class="side">
+      <section class="panel"><div class="panel-head"><h2>02 · Protocolo</h2><span class="step-pill">Passo a passo</span></div><div class="side-body"><div class="checklist">
+        <div class="check" id="c1"><span class="num">1</span><span><b>Preparar a lâmina</b><br>Superfície limpa, plana e identificada.</span></div>
+        <div class="check" id="c2"><span class="num">2</span><span><b>Adicionar os reagentes</b><br>Uma gota de anti-A, anti-B e anti-D em pontos separados (&gt; 1 cm).</span></div>
+        <div class="check" id="c3"><span class="num">3</span><span><b>Adicionar a amostra</b><br>Uma gota de sangue total em cada ponto.</span></div>
+        <div class="check" id="c4"><span class="num">4</span><span><b>Misturar e movimentar</b><br>Homogeneizar com palitos descartáveis; inclinar e agitar por 30–60 s.</span></div>
+        <div class="check" id="c5"><span class="num">5</span><span><b>Observar e interpretar</b><br>Grumos definidos indicam reação positiva; suspensão homogênea indica reação negativa.</span></div>
+      </div></div></section>
+      <section class="panel"><div class="panel-head"><h2>03 · Tempo de reação</h2><span class="step-pill">30–60 s</span></div><div class="side-body"><div class="timer" id="timer">00:30</div><div class="timer-note" id="timerNote">Disponível após homogeneizar os três campos.</div><button class="btn secondary" id="timerBtn" style="width:100%" disabled>Iniciar contagem</button></div></section>
+      <section class="panel"><div class="panel-head"><h2>04 · Laudo da simulação</h2></div><div class="side-body"><div class="result"><h3>FENÓTIPO ABO / Rh(D)</h3><div class="bloodtype" id="bloodtype">—</div><p id="resultText">Complete as etapas para revelar a interpretação da prova direta.</p></div><div class="feedback show" style="display:block;margin-top:12px;background:#182432;color:#a9c0d8">Aglutinação = antígeno correspondente presente na superfície das hemácias.</div></div></section>
+    </aside>
+  </div>
+  <footer>SIMULAÇÃO DIDÁTICA — não utiliza amostras biológicas reais e não substitui procedimentos, controles, confirmação por prova reversa ou protocolos de um serviço de hemoterapia. A tipagem Rh(D) pode exigir investigação adicional em casos de variantes D fraco/parcial.</footer>
+</main>
+<script>
+const patient = {antiA:true, antiB:false, antiD:true}; // Amostra simulada: A Rh positivo
+const state = {placed:{antiA:false,antiB:false,antiD:false},blood:{antiA:false,antiB:false,antiD:false},mixed:false,rocked:false,observed:false,seconds:30,interval:null};
+const $ = id => document.getElementById(id);
+function updateProgress(){let n=0;if(Object.values(state.placed).every(Boolean))n++;if(Object.values(state.blood).every(Boolean))n++;if(state.mixed)n++;if(state.rocked)n++;if(state.observed)n++;$('progressText').textContent=Math.round(n/5*100)+'%';$('progressBar').style.width=(n/5*100)+'%';$('stepPill').textContent='Etapa '+Math.min(n+1,4)+' de 4';}
+function msg(t){$('feedback').textContent=t;$('feedback').classList.add('show')}
+function addDrop(kind,well){
+ if(!['antiA','antiB','antiD','blood'].includes(kind))return;
+ if(kind==='blood'){
+   if(!Object.values(state.placed).every(Boolean)){msg('Primeiro distribua os três reagentes nos campos correspondentes.');return;}
+   if(state.blood[well])return;
+   state.blood[well]=true;
+   $('drops-'+well).innerHTML+='<i class="dot"></i>';
+   $('status-'+well).textContent='Sangue adicionado';
+   if(Object.values(state.blood).every(Boolean)){$('mixBtn').disabled=false;msg('Amostra adicionada aos três campos. Agora homogeneíze cada mistura com um palito descartável diferente.');}
+ }else{
+   if(state.placed[kind])return;
+   if(kind!==well){msg('Atenção: coloque cada reagente no campo de mesmo nome.');return;}
+   state.placed[kind]=true;
+   $('drops-'+well).innerHTML+='<i class="dot reag"></i>';
+   $('status-'+well).textContent='Reagente adicionado';
+   document.querySelector('[data-kind="'+kind+'"]').classList.add('used');
+   if(Object.values(state.placed).every(Boolean)){document.querySelectorAll('.reagent[data-kind="blood"]').forEach(x=>x.style.opacity='1');msg('Reagentes posicionados corretamente. Agora adicione uma gota de sangue do paciente em cada campo.');}
+ }
+ if(kind==='blood' && Object.values(state.blood).every(Boolean))document.querySelector('[data-kind="blood"]').classList.add('used');
+ updateProgress();
+}
+document.querySelectorAll('.reagent').forEach(el=>{
+ el.addEventListener('dragstart',e=>{if(el.classList.contains('used')){e.preventDefault();return}e.dataTransfer.setData('kind',el.dataset.kind)});
+ el.addEventListener('click',()=>{if(el.classList.contains('used'))return;const k=el.dataset.kind;if(k==='blood'){const target=['antiA','antiB','antiD'].find(w=>!state.blood[w]);if(target)addDrop(k,target)}else addDrop(k,k)});
+});
+document.querySelectorAll('.well').forEach(w=>{
+ w.addEventListener('dragover',e=>{e.preventDefault();w.classList.add('over')});
+ w.addEventListener('dragleave',()=>w.classList.remove('over'));
+ w.addEventListener('drop',e=>{e.preventDefault();w.classList.remove('over');addDrop(e.dataTransfer.getData('kind'),w.dataset.well)});
+});
+$('mixBtn').addEventListener('click',()=>{state.mixed=true;$('mixBtn').disabled=true;$('rockBtn').disabled=false;document.querySelectorAll('.well-status').forEach(x=>x.textContent='Mistura homogênea');$('c1').classList.add('done');$('c2').classList.add('done');$('c3').classList.add('done');$('c4').classList.add('done');msg('Misturas homogeneizadas. Na prática, use um palito descartável diferente para cada campo. Em seguida, incline levemente a lâmina e faça movimentos circulares.');updateProgress()});
+$('rockBtn').addEventListener('click',()=>{state.rocked=true;$('rockBtn').disabled=true;$('timerBtn').disabled=false;$('timerNote').textContent='Inicie a contagem e observe durante 30–60 segundos.';msg('Lâmina movimentada. Inicie o cronômetro para simular o período de observação de 30–60 segundos.');updateProgress()});
+$('timerBtn').addEventListener('click',()=>{if(state.interval)return;$('timerBtn').disabled=true;state.seconds=30;function tick(){$('timer').textContent='00:'+String(state.seconds).padStart(2,'0');if(state.seconds<=0){clearInterval(state.interval);state.interval=null;$('timerNote').textContent='Tempo concluído. Você pode observar e interpretar.';$('observeBtn').disabled=false;msg('Tempo concluído. Observe cada campo sobre fundo branco e registre se há grumos ou suspensão homogênea.');return}state.seconds--;}tick();state.interval=setInterval(tick,1000)});
+$('observeBtn').addEventListener('click',()=>{
+ state.observed=true;
+ for(const w of ['antiA','antiB','antiD']){
+   const positive=patient[w];
+   $('status-'+w).textContent=positive?'Aglutinação (+)':'Sem aglutinação (−)';
+   // Positivo: grumos visíveis. Negativo: suspensão homogênea, sem bolinhas/grumos.
+   $('drops-'+w).innerHTML=positive?'<i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i>':'';
+   $('drops-'+w).style.gap='2px';
+   $('drops-'+w).style.transform=positive?'scale(1.05)':'none';
+   $('drops-'+w).style.filter='none';
+   $('drops-'+w).style.background=positive?'radial-gradient(circle,#a83c48 0 2px,transparent 3px)':'#cf7c85';
+   $('drops-'+w).style.borderRadius='50%';
+   $('drops-'+w).parentElement.style.background=positive?'#f0dada':'#f7eaea';
+   $('drops-'+w).parentElement.style.border=positive?'1px solid #c77b82':'1px solid #e6d0d0';
+ }
+ $('bloodtype').textContent='A Rh positivo (A+)';
+ $('resultText').textContent='Anti-A: aglutinação (+), indicando antígeno A. Anti-B: sem aglutinação (−), indicando ausência do antígeno B. Anti-D: aglutinação (+), indicando presença do antígeno D.';
+ $('c5').classList.add('done');$('observeBtn').disabled=true;msg('Interpretação concluída: padrão A+ na amostra simulada. A prova direta identifica antígenos eritrocitários; a prova reversa é complementar e deve ser considerada na tipagem completa.');updateProgress();
+});
+</script>
+</body>
+</html>
