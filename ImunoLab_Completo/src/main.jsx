@@ -749,7 +749,10 @@ function App() {
               <ShieldCheck size={16} />
               <p>
                 <b>Material educacional.</b> Confirme conceitos clínicos
-                e condutas em bibliografia e diretrizes atualizadas.
+                e condutas em bibliografia e diretrizes atualizadas.{' '}
+                <span style={{ color: '#ef4444' }}>
+                  O ImunoLab é uma ferramenta complementar de aprendizagem e não substitui o estudo integral dos materiais e conteúdos abordados em aula.
+                </span>
               </p>
             </div>
           </section>
@@ -1029,7 +1032,7 @@ function App() {
                         <button
                           className="btn primary"
                           disabled={answers[q.id] === undefined}
-                          onClick={() => setQuizIndex(i => i + 1)}
+                          onClick={() => setQuizIndex(i + 1)}
                         >
                           Próxima questão <ChevronRight size={16} />
                         </button>
