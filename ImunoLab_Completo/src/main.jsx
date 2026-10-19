@@ -1612,7 +1612,7 @@ function App() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 12,
+              gap: 16,
               width: '100%',
               maxWidth: 1100,
               maxHeight: '92vh'
@@ -1623,28 +1623,19 @@ function App() {
               alt={selectedImage.name}
               style={{
                 maxWidth: '100%',
-                maxHeight: '78vh',
+                maxHeight: '82vh',
                 objectFit: 'contain',
                 borderRadius: 8,
                 background: '#fff'
               }}
             />
 
-            <p style={{
-              color: '#fff',
-              textAlign: 'center',
-              overflowWrap: 'anywhere',
-              margin: 0
-            }}>
-              {selectedImage.name} · {selectedImage.category}
-            </p>
-
             <a
               href={selectedImage.url}
               target="_blank"
               rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}
-              style={{ color: '#fff' }}
+              style={{ color: '#fff', display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
               Abrir imagem em outra aba <ExternalLink size={14} />
             </a>
