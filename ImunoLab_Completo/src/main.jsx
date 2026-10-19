@@ -186,7 +186,9 @@ function App() {
     q => quizAxis === 'all' || q.axis === quizAxis
   );
 
-  const q = quiz[Math.min(quizIndex, quiz.length - 1)];
+  // Segurança de índice para o quiz atual
+  const safeQuizIndex = quiz.length > 0 ? Math.min(quizIndex, quiz.length - 1) : 0;
+  const q = quiz[safeQuizIndex];
 
   const nav = (v) => {
     setView(v);
@@ -475,7 +477,6 @@ function App() {
               </div>
             </div>
 
-            {/* Espaçamento superior e inferior ajustado para evitar sobreposição */}
             <style>{`
               .stats-grid {
                 display: grid;
@@ -560,7 +561,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Grade responsiva: três cartões por linha em telas maiores */}
               <style>{`
                 .lab-tests-grid {
                   display: grid;
@@ -950,7 +950,7 @@ function App() {
               </div>
               <div className="counter-pill">
                 <Clock3 size={15} />
-                {finished ? 'Finalizado' : `${quizIndex + 1} de ${quiz.length}`}
+                {finished ? 'Finalizado' : `${safeQuizIndex + 1} de ${quiz.length}`}
               </div>
             </div>
 
@@ -971,11 +971,11 @@ function App() {
                 <div className="quiz-main">
                   <div className="quiz-progress">
                     <div className="quiz-progress-top">
-                      <span>QUESTÃO {quizIndex + 1}</span>
+                      <span>QUESTÃO {safeQuizIndex + 1}</span>
                       <span>{quiz.filter(x => answers[x.id] !== undefined).length} respondidas</span>
                     </div>
                     <div className="progress-track">
-                      <div style={{ width: `${((quizIndex + 1) / quiz.length) * 100}%` }} />
+                      <div style={{ width: `${((safeQuizIndex + 1) / quiz.length) * 100}%` }} />
                     </div>
                   </div>
 
@@ -1021,23 +1021,23 @@ function App() {
                     <div className="question-footer">
                       <button
                         className="btn secondary"
-                        disabled={quizIndex === 0}
-                        onClick={() => setQuizIndex(i => i - 1)}
+                        disabled={safeQuizIndex === 0}
+                        onClick={() => setQuizIndex(i => Math.max(0, i - 1))}
                       >
                         <ChevronLeft size={16} /> Anterior
                       </button>
-                      {quizIndex < quiz.length - 1 ? (
+                      {safeQuizIndex < quiz.length - 1 ? (
                         <button
                           className="btn primary"
-                          disabled={answers[q.id] === undefined}
-                          onClick={() => setQuizIndex(i + 1)}
+                          disabled={answers[q?.id] === undefined}
+                          onClick={() => setQuizIndex(i => Math.min(quiz.length - 1, i + 1))}
                         >
                           Próxima questão <ChevronRight size={16} />
                         </button>
                       ) : (
                         <button
                           className="btn primary"
-                          disabled={answers[q.id] === undefined}
+                          disabled={answers[q?.id] === undefined}
                           onClick={() => setFinished(true)}
                         >
                           Ver resultado <CheckCircle2 size={16} />
@@ -1071,7 +1071,7 @@ function App() {
                         <button
                           key={x.id}
                           onClick={() => setQuizIndex(i)}
-                          className={`${i === quizIndex ? 'current' : ''} ${answers[x.id] !== undefined ? (answers[x.id] === x.correct ? 'correct-answer' : 'wrong-answer') : ''}`}
+                          className={`${i === safeQuizIndex ? 'current' : ''} ${answers[x.id] !== undefined ? (answers[x.id] === x.correct ? 'correct-answer' : 'wrong-answer') : ''}`}
                           style={answers[x.id] === undefined ? undefined : {
                             backgroundColor: answers[x.id] === x.correct ? 'rgba(52, 211, 153, 0.18)' : 'rgba(248, 113, 113, 0.20)',
                             borderColor: answers[x.id] === x.correct ? '#34d399' : '#f87171',
@@ -1262,7 +1262,6 @@ function App() {
                         />
                       </div>
 
-                      {/* Nome do arquivo removido da pré-visualização, exibindo apenas o botão de zoom */}
                       <span style={{
                         display: 'flex',
                         alignItems: 'center',
