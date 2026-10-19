@@ -553,11 +553,7 @@ function App() {
                   <p style={{ 
                     marginTop: 0, 
                     marginBottom: 0,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    width: '100%',
-                    maxWidth: '100%'
+                    lineHeight: '1.5'
                   }}>
                     Explore os testes imunológicos, acompanhe os procedimentos e pratique a interpretação dos resultados em um ambiente virtual interativo.
                   </p>
