@@ -550,9 +550,16 @@ function App() {
                     Aprenda na prática
                   </p>
 
-                  <p style={{ marginTop: 0 }}>
-                    Explore os testes imunológicos, acompanhe os procedimentos e pratique
-                    a interpretação dos resultados em um ambiente virtual interativo.
+                  <p style={{ 
+                    marginTop: 0, 
+                    marginBottom: 0,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    width: '100%',
+                    maxWidth: '100%'
+                  }}>
+                    Explore os testes imunológicos, acompanhe os procedimentos e pratique a interpretação dos resultados em um ambiente virtual interativo.
                   </p>
                 </div>
               </div>
@@ -605,9 +612,9 @@ function App() {
                   },
                   {
                     id: 'testes-rapidos',
-                    title: 'Anticorpo',
-                    description: 'Explore a estrutura da imunoglobulina',
-                    Icon: Brain,
+                    title: 'Testes Rápidos',
+                    description: 'Técnica de Imunocromatografia',
+                    Icon: Zap,
                     color: '#d6a8ff'
                   },
                   {
@@ -1397,7 +1404,7 @@ function App() {
         {view === 'fenotipagem' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
             <iframe
-              src="/simulador_fenotipagem_abo_rh_dark.html"
+              src="/simulador_fenotipagem_abo_rh_dark.html?clean=true"
               title="Simulador de Fenotipagem ABO e Rh"
               style={{
                 display: 'block',
@@ -1417,7 +1424,7 @@ function App() {
         {view === 'chagas' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
             <iframe
-              src="/simulador_sorologia_chagas.html"
+              src="/simulador_sorologia_chagas.html?clean=true"
               title="Simulador de Sorologia de Chagas por Hemaglutinação Indireta"
               style={{
                 display: 'block',
@@ -1511,7 +1518,7 @@ function App() {
             }}
           >
             <iframe
-              src="/gemini-code-1792423601825.html"
+              src="/gemini-code-1792423601825.html?clean=true"
               title="ImunoLab — Testes Rápidos"
               style={{
                 display: 'block',
