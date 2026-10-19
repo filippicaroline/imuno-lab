@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ImunoLab — Coombs direto e indireto</title>
+<style>
+:root{--ink:#e8eef6;--muted:#9aa8ba;--bg:#080b10;--panel:#10151d;--line:#273140;--teal:#65d6c4;--blue:#8fb4df;--purple:#b69cff;--red:#e56d79;--gold:#e7bd58;--green:#78dfb0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#14202b 0%,#080b10 52%,#080b10 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+.btn{border:1px solid #354253;border-radius:10px;padding:9px 13px;background:#202a37;color:#e3eaf3;font-weight:750;font-size:11px;cursor:pointer;transition:all .2s ease;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+.btn.primary{background:var(--teal);color:#09201d;border-color:var(--teal)}
+.btn:hover:not(:disabled){transform:translateY(-2px);border-color:var(--teal);box-shadow:0 4px 12px rgba(101,214,196,0.15)}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+@keyframes dropFall {
+  0% { transform: translateY(-35px); opacity: 0; }
+  30% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(40px); opacity: 0; }
+}
+.water-drop {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 10px;
+  background: #65d6c4;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 6px #65d6c4;
+  z-index: 10;
+}
+.washing-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+.washing-container .water-drop { animation: dropFall 1.4s infinite linear; }
+
+main{max-width:1450px;margin:24px auto;padding:0 16px 40px}
+.eyebrow{color:var(--teal);font-weight:850;text-transform:uppercase;letter-spacing:.13em;font-size:10px}
+h1{font-size:clamp(23px,3vw,33px);margin:6px 0 8px;letter-spacing:-.035em}
+.title-direct{color:var(--blue)}
+.title-indirect{color:var(--purple)}
+h2{font-size:14px;margin:0;letter-spacing:-0.01em}
+.section-main-title{font-size:22px!important;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px}
+.hero{margin-bottom:24px}
+.hero p,.sub{color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,0.25)}
+.direct{border-color:#3b5677}
+.indirect{border-color:#57438a}
+.head{padding:18px 20px 10px;background:#121923;border-bottom:1px solid var(--line)}
+.head h2{font-size:15px;color:var(--blue);margin:0 0 6px}
+.indirect .head h2{color:var(--purple)}
+.head p{color:var(--muted);font-size:12px;margin:0;line-height:1.5}
+.diagram{display:flex;align-items:center;justify-content:center;gap:14px;min-height:150px;padding:16px;border-bottom:1px solid var(--line);background:#0b1017}
+
+/* Hemácia limpa e elegante com SVG para imunoglobulinas perfeitas */
+.rbc-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;flex-shrink:0}
+.rbc-icon{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff7a83,#e56d79 50%,#9e323b 85%);border:2px solid #ffa0a6;position:relative;box-shadow:0 3px 8px rgba(229,109,121,0.3);flex-shrink:0}
+.rbc-icon::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:14px;background:#0b1017;border-radius:50%;opacity:0.25}
+
+.agglutination-cluster{display:flex;flex-wrap:wrap;width:68px;height:68px;position:relative;align-items:center;justify-content:center;flex-shrink:0}
+.agglutination-cluster .rbc-icon{position:absolute;width:36px;height:36px;box-shadow:none}
+.agglutination-cluster .rbc-icon:nth-child(1){top:0;left:0}
+.agglutination-cluster .rbc-icon:nth-child(2){top:0;right:0}
+.agglutination-cluster .rbc-icon:nth-child(3){bottom:0;left:10px}
+
+.dlabel{text-align:center;color:var(--muted);font-size:11px;margin-top:6px;max-width:100px}
+.arrow{font-size:22px;color:var(--teal)}
+.indirect .arrow{color:var(--purple)}
+
+.facts{padding:16px 20px;display:grid;gap:12px}
+.fact{display:grid;grid-template-columns:20px 1fr;gap:8px;font-size:12px;color:#cbd5e1;line-height:1.5}
+.fact b{color:var(--blue)}
+.indirect .fact b{color:var(--purple)}
+.section{margin-top:24px;border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--panel);box-shadow:0 16px 36px rgba(0,0,0,0.25)}
+.section h2{font-size:18px;margin:0 0 4px;color:var(--ink)}
+.sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.controls{display:flex;gap:8px;margin-bottom:16px}
+.choice{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);background:#111923;color:var(--muted);font-weight:750;font-size:12px;cursor:pointer;transition:all .2s ease}
+.choice.active.d{background:#142334;border-color:var(--blue);color:var(--ink)}
+.choice.active.i{background:#221a38;border-color:var(--purple);color:var(--ink)}
+.stepsgrid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.7fr);gap:16px;align-items:start}
+.stepbox{border:1px solid #3b5677;border-radius:12px;padding:16px;background:#0b1017}
+.stepbox.indirect{border-color:#57438a}
+.stepbox h3{text-align:center;font-size:13px;color:var(--blue);margin:0 0 14px}
+.stepbox.indirect h3{color:var(--purple)}
+.step-list{display:grid;gap:6px;grid-template-columns:repeat(4,1fr)}
+.stepbox.indirect .step-list{grid-template-columns:repeat(5,1fr)}
+.step{padding:8px 4px;border-radius:8px;border:1px solid #273545;background:#111923;color:var(--muted);text-align:center;font-size:10px;cursor:pointer;transition:all .2s ease}
+.step.active{background:#142334;border-color:var(--blue);color:var(--ink)}
+.stepbox.indirect .step.active{background:#221a38;border-color:var(--purple)}
+.num{display:grid;place-items:center;width:24px;height:24px;border:1px solid #3b5677;border-radius:50%;margin:0 auto 4px;color:var(--blue);font-size:10px;font-weight:850}
+.stepbox.indirect .num{border-color:var(--purple);color:var(--purple)}
+.step strong{display:block;font-size:11px}
+.stepvisual{min-height:95px;display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0}
+.tube{height:65px;width:24px;border:2px solid #3f526d;border-top:0;border-radius:0 0 8px 8px;position:relative;overflow:hidden;background:#111923}
+.tube:before{content:"";position:absolute;top:0;left:-2px;right:-2px;height:6px;background:#3f526d}
+.liquid{position:absolute;bottom:0;left:1px;right:1px;height:45%;background:#e56d79}
+.liquid.yellow{background:#e7bd58}
+.caption{text-align:center;color:var(--muted);font-size:11px}
+.explain{border:1px solid #273545;border-radius:10px;padding:12px;background:#111923;font-size:12px;margin-top:12px;line-height:1.6;color:#a5b2c3}
+.stepbox.indirect .explain b{color:var(--purple)}
+.explain b{color:var(--blue)}
+.stepnav{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+.tip{padding:18px;background:#0b1017;border:1px solid #273545;border-radius:12px}
+.tip h3{color:var(--gold);margin:0 0 8px;font-size:13px}
+.tip p{font-size:12px;color:var(--muted);line-height:1.6}
+.diffs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.diff{border:1px solid #273545;border-radius:12px;padding:14px;background:#111923}
+.diff .icon{font-size:20px;color:var(--teal)}
+.diff b{display:block;font-size:12px;margin:6px 0;color:var(--ink)}
+.diff p{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+.note{font-size:11px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+.scoreline{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.score{color:var(--teal);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:12px;background:#111923;font-weight:800}
+.cases{margin-top:14px}
+.case-card{border:1px solid #273545;border-radius:12px;padding:18px;background:#111923;display:flex;flex-direction:column;gap:12px}
+.case-card h3{font-size:14px;color:var(--blue);margin:0}
+.case-card p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+.question{font-size:12px;font-weight:700;color:var(--ink)}
+.answers{display:grid;gap:8px}
+.answers label{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:8px 10px;border-radius:8px;border:1px solid #273545;background:#0b1017;transition:all .2s ease}
+.answers label:hover{border-color:var(--blue);background:#14202b}
+.answers input{accent-color:var(--teal);margin-top:2px}
+.feedback{display:none;padding:10px;border-radius:8px;font-size:12px;line-height:1.5}
+.feedback.show{display:block}
+.feedback.good{background:#102b21;color:#a8f0d5;border:1px solid var(--green)}
+.feedback.bad{background:#33171b;color:#f5b0b7;border:1px solid var(--red)}
+.footer{text-align:center;color:var(--muted);font-size:10px;margin:30px 0 0}
+@media(max-width:1050px){.compare,.stepsgrid{grid-template-columns:1fr}.diffs{grid-template-columns:repeat(3,1fr)}}@media(max-width:720px){.diffs{grid-template-columns:repeat(2,1fr)}.step-list{grid-template-columns:repeat(2,1fr)}.stepbox.indirect .step-list{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<main>
+<header class="hero" id="visao">
+  <div class="eyebrow">Imunologia aplicada · Diagnóstico laboratorial</div>
+  <h1>Teste de Coombs: <span class="title-direct">Direto</span> vs. <span class="title-indirect">Indireto</span></h1>
+  <p>Entenda o que cada teste detecta, acompanhe as etapas da reação e aplique o conhecimento em situações clínicas.</p>
+</header>
+
+<section class="compare">
+  <article class="card direct">
+    <div class="head">
+      <h2>COOMBS DIRETO (TAD)</h2>
+      <p>Detecta imunoglobulinas — e/ou complemento, conforme o reagente — já ligados à superfície das hemácias do paciente <i>in vivo</i>.</p>
+    </div>
+    <div class="diagram">
+      <div>
+        <div class="rbc-wrap">
+          <div class="rbc-icon"></div>
+          <!-- Anticorpos em formato de Y ligados à hemácia -->
+          <svg style="position:absolute; top:-2px; left:-2px; width:68px; height:68px; pointer-events:none;" viewBox="0 0 50 50">
+            <!-- Primeiro Anticorpo Y -->
+            <path d="M12 11 L18 18 M24 11 L18 18 L18 26" stroke="#8fb4df" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Segundo Anticorpo Y -->
+            <path d="M38 11 L32 18 M26 11 L32 18 L32 26" stroke="#8fb4df" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="dlabel">Hemácia sensibilizada</div>
+      </div>
+      <div class="arrow">⟶</div>
+      <div>
+        <div class="agglutination-cluster">
+          <div class="rbc-icon"></div>
+          <div class="rbc-icon"></div>
+          <div class="rbc-icon"></div>
+        </div>
+        <div class="dlabel">Aglutinação positiva</div>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span>♧</span><div><b>Amostra:</b> hemácias do paciente.</div></div>
+      <div class="fact"><span>⌁</span><div><b>O que investiga:</b> sensibilização eritrocitária por IgG e/ou complemento.</div></div>
+      <div class="fact"><span>⌕</span><div><b>Quando solicitar:</b> suspeita de hemólise imune, como anemia hemolítica autoimune, doença hemolítica fetal/neonatal ou reação transfusional.</div></div>
+      <div class="fact"><span>✓</span><div><b>Resultado:</b> geralmente qualitativo na triagem; positivo indica hemácias sensibilizadas, mas deve ser correlacionado ao quadro clínico.</div></div>
+    </div>
+  </article>
+
+  <article class="card indirect">
+    <div class="head">
+      <h2>COOMBS INDIRETO (TAI)</h2>
+      <p>Detecta anticorpos anti-eritrocitários livres no soro/plasma, capazes de se ligar a antígenos nas hemácias.</p>
+    </div>
+    <div class="diagram">
+      <div class="dlabel">Anticorpos livres<br><span style="font-size:20px;color:var(--purple);font-weight:bold;">Y Y Y</span></div>
+      <div class="arrow">+</div>
+      <div><div class="rbc-icon"></div><div class="dlabel">Hemácia-teste</div></div>
+      <div class="arrow">⟶</div>
+      <div>
+        <div class="agglutination-cluster">
+          <div class="rbc-icon"></div>
+          <div class="rbc-icon"></div>
+          <div class="rbc-icon"></div>
+        </div>
+        <div class="dlabel">Reação detectável</div>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span>♧</span><div><b>Amostra:</b> soro ou plasma do paciente.</div></div>
+      <div class="fact"><span>⌁</span><div><b>O que investiga:</b> anticorpos anti-eritrocitários circulantes, frequentemente IgG.</div></div>
+      <div class="fact"><span>⌕</span><div><b>Quando solicitar:</b> triagem pré-transfusional, investigação de aloimunização e acompanhamento pré-natal quando indicado.</div></div>
+      <div class="fact"><span>✓</span><div><b>Resultado:</b> triagem qualitativa; quando necessário, identificação e titulação caracterizam melhor o anticorpo.</div></div>
+    </div>
+  </article>
+</section>
+
+<section class="section" id="simulador">
+  <div class="section-main-title">Como funciona?</div>
+  <p class="sub">Escolha um teste e avance pelas etapas para acompanhar o que acontece em cada fase.</p>
+  <div class="controls">
+    <button class="choice active d" id="chooseDirect" onclick="chooseTest('direct')">Coombs direto</button>
+    <button class="choice i" id="chooseIndirect" onclick="chooseTest('indirect')">Coombs indireto</button>
+  </div>
+  <div class="stepsgrid">
+    <div class="stepbox" id="stepbox">
+      <h3 id="stepTitle"></h3>
+      <div class="step-list" id="stepList"></div>
+      <div class="stepvisual" id="stepVisual"></div>
+      <div class="caption" id="caption"></div>
+      <div class="explain" id="explain"></div>
+      <div class="stepnav">
+        <button class="btn" id="prev" onclick="moveStep(-1)">← Anterior</button>
+        <button class="btn primary" id="next" onclick="moveStep(1)">Próxima etapa →</button>
+      </div>
+    </div>
+    <aside class="card tip">
+      <h3>💡 Conceito-chave</h3>
+      <p>A antiglobulina humana (reagente de Coombs) reconhece imunoglobulinas humanas ligadas às hemácias e/ou componentes do complemento, conforme a especificidade do reagente. Isso torna detectável a sensibilização eritrocitária.</p>
+      <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+      <b style="color:var(--blue)">Lembre-se</b>
+      <p>Direto: pergunta se as hemácias do paciente já estão sensibilizadas. Indireto: pergunta se há anticorpos no soro capazes de se ligar às hemácias-teste.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="diferencas">
+  <div class="section-main-title">Principais diferenças</div>
+  <p class="sub">Cinco pontos para separar os testes sem confundir amostra, alvo e aplicação.</p>
+  <div class="diffs">
+    <div class="diff">
+      <div class="icon">◉</div>
+      <b>O que detecta?</b>
+      <p><strong style="color:var(--blue)">Direto:</strong> anticorpos/complemento ligados às hemácias.<br><br><strong style="color:var(--purple)">Indireto:</strong> anticorpos livres no soro/plasma.</p>
+    </div>
+    <div class="diff">
+      <div class="icon">♧</div>
+      <b>Amostra</b>
+      <p>Direto: hemácias do paciente.<br><br>Indireto: soro/plasma + hemácias-teste.</p>
+    </div>
+    <div class="diff">
+      <div class="icon">▦</div>
+      <b>Quando usar?</b>
+      <p>Direto: investigação de sensibilização eritrocitária, especialmente na suspeita de hemólise imune.<br><br>Indireto: triagem pré-transfusional e pesquisa de anticorpos no pré-natal.</p>
+    </div>
+    <div class="diff">
+      <div class="icon">▥</div>
+      <b>Interpretação</b>
+      <p>Direto positivo: hemácias sensibilizadas.<br><br>Indireto positivo: anticorpos reativos detectados nas condições do teste.</p>
+    </div>
+    <div class="diff">
+      <div class="icon">⌁</div>
+      <b>Reagente de Coombs</b>
+      <p>A antiglobulina humana ajuda a revelar a sensibilização das hemácias, tornando a reação detectável.</p>
+    </div>
+  </div>
+  <p class="note">A positividade isolada não confirma, por si só, hemólise ou doença clínica. A interpretation depende do contexto, do método e de exames complementares. A triagem indireta não deve ser confundida com a titulação, usada em situações específicas.</p>
+</section>
+
+<section class="section" id="desafios">
+  <div class="scoreline">
+    <div>
+      <div class="section-main-title">Desafios clínicos</div>
+      <p class="sub" style="margin-bottom:0">Resolva um caso por vez para avançar no treinamento.</p>
+    </div>
+    <div class="score">Pontuação: <b id="score">0 / 4</b></div>
+  </div>
+  <div class="cases" id="casesContainer"></div>
+</section>
+
+<footer class="footer">ImunoLab · Material educacional de imunologia aplicada</footer>
+</main>
+
+<script>
+const steps={
+  direct:[
+    ['Amostra','Coleta','Coletam-se as hemácias do paciente. Elas já se encontram revestidas por imunoglobulinas in vivo.','Hemácias sensibilizadas','A amostra principal já possui o anticorpo ligado à membrana.',"<div class='tube'><div class='liquid' style='height:45%'><div class='rbc-icon' style='position:absolute; bottom:4px; left:4px; width:16px; height:16px;'></div></div></div><span class='arrow'>→</span><div class='rbc-wrap'><div class='rbc-icon'></div><svg style='position:absolute; top:-2px; left:-2px; width:68px; height:68px; pointer-events:none;' viewBox='0 0 50 50'><path d='M12 11 L18 18 M24 11 L18 18 L18 26' stroke='#8fb4df' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/><path d='M38 11 L32 18 M26 11 L32 18 L32 26' stroke='#8fb4df' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg></div>"],
+    ['Lavagem','Lavagem','As hemácias são lavadas para remover proteínas e imunoglobulinas livres que poderiam interferir.','Remoção do material não ligado','A lavagem reduz interferências de componentes livres.',"<div class='washing-container'><div class='water-drop'></div><div class='water-drop' style='animation-delay: 0.5s; left:30%;'></div><div class='water-drop' style='animation-delay: 0.9s; left:70%;'></div><div class='tube'><div class='liquid' style='height:25%;background:#8fb4df'><div class='rbc-icon' style='position:absolute; bottom:2px; left:4px; width:14px; height:14px;'></div></div></div></div>"],
+    ['Antiglobulina humana','Reagente','Adiciona-se o reagente de antiglobulina humana apropriado, que reconhece imunoglobulinas humanas ligadas às hemácias.','O reagente reconhece a sensibilização','O reagente precisa ser adequado ao alvo investigado.',"<div class='tube'><div class='liquid'></div></div><span class='arrow'>+</span><span style='font-size:22px;color:var(--blue);font-weight:bold'>Y Y</span>"],
+    ['Leitura','Leitura','A aglutinação indica reação positiva e sensibilização eritrocitária detectável.','Interpretação da reação','Positivo não significa automaticamente que há hemólise ativa.',"<div class='agglutination-cluster'><div class='rbc-icon'></div><div class='rbc-icon'></div><div class='rbc-icon'></div></div><span class='arrow'>⇢</span><span style='color:var(--blue);font-size:11px'>Aglutinação positiva</span>"]
+  ],
+  indirect:[
+    ['Amostra','Amostra','Coleta-se soro ou plasma do paciente para pesquisar anticorpos anti-eritrocitários circulantes.','Soro ou plasma do paciente','O alvo inicial está no soro/plasma, não nas hemácias do paciente.',"<div class='tube'><div class='liquid yellow' style='height:45%'></div></div><span style='font-size:20px;color:var(--purple);font-weight:bold'>Y Y</span>"],
+    ['Incubação','Incubação','A amostra é incubada com hemácias-teste de antígenos conhecidos. Se houver anticorpos específicos, eles se ligam.','Soro + hemácias com antígenos conhecidos','A incubação permite a ligação antígeno-anticorpo.',"<div class='tube'><div class='liquid yellow' style='height:45%'></div></div><span class='arrow'>+</span><div class='rbc-icon'></div>"],
+    ['Lavagem','Lavagem','As hemácias-teste são lavadas para retirar anticorpos não ligados. Os anticorpos específicos que se fixaram permanecem.','Remove anticorpos não ligados','A lavagem ajuda a evitar interferências na etapa seguinte.',"<div class='washing-container'><div class='water-drop'></div><div class='water-drop' style='animation-delay: 0.5s; left:30%;'></div><div class='water-drop' style='animation-delay: 0.9s; left:70%;'></div><div class='tube'><div class='liquid' style='height:25%;background:#b69cff'><div class='rbc-icon' style='position:absolute; bottom:2px; left:4px; width:14px; height:14px;'></div></div></div></div>"],
+    ['Antiglobulina humana','Reagente','Adiciona-se antiglobulina humana, que reconhece a IgG ligada às hemácias-teste e favorece pontes entre células.','A antiglobulina revela anticorpos ligados','Muitas IgG não provocam aglutinação visível por si só; o reagente ajuda a detectá-las.',"<div class='rbc-icon'></div><span class='arrow'>+</span><span style='font-size:22px;color:var(--purple);font-weight:bold'>Y Y</span>"],
+    ['Leitura','Leitura','A aglutinação indica anticorpos reativos detectados nas condições do ensaio. Um resultado positivo exige investigação.','Aglutinação detectável = anticorpos reativos','A triagem positiva costuma ser seguida de investigação adicional.',"<div class='agglutination-cluster'><div class='rbc-icon'></div><div class='rbc-icon'></div><div class='rbc-icon'></div></div><span class='arrow'>⇢</span><span style='color:var(--purple);font-size:11px'>Reação detectável</span>"]
+  ]
+};
+
+let test='direct',idx=0;
+const $=id=>document.getElementById(id);
+
+function render(){
+  let a=steps[test],s=a[idx];
+  $('stepbox').className='stepbox '+(test==='indirect'?'indirect':'');$('stepTitle').textContent=(test==='direct'?'COOMBS DIRETO':'COOMBS INDIRETO')+' · ETAPAS';
+  $('stepList').innerHTML=a.map((x,i)=>`<button class="step ${i===idx?'active':''}" onclick="go(${i})"><span class="num">${i+1}</span><strong>${x[1]}</strong></button>`).join('');
+  $('stepVisual').innerHTML=s[5];
+  $('caption').textContent=s[3];$('explain').innerHTML=`<b>${s[0]}</b><br>${s[2]}<p style="margin:8px 0 0;color:var(--muted);font-size:12px"><strong>Por que importa?</strong> ${s[4]}</p>`;
+  $('prev').disabled=idx===0;
+  $('next').disabled=idx===a.length-1;
+  $('next').textContent=idx===a.length-1?'Fim das etapas':'Próxima etapa →';
+}
+
+function chooseTest(t){
+  test=t;
+  idx=0;
+  $('chooseDirect').classList.toggle('active',t==='direct');$('chooseIndirect').classList.toggle('active',t==='indirect');
+  render();
+}
+
+function go(i){idx=i;render();}
+function moveStep(d){idx=Math.max(0,Math.min(steps[test].length-1,idx+d));render();}
+
+const casesData=[
+  {title:'CASO 1 · Suspeita de hemólise',desc:'Pessoa com anemia, icterícia e reticulocitose. A equipe suspeita de anemia hemolítica autoimune e quer investigar se as hemácias estão sensibilizadas.',answer:'direct',exp:'Correto. O Coombs direto investiga se as hemácias do paciente já estão sensibilizadas in vivo.'},
+  {title:'CASO 2 · Pré-natal',desc:'Gestante RhD negativa realiza avaliação pré-natal para pesquisar anticorpos anti-eritrocitários circulantes que possam reagir com hemácias fetais.',answer:'indirect',exp:'Correto. O indireto pesquisa anticorpos anti-eritrocitários livres no soro/plasma materno.'},
+  {title:'CASO 3 · Transfusão',desc:'Antes de uma transfusão, o banco de sangue pesquisa no soro do receptor anticorpos contra antígenos eritrocitários para reduzir o risco de incompatibilidade.',answer:'indirect',exp:'Correto. A triagem de anticorpos irregulares utiliza métodos indiretos de antiglobulina.'},
+  {title:'CASO 4 · Recém-nascido',desc:'Recém-nascido apresenta icterícia e há suspeita de doença hemolítica fetal/neonatal. Deseja-se verificar se as hemácias estão revestidas por anticorpos ou complemento.',answer:'direct',exp:'Correto. O Coombs direto investiga a sensibilização eritrocitária no recém-nascido.'}
+];
+
+let currentCase = 0;
+let answeredCases = {};
+
+function renderCases() {
+  const container = $('casesContainer');
+  if (currentCase >= casesData.length) {
+    container.innerHTML = `
+      <div class="case-card" style="text-align:center; padding:24px;">
+        <h3 style="color:var(--teal); font-size:18px; margin-bottom:8px;">Parabéns! Todos os desafios foram concluídos.</h3>
+        <p>Você completou com sucesso a resolução dos casos clínicos de Coombs.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let c = casesData[currentCase];
+  container.innerHTML = `
+    <div class="case-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3>${c.title}</h3>
+        <span style="font-size:11px; color:var(--teal); font-weight:700;">Caso ${currentCase + 1} de ${casesData.length}</span>
+      </div>
+      <p>${c.desc}</p>
+      <div class="question">Qual teste responde diretamente a esta investigação?</div>
+      <div class="answers">
+        <label><input type="radio" name="cc" value="direct"> Coombs direto</label>
+        <label><input type="radio" name="cc" value="indirect"> Coombs indireto</label>
+      </div>
+      <div class="feedback" id="caseFeedback"></div>
+      <div>
+        <button class="btn primary" id="submitCaseBtn" onclick="submitCaseAnswer()">Conferir resposta</button>
+        <button class="btn primary" id="nextCaseBtn" style="display:none;" onclick="nextCase()">Próximo caso →</button>
+      </div>
+    </div>
+  `;
+}
+
+function submitCaseAnswer() {
+  let picked = document.querySelector('input[name="cc"]:checked');
+  let fb = $('caseFeedback');
+  if(!picked) {
+    fb.className = 'feedback show bad';
+    fb.textContent = 'Selecione uma opção antes de conferir.';
+    return;
+  }
+  let c = casesData[currentCase];
+  let ok = picked.value === c.answer;
+  answeredCases[currentCase] = ok;
+  
+  fb.className = 'feedback show ' + (ok ? 'good' : 'bad');
+  fb.textContent = (ok ? '✓ Correto! ' : '✕ Incorreto. ') + c.exp;
+  
+  $('score').textContent = Object.values(answeredCases).filter(Boolean).length + ' / ' + casesData.length;
+  $('submitCaseBtn').style.display = 'none';$('nextCaseBtn').style.display = 'inline-block';
+}
+
+function nextCase() {
+  currentCase++;
+  renderCases();
+}
+
+render();
+renderCases();
+</script>
+</body>
+</html>
