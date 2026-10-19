@@ -473,14 +473,14 @@ function App() {
               </div>
             </div>
 
-            {/* Estilo ajustado para centralizar e tornar o stats-grid responsivo e adaptável */}
+            {/* Espaçamento superior e inferior ajustado para evitar sobreposição */}
             <style>{`
               .stats-grid {
                 display: grid;
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 16px;
                 max-width: 900px;
-                margin: 0 auto 30px auto;
+                margin: 36px auto 30px auto;
                 width: 100%;
                 box-sizing: border-box;
               }
@@ -1391,81 +1391,43 @@ function App() {
           </section>
         )}
 
-        {/* SIMULADOR DE FENOTIPAGEM ABO/Rh */}
+        {/* SIMULADOR DE FENOTIPAGEM ABO/Rh — Cabeçalho superior removido */}
         {view === 'fenotipagem' && (
-          <section className="content-wrap">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow">PRÁTICA DE IMUNO-HEMATOLOGIA</div>
-                <h1>Fenotipagem ABO/Rh</h1>
-                <p>
-                  Simule a tipagem sanguínea em lâmina com os reagentes anti-A,
-                  anti-B e anti-D, observe a aglutinação e interprete o resultado.
-                </p>
-              </div>
-            </div>
-
-            <div
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/simulador_fenotipagem_abo_rh_dark.html"
+              title="Simulador de Fenotipagem ABO e Rh"
               style={{
+                display: 'block',
                 width: '100%',
-                overflow: 'hidden',
-                border: '1px solid var(--border, #283244)',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
                 borderRadius: 16,
                 background: '#0b0f17'
               }}
-            >
-              <iframe
-                src="/simulador_fenotipagem_abo_rh_dark.html"
-                title="Simulador de Fenotipagem ABO e Rh"
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  minHeight: '850px',
-                  height: 'calc(100vh - 190px)',
-                  border: 0
-                }}
-                loading="lazy"
-              />
-            </div>
+              loading="lazy"
+            />
           </section>
         )}
 
-        {/* SIMULADOR DE SOROLOGIA DE CHAGAS */}
+        {/* SIMULADOR DE SOROLOGIA DE CHAGAS — Cabeçalho superior removido */}
         {view === 'chagas' && (
-          <section className="content-wrap">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow">PRÁTICA DE IMUNOLOGIA E PARASITOLOGIA</div>
-                <h1>Sorologia de Chagas</h1>
-                <p>
-                  Simule a técnica de hemaglutinação indireta (HAI), acompanhe
-                  as etapas do procedimento e interprete o resultado sorológico.
-                </p>
-              </div>
-            </div>
-
-            <div
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/simulador_sorologia_chagas.html"
+              title="Simulador de Sorologia de Chagas por Hemaglutinação Indireta"
               style={{
+                display: 'block',
                 width: '100%',
-                overflow: 'hidden',
-                border: '1px solid var(--border, #283244)',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
                 borderRadius: 16,
-                background: 'var(--surface, #fff)'
+                background: '#0b0f17'
               }}
-            >
-              <iframe
-                src="/simulador_sorologia_chagas.html"
-                title="Simulador de Sorologia de Chagas por Hemaglutinação Indireta"
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  minHeight: '900px',
-                  height: 'calc(100vh - 170px)',
-                  border: 0
-                }}
-                loading="lazy"
-              />
-            </div>
+              loading="lazy"
+            />
           </section>
         )}
 
