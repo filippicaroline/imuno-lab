@@ -745,14 +745,16 @@ function App() {
               </article>
             </div>
 
-            <div className="disclaimer">
-              <ShieldCheck size={16} />
+            <div className="disclaimer" style={{
+              background: 'rgba(248, 113, 113, 0.1)',
+              border: '1px solid rgba(248, 113, 113, 0.25)',
+              color: '#fca5a5'
+            }}>
+              <ShieldCheck size={16} style={{ color: '#f87171' }} />
               <p>
                 <b>Material educacional.</b> Confirme conceitos clínicos
                 e condutas em bibliografia e diretrizes atualizadas.{' '}
-                <span style={{ color: '#ef4444' }}>
-                  O ImunoLab é uma ferramenta complementar de aprendizagem e não substitui o estudo integral dos materiais e conteúdos abordados em aula.
-                </span>
+                O ImunoLab é uma ferramenta complementar de aprendizagem e não substitui o estudo integral dos materiais e conteúdos abordados em aula.
               </p>
             </div>
           </section>
