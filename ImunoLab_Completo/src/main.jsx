@@ -6,7 +6,7 @@ import {
   HeartPulse, Home, Layers, Menu, Microscope, ShieldCheck, Droplets,
   Shuffle, Target, X, ArrowUpRight, RotateCcw, Bookmark,
   ExternalLink, PlayCircle, MessageSquare, FolderOpen, Images,
-  ZoomIn, Image as ImageIcon, FlaskConical
+  ZoomIn, Image as ImageIcon, FlaskConical, Zap
 } from 'lucide-react';
 import studyBank from './studyBank.json';
 import './styles.css';
@@ -283,7 +283,8 @@ function App() {
     sifilis: 'Diagnóstico da Sífilis',
     anticorpo: 'Anticorpo',
     coombs: 'Teste de Coombs',
-    elisa: 'ELISA'
+    elisa: 'ELISA',
+    'testes-rapidos': 'Testes Rápidos'
   };
 
   const navItems = [
@@ -296,6 +297,7 @@ function App() {
     ['sifilis', ShieldCheck, 'Diagnóstico da Sífilis'],
     ['coombs', Droplets, 'Teste de Coombs'],
     ['elisa', FlaskConical, 'ELISA'],
+    ['testes-rapidos', Zap, 'Testes Rápidos'],
     ['anticorpo', ShieldCheck, 'Anticorpo'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
@@ -372,19 +374,19 @@ function App() {
               key={id}
               className={`nav-item ${view === id ? 'active' : ''}`}
               style={{
-                paddingTop: '7px',
-                paddingBottom: '7px',
+                paddingTop: '5px',
+                paddingBottom: '5px',
                 marginTop: '1px',
                 marginBottom: '1px',
-                minHeight: '34px',
+                minHeight: '30px',
                 boxSizing: 'border-box',
-                gap: '9px',
-                lineHeight: 1.2,
+                gap: '8px',
+                lineHeight: 1.15,
                 fontSize: '13px'
               }}
               onClick={() => nav(id)}
             >
-              <Icon size={18} />
+              <Icon size={17} />
               <span>{label}</span>
             </button>
           ))}
@@ -602,7 +604,7 @@ function App() {
                     color: '#ff9b78'
                   },
                   {
-                    id: 'anticorpo',
+                    id: 'testes-rapidos',
                     title: 'Anticorpo',
                     description: 'Explore a estrutura da imunoglobulina',
                     Icon: Brain,
@@ -1391,7 +1393,7 @@ function App() {
           </section>
         )}
 
-        {/* SIMULADOR DE FENOTIPAGEM ABO/Rh — Cabeçalho superior removido */}
+        {/* SIMULADOR DE FENOTIPAGEM ABO/Rh */}
         {view === 'fenotipagem' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
             <iframe
@@ -1411,7 +1413,7 @@ function App() {
           </section>
         )}
 
-        {/* SIMULADOR DE SOROLOGIA DE CHAGAS — Cabeçalho superior removido */}
+        {/* SIMULADOR DE SOROLOGIA DE CHAGAS */}
         {view === 'chagas' && (
           <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
             <iframe
@@ -1471,12 +1473,19 @@ function App() {
           </section>
         )}
 
-        {/* ANTICORPO — DIAGRAMA INTERATIVO */}
-        {view === 'anticorpo' && (
-          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+        {/* ELISA */}
+        {view === 'elisa' && (
+          <section
+            className="content-wrap"
+            style={{
+              padding: 0,
+              width: '100%',
+              maxWidth: 'none'
+            }}
+          >
             <iframe
-              src="/interface_anticorpo_interativa.html"
-              title="ImunoLab — Anticorpo"
+              src="/imunolab_elisa_interativo_legenda_corrigida.html"
+              title="ImunoLab — ELISA"
               style={{
                 display: 'block',
                 width: '100%',
@@ -1491,8 +1500,8 @@ function App() {
           </section>
         )}
 
-        {/* INTERFACE INTERATIVA ELISA */}
-        {view === 'elisa' && (
+        {/* TESTES RÁPIDOS */}
+        {view === 'testes-rapidos' && (
           <section
             className="content-wrap"
             style={{
@@ -1502,8 +1511,28 @@ function App() {
             }}
           >
             <iframe
-              src="/imunolab_elisa_interativo_legenda_corrigida.html"
-              title="ImunoLab — ELISA"
+              src="/gemini-code-1792423601825.html"
+              title="ImunoLab — Testes Rápidos"
+              style={{
+                display: 'block',
+                width: '100%',
+                minHeight: '1050px',
+                height: 'calc(100vh - 130px)',
+                border: 0,
+                borderRadius: 16,
+                background: '#0b0f17'
+              }}
+              loading="lazy"
+            />
+          </section>
+        )}
+
+        {/* ANTICORPO — DIAGRAMA INTERATIVO */}
+        {view === 'anticorpo' && (
+          <section className="content-wrap" style={{ padding: 0, width: '100%', maxWidth: 'none' }}>
+            <iframe
+              src="/interface_anticorpo_interativa.html"
+              title="ImunoLab — Anticorpo"
               style={{
                 display: 'block',
                 width: '100%',
