@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ImunoLab | Simulador de Testes Rápidos (Gravidez e Sífilis)</title>
+<style>
+:root{--ink:#e8eef6;--muted:#9aa8ba;--bg:#080b10;--panel:#10151d;--line:#273140;--teal:#65d6c4;--blue:#8fb4df;--purple:#b69cff;--red:#e56d79;--gold:#e7bd58;--green:#78dfb0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#14202b 0%,#080b10 52%,#080b10 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+
+.btn{border:1px solid #354253;border-radius:10px;padding:9px 13px;background:#202a37;color:#e3eaf3;font-weight:750;font-size:11px;cursor:pointer;transition:all .2s ease;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+.btn.primary{background:var(--active-color);color:#09201d;border-color:var(--active-color)}
+.btn.sample-sel { background: #182230; border-color: #384a60; color: var(--muted); }
+.btn.sample-sel.active-sample { background: var(--active-color); color: #09201d; border-color: var(--active-color); font-weight: 800; box-shadow: 0 0 10px var(--glow-color); }
+.btn:hover:not(:disabled){transform:translateY(-2px);border-color:var(--active-color);box-shadow:0 4px 12px var(--glow-color)}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+body.mode-hcg { --active-color: var(--blue); --glow-color: rgba(143,180,223,0.25); --sample-color: var(--gold); --wave-color: rgba(231,189,88,0.35); --wave-border: rgba(231,189,88,0.8); --line-result-color: #bfa13a; --line-result-glow: rgba(231,189,88,0.6); }
+body.mode-syphilis { --active-color: var(--purple); --glow-color: rgba(182,156,255,0.25); --sample-color: var(--red); --wave-color: rgba(229,109,121,0.35); --wave-border: rgba(229,109,121,0.8); --line-result-color: var(--red); --line-result-glow: var(--red); }
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 var(--glow-color); }
+  70% { box-shadow: 0 0 0 8px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 var(--glow-color); }
+}
+.btn.active-pulse { animation: pulseGlow 1.8s infinite; border-color: var(--active-color); }
+
+@keyframes dropFallSlow {
+  0% { transform: translateY(-50px) scale(0.7); opacity: 0; }
+  25% { opacity: 1; transform: translateY(-20px) scale(1); }
+  75% { opacity: 1; transform: translateY(0px) scale(1.1); }
+  100% { transform: translateY(12px) scale(0.6); opacity: 0; }
+}
+
+@keyframes conjugateSparkle {
+  0% { transform: scale(0.8); opacity: 0.3; filter: drop-shadow(0 0 2px var(--active-color)); }
+  50% { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px var(--active-color)); }
+  100% { transform: scale(0.8); opacity: 0.3; filter: drop-shadow(0 0 2px var(--active-color)); }
+}
+
+main{max-width:1450px;margin:24px auto;padding:0 16px 40px}
+.eyebrow{color:var(--teal);font-weight:850;text-transform:uppercase;letter-spacing:.13em;font-size:10px}
+h1{font-size:clamp(23px,3vw,33px);margin:6px 0 8px;letter-spacing:-.035em}
+.title-hcg{color:var(--blue)}
+.title-syphilis{color:var(--purple)}
+h2{font-size:14px;margin:0;letter-spacing:-0.01em}
+.section-main-title{font-size:22px!important;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px}
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}
+.intro p{margin:0;color:var(--muted);max-width:100%;white-space:normal;font-size:13px;line-height:1.6}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.7fr);gap:20px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,0.25)}
+.panel-head{padding:16px 18px;border-bottom:1px solid var(--line);background:#121923;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pill{font-size:10px;background:var(--pill-bg);color:var(--pill-color);border-radius:20px;padding:5px 10px;font-weight:800;white-space:nowrap;border:1px solid var(--pill-border);transition:all .3s}
+
+body.mode-hcg { --pill-bg: #142334; --pill-color: #8fb4df; --pill-border: rgba(143,180,223,0.25); }
+body.mode-syphilis { --pill-bg: #221a38; --pill-color: #b69cff; --pill-border: rgba(182,156,255,0.25); }
+
+.work,.side-body{padding:18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid #354253;border-radius:10px;padding:9px 13px;background:#202a37;color:#e3eaf3;font-weight:750;font-size:11px;cursor:pointer;transition:all .2s ease}
+.tab.active{background:var(--active-color);color:#09201d;border-color:var(--active-color)}
+.tab[data-test="syphilis"].active{background:var(--purple);color:#160e30;border-color:var(--purple)}
+
+.instruction{background:linear-gradient(135deg,#141e28 0%,#101822 100%);border-left:3px solid var(--active-color);padding:14px 16px;border-radius:8px;font-size:12px;line-height:1.6;color:#d5e0ec;margin-bottom:16px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.2);transition:border-color .3s}
+.stephead,.diagram-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:10px 0;color:var(--muted);font-size:11px}
+.progress{height:6px;background:#202a37;border-radius:20px;overflow:hidden}.progress div{height:100%;width:0;background:var(--active-color);transition:width .35s ease, background-color .3s}
+.diagram{background:#0b1017;border:1px solid #2a3544;border-radius:14px;padding:16px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.5);margin:14px 0}
+.diagram-title{font-size:12px;font-weight:800;margin:0 0 8px;color:var(--ink)}
+
+/* Cassete de Teste Rápido */
+.cassette-box{background:#16202d;border:2px solid #32445a;border-radius:14px;padding:20px;position:relative;margin:15px 0;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.sample-well{width:40px;height:40px;background:#0d131b;border:2px solid #455d7a;border-radius:50%;position:absolute;left:35px;top:50%;transform:translateY(-50%);display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--muted);box-shadow:inset 0 2px 5px rgba(0,0,0,0.6);cursor:pointer;transition:.2s}
+.sample-well.loaded{background:var(--loaded-bg);border-color:var(--active-color);color:var(--active-color);box-shadow:0 0 10px var(--glow-color)}
+
+.falling-drop {
+  position: absolute;
+  left: 50.5px;
+  top: calc(50% - 38px);
+  width: 14px;
+  height: 22px;
+  background: var(--sample-color);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 10px var(--sample-color);
+  z-index: 20;
+}
+.falling-drop.animate {
+  animation: dropFallSlow 1.8s ease-in-out infinite;
+}
+
+body.mode-hcg { --loaded-bg: #142334; }
+body.mode-syphilis { --loaded-bg: #221a38; }
+
+.strip-window{margin-left:85px;margin-right:25px;height:65px;background:#eef4fb;border-radius:6px;position:relative;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3)}
+.strip-bg{position:absolute;width:100%;height:100%;background:linear-gradient(90deg, #dde7f2 0%, #edf3fc 100%);}
+
+.liquid-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--wave-color);
+  border-right: 2px solid var(--wave-border);
+  box-shadow: inset 0 0 10px var(--wave-border);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.conjugate-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 32%;
+  width: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 4;
+}
+.conjugate-sparkle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--active-color);
+  border-radius: 50%;
+  opacity: 0;
+}
+.conjugate-zone.active .conjugate-sparkle {
+  animation: conjugateSparkle 1.2s infinite ease-in-out;
+}
+.conjugate-zone.active .conjugate-sparkle:nth-child(2) { left: 4px; animation-delay: 0.3s; width: 8px; height: 8px; }
+.conjugate-zone.active .conjugate-sparkle:nth-child(3) { right: 4px; animation-delay: 0.6s; width: 10px; height: 10px; }
+
+.line-slot{position:absolute;top:0;bottom:0;width:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .4s ease;z-index:5}
+.line-t{left:52%}
+.line-c{left:78%}
+.marker-line{width:4px;height:85%;background:#d0d7e2;border-radius:2px;transition:all .5s ease;box-shadow:none}
+.marker-line.visible{background:var(--line-result-color);box-shadow:0 0 8px var(--line-result-glow)}
+.line-label{position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#55667c}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;font-size:11px;line-height:1.6;background:#142230;color:#8fb4df;border:1px solid rgba(143,180,223,0.3)}
+.feedback.show{display:block}
+.side{display:grid;gap:16px}
+.checklist{display:grid;gap:12px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:11px;line-height:1.5;color:#a5b2c3;transition:all .2s ease}
+.num{width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:#202a37;color:#a8b8cb;font-size:10px;font-weight:850;flex:none;border:1px solid #2e3d50}
+.check.done .num{background:var(--pill-bg);color:var(--active-color);border-color:var(--active-color)}
+.check b,.mini-note b{color:var(--ink)}
+.resultbox{padding:16px;border:1px solid #2b3948;background:#0b1017;border-radius:12px;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3)}
+.resultbox h3{font-size:10px;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+.resultbox p,.mini-note{font-size:11px;line-height:1.6;color:#a5b2c3;margin:8px 0 0}
+.result-value{font-size:22px;letter-spacing:-.04em;font-weight:900;color:var(--active-color)}
+.badge{display:inline-block;padding:5px 10px;border-radius:20px;background:var(--pill-bg);color:var(--active-color);font-size:10px;font-weight:800;margin-top:10px;border:1px solid var(--pill-border)}
+
+/* Estilo Evidente para o Quadro de Fundamento Teórico */
+.theory-grid{display:grid;grid-template-columns:1fr;gap:16px;padding:18px}
+.theory-card{padding:20px 22px;border:1px solid var(--active-color);border-left:5px solid var(--active-color);border-radius:12px;background:linear-gradient(135deg,#121a24 0%,#0c121a 100%);box-shadow:0 8px 24px rgba(0,0,0,0.4);transition:all .3s ease}
+.theory-card b{display:block;font-size:14px;letter-spacing:-0.01em;margin-bottom:10px;color:var(--active-color);text-transform:uppercase}
+.theory-card p{font-size:13px!important;line-height:1.75!important;color:#d5e0ec!important;margin:0}
+
+.footer{font-size:10px;color:#76869a;text-align:center;line-height:1.6;margin-top:24px}
+</style>
+</head>
+<body class="mode-hcg">
+<main>
+<section class="intro">
+  <div>
+    <div class="eyebrow">Simulador interativo · Point-of-Care (POCT)</div>
+    <h1>Testes Rápidos de Imunocromatografia: <span class="title-hcg">Gravidez (β-hCG)</span> &amp; <span class="title-syphilis">Sífilis</span></h1>
+    <p>Simule a execução de testes rápidos imunocromatográficos passo a passo, observe a migração por capilaridade, o efeito sanduíche e aprenda os fundamentos imunológicos.</p>
+  </div>
+</section>
+
+<section class="layout">
+  <section class="panel">
+    <div class="panel-head">
+      <div><h2 id="panelTitle">Teste Rápido de Gravidez (β-hCG)</h2></div>
+      <span class="pill" id="panelPillTag">Detecção de Antígeno na Urina</span>
+    </div>
+    <div class="work">
+      <div class="tabs">
+        <button class="tab active" data-test="hcg">Teste de Gravidez (β-hCG)</button>
+        <button class="tab" data-test="syphilis">Teste Rápido de Sífilis (Anti-Treponema)</button>
+      </div>
+
+      <div class="instruction" id="instruction"></div>
+      
+      <div class="field" style="margin-bottom:12px; font-size:11px; color:var(--muted);">
+        <b>Selecione o estado da amostra do paciente para simular:</b>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <button class="btn sample-sel active-sample" id="samplePosBtn" data-status="positive">Simular Amostra POSITIVA</button>
+          <button class="btn sample-sel" id="sampleNegBtn" data-status="negative">Simular Amostra NEGATIVA</button>
+          <button class="btn sample-sel" id="sampleInvBtn" data-status="invalid">Simular Amostra INVÁLIDA</button>
+        </div>
+      </div>
+
+      <div class="stephead"><span id="stepLabel">Etapa 1 · Depósito da Amostra</span><span id="stepCount">25% concluído</span></div>
+      <div class="progress"><div id="progressBar" style="width:25%"></div></div>
+      
+      <div class="diagram">
+        <div class="diagram-title"><span id="diagramTitle">Cassete de Teste Imunocromatográfico</span><span class="pill" id="stepPill">Passo 1 de 4</span></div>
+        
+        <div class="cassette-box">
+          <div class="falling-drop animate" id="fallingDrop"></div>
+          <div class="sample-well" id="sampleWell" title="Poço de amostra">S</div>
+          <div class="strip-window">
+            <div class="strip-bg"></div>
+            <div class="liquid-wave" id="liquidWave"></div>
+            
+            <div class="conjugate-zone" id="conjugateZone">
+              <div class="conjugate-sparkle"></div>
+              <div class="conjugate-sparkle"></div>
+              <div class="conjugate-sparkle"></div>
+            </div>
+
+            <div class="line-slot line-t">
+              <div class="marker-line" id="lineT"></div>
+              <span class="line-label">T</span>
+            </div>
+            <div class="line-slot line-c">
+              <div class="marker-line" id="lineC"></div>
+              <span class="line-label" style="left:-16px;">C</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:relative; font-size:10px; color:var(--muted); height:22px; margin-top:6px;">
+          <span style="position:absolute; left:25px;">Poço de aplicação</span>
+          <span style="position:absolute; left:33%;">Região do Conjugado</span>
+          <span style="position:absolute; left:57%;">Linha de Teste (T)</span>
+          <span style="position:absolute; right:15px;">Linha de Controle (C)</span>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn primary active-pulse" id="nextBtn">Avançar Fluxo Capilar →</button>
+        <button class="btn" id="resetBtn">Reiniciar Teste</button>
+      </div>
+      
+      <div class="feedback show" id="feedback" role="status"></div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <section class="panel">
+      <div class="panel-head"><h2>Etapas do Ensaio</h2><span class="pill" id="protocolPill">Imunocromatografia</span></div>
+      <div class="side-body"><div class="checklist" id="checklist"></div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>Fundamento Imunológico</h2></div>
+      <div class="side-body">
+        <div class="resultbox">
+          <h3>MECANISMO DO TESTE</h3>
+          <div class="result-value" id="targetInfo">Efeito Sanduíche</div>
+          <p id="purposeInfo">Utiliza anticorpos monoclonais marcados com ouro coloidal e anticorpos fixos na membrana de nitrocelulose.</p>
+          <span class="badge" id="methodBadge">Point-of-Care (POCT)</span>
+        </div>
+        <p class="mini-note" id="clinicalNote">Os testes rápidos oferecem agilidade na triagem clínica, mas resultados exigem confirmação laboratorial dependendo do contexto.</p>
+      </div>
+    </section>
+  </aside>
+</section>
+
+<section class="panel" style="margin-top:20px;">
+  <div class="theory-grid">
+    <div class="theory-card">
+      <b>Fundamento Teórico</b>
+      <p id="theoryText">
+        A urina migra por capilaridade passando pela região contendo anticorpos anti-β-hCG marcados com ouro coloidal. Se o hormônio estiver presente, forma-se o complexo ternário. Na linha de teste (T), anticorpos fixos capturam o complexo gerando o efeito sanduíche e coloração visível. O excesso segue para a linha de controle (C).
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="footer">IMUNOLAB · SIMULADOR INTERATIVO DE TESTES RÁPIDOS · Baseado no material de Imunologia e DPDx</div>
+</main>
+
+<script>
+const testsData = {
+  hcg: {
+    title: 'Teste Rápido de Gravidez (β-hCG)',
+    target: 'Hormônio β-hCG (Antígeno na Urina)',
+    purpose: 'Detecta a presença do antígeno β-hCG na urina através de anticorpos monoclonais conjugados a ouro coloidal.',
+    badge: 'Detecção de Antígeno',
+    steps: [
+      {title: '1. Depósito da amostra', desc: 'A urina é aplicada no poço (S) e inicia a migração por capilaridade.'},
+      {title: '2. Região do conjugado', desc: 'O β-hCG da amostra liga-se aos anticorpos anti-β-hCG marcados com ouro coloidal.'},
+      {title: '3. Linha de Teste (T)', desc: 'O complexo é capturado por anticorpos fixos anti-β-hCG (Efeito Sanduíche).'},
+      {title: '4. Linha de Controle (C)', desc: 'O excesso de conjugado atinge a linha C, confirmando a validade do teste.'}
+    ],
+    theory: 'A urina migra por capilaridade passando pela região contendo anticorpos anti-β-hCG marcados com ouro coloidal. Se o hormônio estiver presente, forma-se o complexo ternário. Na linha de teste (T), anticorpos fixos capturam o complexo gerando o efeito sanduíche e coloração visível. O excesso segue para a linha de controle (C).'
+  },
+  syphilis: {
+    title: 'Teste Rápido de Sífilis (Anti-Treponema)',
+    target: 'Anticorpos IgG/IgM anti-<i>Treponema pallidum</i>',
+    purpose: 'Detecta anticorpos específicos no sangue total, soro ou plasma contra proteínas do <i>Treponema pallidum</i>.',
+    badge: 'Detecção de Anticorpos',
+    steps: [
+      {title: '1. Depósito da amostra', desc: 'A amostra biológica é depositada no poço (S) e migra por capilaridade.'},
+      {title: '2. Região do conjugado', desc: 'Anticorpos do paciente ligam-se aos antígenos do <i>Treponema</i> marcados com ouro coloidal.'},
+      {title: '3. Linha de Teste (T)', desc: 'Antígenos fixados na linha T capturam o complexo (Sanduíche indireto).'},
+      {title: '4. Linha de Controle (C)', desc: 'Anticorpos anti-IgG humana na linha C capturam o excesso de conjugado.'}
+    ],
+    theory: 'A amostra de sangue, soro ou plasma contendo anticorpos contra o <i>Treponema pallidum</i> migra pela tira e encontra antígenos marcados no conjugado. Ao atingir a linha de teste (T) com antígenos imobilizados, forma-se o sanduíche indireto. A linha de controle (C) valida o fluxo utilizando anti-IgG humana.'
+  }
+};
+
+let currentTest = 'hcg';
+let currentStep = 0;
+let sampleStatus = 'positive'; // positive, negative, invalid
+
+const $ = id => document.getElementById(id);
+
+function updateCassetteVisual() {
+  const lineT = $('lineT');
+  const lineC = $('lineC');
+  const well = $('sampleWell');
+  const drop = $('fallingDrop');
+  const wave = $('liquidWave');
+  const conjZone = $('conjugateZone');
+
+  lineT.classList.remove('visible');
+  lineC.classList.remove('visible');
+  well.classList.remove('loaded');
+  drop.classList.remove('animate');
+  conjZone.classList.remove('active');
+
+  if (currentStep === 0) {
+    drop.classList.add('animate');
+    wave.style.width = '0%'; 
+  } else if (currentStep === 1) {
+    well.classList.add('loaded');
+    wave.style.width = '45%';
+    conjZone.classList.add('active');
+  } else if (currentStep === 2) {
+    well.classList.add('loaded');
+    wave.style.width = '62%';
+    if (sampleStatus === 'positive') {
+      lineT.classList.add('visible');
+    }
+  } else if (currentStep >= 3) {
+    well.classList.add('loaded');
+    wave.style.width = '100%';
+    
+    if (sampleStatus === 'positive') {
+      lineT.classList.add('visible');
+      lineC.classList.add('visible');
+    } else if (sampleStatus === 'negative') {
+      lineC.classList.add('visible');
+    } else if (sampleStatus === 'invalid') {
+      // Nenhuma linha visível
+    }
+  }
+}
+
+function render() {
+  const data = testsData[currentTest];
+  document.body.className = currentTest === 'hcg' ? 'mode-hcg' : 'mode-syphilis';
+  
+  $('panelTitle').textContent = data.title;
+  $('panelPillTag').textContent = data.badge;
+  $('protocolPill').textContent = data.title;
+  $('theoryText').innerHTML = data.theory;
+  
+  const stepObj = data.steps[currentStep];
+  $('instruction').innerHTML = `<b>${stepObj.title}.</b> ${stepObj.desc}`;
+  $('stepLabel').textContent = `Etapa ${currentStep + 1} · ${stepObj.title}`;
+  $('stepCount').textContent = `${Math.round((currentStep + 1) / data.steps.length * 100)}% concluído`;
+  $('progressBar').style.width = ((currentStep + 1) / data.steps.length * 100) + '\%';$('stepPill').textContent = `Passo ${currentStep + 1} de ${data.steps.length}`;
+
+  $('targetInfo').innerHTML = data.target;
+  $('purposeInfo').innerHTML = data.purpose;
+  $('methodBadge').textContent = data.badge;
+
+  let feedbackText = '';
+  const isHcg = currentTest === 'hcg';
+  const lineColorDesc = isHcg ? 'amarelo escuro' : 'vermelhas';
+
+  if (currentStep === 0) {
+    feedbackText = `<b>Depósito da amostra.</b> A gota é pingada no poço (S) do cassete, iniciando a migração por capilaridade.`;
+  } else if (currentStep === 1) {
+    feedbackText = `<b>Migração pelo conjugado.</b> Os reagentes marcados com ouro coloidal interagem e se ligam à amostra.`;
+  } else if (currentStep === 2) {
+    feedbackText = `<b>Passagem pela Linha de Teste (T).</b> Ocorre a captura imunológica específica se o alvo estiver presente.`;
+  } else {
+    if (sampleStatus === 'positive') {
+      feedbackText = `<b>Resultado POSITIVO:</b> Duas linhas ${lineColorDesc} visíveis (C + T). O analito foi detectado com sucesso.`;
+    } else if (sampleStatus === 'negative') {
+      feedbackText = `<b>Resultado NEGATIVO:</b> Apenas a linha de controle (C) ficou visível. O analito está ausente ou abaixo do limiar.`;
+    } else {
+      feedbackText = `<b>Resultado INVÁLIDO:</b> A linha de controle (C) não apareceu. O teste deve ser refeito com um novo dispositivo.`;
+    }
+  }
+  $('feedback').innerHTML = feedbackText;
+
+  // Checklist
+  let list = $('checklist');
+  list.innerHTML = '';
+  data.steps.forEach((s, idx) => {
+    let d = document.createElement('div');
+    d.className = 'check ' + (idx <= currentStep ? 'done' : '');
+    d.innerHTML = `<span class="num">${idx + 1}</span><span><b>${s.title}</b><br>${s.desc}</span>`;
+    list.appendChild(d);
+  });
+
+  document.querySelectorAll('.sample-sel').forEach(btn => {
+    btn.classList.toggle('active-sample', btn.dataset.status === sampleStatus);
+  });
+
+  updateCassetteVisual();
+
+  $('nextBtn').textContent = currentStep === data.steps.length - 1 ? 'Teste Finalizado ✓' : 'Avançar Fluxo Capilar →';
+  $('nextBtn').disabled = currentStep === data.steps.length - 1;
+}
+
+// Event Listeners
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    currentTest = t.dataset.test;
+    currentStep = 0;
+    render();
+  });
+});
+
+document.querySelectorAll('.sample-sel').forEach(btn => {
+  btn.addEventListener('click', () => {
+    sampleStatus = btn.dataset.status;
+    currentStep = 0;
+    render();
+  });
+});
+
+$('nextBtn').addEventListener('click', () => {
+  if (currentStep < testsData[currentTest].steps.length - 1) {
+    currentStep++;
+    render();
+  }
+});
+
+$('resetBtn').addEventListener('click', () => {
+  currentStep = 0;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
