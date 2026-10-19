@@ -294,9 +294,9 @@ function App() {
     ['fenotipagem', Droplets, 'Fenotipagem ABO/Rh'],
     ['chagas', Microscope, 'Sorologia de Chagas'],
     ['sifilis', ShieldCheck, 'Diagnóstico da Sífilis'],
-    ['anticorpo', ShieldCheck, 'Anticorpo'],
     ['coombs', Droplets, 'Teste de Coombs'],
     ['elisa', FlaskConical, 'ELISA'],
+    ['anticorpo', ShieldCheck, 'Anticorpo'],
     ['satisfaction', MessageSquare, 'Pesquisa de Satisfação Institucional'],
     ['alternative', PlayCircle, 'Complemento — Via Alternativa'],
     ['drive', FolderOpen, 'Drive da Turma']
@@ -472,6 +472,24 @@ function App() {
                 <div className="hero-spark spark-two">+</div>
               </div>
             </div>
+
+            {/* Estilo ajustado para centralizar e tornar o stats-grid responsivo e adaptável */}
+            <style>{`
+              .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+                max-width: 900px;
+                margin: 0 auto 30px auto;
+                width: 100%;
+                box-sizing: border-box;
+              }
+              @media (max-width: 760px) {
+                .stats-grid {
+                  grid-template-columns: 1fr;
+                }
+              }
+            `}</style>
 
             <div className="stats-grid">
               <div className="stat-card">
@@ -681,8 +699,6 @@ function App() {
                 ))}
               </div>
             </section>
-
-            {/* TRILHAS DE APRENDIZAGEM REMOVIDAS */}
 
             <div className="bottom-grid">
               <article className="feature-panel flash-feature">
@@ -1236,14 +1252,7 @@ function App() {
                         />
                       </div>
 
-                      <span style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        overflowWrap: 'anywhere'
-                      }}>
-                        {image.name}
-                      </span>
-
+                      {/* Nome do arquivo removido da pré-visualização, exibindo apenas o botão de zoom */}
                       <span style={{
                         display: 'flex',
                         alignItems: 'center',
