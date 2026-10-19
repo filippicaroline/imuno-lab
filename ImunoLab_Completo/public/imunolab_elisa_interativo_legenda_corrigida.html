@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ImunoLab | ELISA e avidez de IgG</title>
+<style>
+:root{--ink:#e8eef6;--muted:#9aa8ba;--bg:#080b10;--panel:#10151d;--line:#273140;--teal:#65d6c4;--blue:#8fb4df;--purple:#b69cff;--red:#e56d79;--gold:#e7bd58;--green:#78dfb0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#14202b 0%,#080b10 52%,#080b10 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+.btn{border:1px solid #354253;border-radius:10px;padding:9px 13px;background:#202a37;color:#e3eaf3;font-weight:750;font-size:11px;cursor:pointer;transition:all .2s ease;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+.btn.primary{background:var(--teal);color:#09201d;border-color:var(--teal)}
+.btn:hover:not(:disabled){transform:translateY(-2px);border-color:var(--teal);box-shadow:0 4px 12px rgba(101,214,196,0.15)}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(101, 214, 196, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(101, 214, 196, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(101, 214, 196, 0); }
+}
+.btn.active-pulse { animation: pulseGlow 1.8s infinite; border-color: var(--teal); }
+
+@keyframes washAnim {
+  0% { transform: translateY(0); filter: brightness(1); }
+  25% { transform: translateY(-4px); filter: brightness(1.3) drop-shadow(0 0 8px #65d6c4); }
+  50% { transform: translateY(2px); filter: brightness(1); }
+  75% { transform: translateY(-2px); filter: brightness(1.2) drop-shadow(0 0 6px #65d6c4); }
+  100% { transform: translateY(0); filter: brightness(1); }
+}
+.well-wash-effect { animation: washAnim 1.6s ease-in-out; }
+
+@keyframes dropFall {
+  0% { transform: translateY(-45px); opacity: 0; }
+  20% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(55px); opacity: 0; }
+}
+.water-drop {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 14px;
+  background: #65d6c4;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 8px #65d6c4;
+  z-index: 10;
+}
+.well-card.current-stage.washing .water-drop {
+  animation: dropFall 1.5s infinite linear;
+}
+
+main{max-width:1450px;margin:24px auto;padding:0 16px 40px}
+.eyebrow{color:var(--teal);font-weight:850;text-transform:uppercase;letter-spacing:.13em;font-size:10px}
+h1{font-size:clamp(23px,3vw,33px);margin:6px 0 8px;letter-spacing:-.035em}
+.title-direct{color:var(--blue)}
+.title-indirect{color:var(--purple)}
+h2{font-size:14px;margin:0;letter-spacing:-0.01em}
+.section-main-title{font-size:22px!important;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px}
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}
+.intro p{margin:0;color:var(--muted);max-width:100%;white-space:nowrap;font-size:13px;line-height:1.6}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.7fr);gap:20px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,0.25)}
+.panel-head{padding:16px 18px;border-bottom:1px solid var(--line);background:#121923;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pill{font-size:10px;background:#15312f;color:#79dfd0;border-radius:20px;padding:5px 10px;font-weight:800;white-space:nowrap;border:1px solid rgba(101,214,196,0.2)}
+.work,.side-body{padding:18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid #354253;border-radius:10px;padding:9px 13px;background:#202a37;color:#e3eaf3;font-weight:750;font-size:11px;cursor:pointer;transition:all .2s ease}
+.tab.active{background:var(--teal);color:#09201d;border-color:var(--teal)}
+.tab[data-mode="indirect"].active{background:var(--purple);color:#160e30;border-color:var(--purple)}
+.instruction{background:linear-gradient(135deg,#141e28 0%,#101822 100%);border-left:3px solid var(--teal);padding:14px 16px;border-radius:8px;font-size:12px;line-height:1.6;color:#d5e0ec;margin-bottom:16px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.2)}
+.stephead,.diagram-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:10px 0;color:var(--muted);font-size:11px}
+.progress{height:6px;background:#202a37;border-radius:20px;overflow:hidden}.progress div{height:100%;width:0;background:var(--teal);transition:width .35s ease}
+.diagram{background:#0b1017;border:1px solid #2a3544;border-radius:14px;padding:16px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.5);margin:14px 0}
+.diagram-title{font-size:12px;font-weight:800;margin:0 0 8px;color:var(--ink)}
+.well-stage{display:flex;justify-content:center;align-items:flex-start;gap:8px;flex-wrap:nowrap;min-height:180px;padding:8px 0 12px;overflow-x:auto}
+.well-card{flex:1 1 0;min-width:100px;padding:6px 4px 10px;border:1px solid #273545;border-radius:10px;background:#111923;transition:all .2s ease;text-align:center;position:relative}
+.well-card.current-stage{border-color:var(--teal);background:#14201f;box-shadow:0 0 10px rgba(101,214,196,0.15)}
+.stage-number{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin:0 auto 4px;background:#202a37;color:#a8b8cb;font-weight:850;font-size:10px;border:1px solid #2e3d50}
+.current-stage .stage-number{background:#15312f;color:#79dfd0;border-color:var(--teal)}
+.wash-label{font-size:9px;color:var(--teal);margin-top:5px;font-weight:800}
+.well-card .well-svg{max-width:100%;height:120px;overflow:visible;filter:drop-shadow(0 6px 6px rgba(0,0,0,0.4))}
+.well-card .well-label{min-height:34px;font-size:10px;color:var(--muted);line-height:1.4;margin-top:4px}
+.arrow{font-size:20px;color:var(--teal);font-weight:300;align-self:center}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-top:12px}
+.key{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;font-size:11px;line-height:1.6;background:#332918;color:#f2d69b;border:1px solid rgba(242,214,155,0.2)}
+.feedback.show{display:block}
+.side{display:grid;gap:16px}
+.checklist{display:grid;gap:12px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:11px;line-height:1.5;color:#a5b2c3;transition:all .2s ease}
+.num{width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:#202a37;color:#a8b8cb;font-size:10px;font-weight:850;flex:none;border:1px solid #2e3d50}
+.check.done .num{background:#15312f;color:#79dfd0;border-color:var(--teal)}
+.check b,.mini-note b{color:var(--ink)}
+.resultbox{padding:16px;border:1px solid #2b3948;background:#0b1017;border-radius:12px;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3)}
+.resultbox h3{font-size:10px;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+.resultbox p,.mini-note{font-size:11px;line-height:1.6;color:#a5b2c3;margin:8px 0 0}
+.result-value{font-size:26px;letter-spacing:-.04em;font-weight:900;color:var(--teal)}
+.badge{display:inline-block;padding:5px 10px;border-radius:20px;background:#15312f;color:#79dfd0;font-size:10px;font-weight:800;margin-top:10px;border:1px solid rgba(101,214,196,0.2)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.avidity,.quiz{margin-top:20px}
+.table-wrap{overflow-x:auto}
+.avidity-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;background:#0f1722;border-radius:10px;overflow:hidden;border:1px solid #3b4e66}
+.avidity-table th,.avidity-table td{padding:14px 16px;text-align:left;border-bottom:1px solid #273545;vertical-align:top;color:#eef4fb}
+.avidity-table th{background:#182332;color:#8fb4df;font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:800}
+.low{color:var(--red);font-weight:800}.mid{color:var(--gold);font-weight:800}.high{color:var(--green);font-weight:800}
+.formula{padding:14px;background:#111923;border:1px solid #273545;border-radius:10px;font-size:11px;line-height:1.7;margin:12px 0;color:#b9c7d7}
+.formula strong{color:var(--teal)}
+.field{display:grid;gap:6px;font-size:11px;color:var(--muted);margin:12px 0}
+.field input{width:100%;background:#0b1017;color:var(--ink);border:1px solid #273545;border-radius:8px;padding:9px 12px;font:inherit;outline:none}
+.field input:focus{border-color:var(--teal)}
+.modal-note{margin-top:16px;padding:14px;border:1px solid #2a3948;border-radius:12px;color:#b6c4d4;background:#121923;font-size:11px;line-height:1.6}
+.quiz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding:18px}
+.quiz-header-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #273545;padding-bottom:8px}
+.quiz-small-progress{font-size:11px;color:var(--teal);font-weight:700}
+.question{padding:16px;border:1px solid #3b4e66;background:#0f1722;border-radius:12px}
+.question p{font-size:13px;line-height:1.6;margin:0 0 14px;color:var(--ink);font-weight:600}
+.option{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid #2e3d50;border-radius:8px;margin:8px 0;font-size:12px;line-height:1.5;cursor:pointer;background:#141e2b;color:#d5e0ec;transition:all .2s ease}
+.option:hover{border-color:var(--teal);background:#1a2738}
+.option input{accent-color:var(--teal);margin-top:2px}
+.option.correct{border-color:var(--green);background:#102b21;color:#a8f0d5}
+.option.wrong{border-color:var(--red);background:#33171b;color:#f5b0b7}
+.qfeedback{font-size:12px;line-height:1.6;margin-top:12px;color:#b9c7d7;padding:10px;background:#0b1017;border-radius:8px}
+.quiz-side{padding:16px;border:1px solid #273545;border-radius:12px;background:#0b1017;align-self:start;display:grid;gap:12px}
+.score{font-size:28px;font-weight:900;color:var(--teal);letter-spacing:-.03em}
+.small{font-size:11px;color:var(--muted);line-height:1.6}
+.footer{font-size:10px;color:#76869a;text-align:center;line-height:1.6;margin-top:24px}.hide{display:none!important}
+
+body.mode-direct{--mode:#8fb4df;--mode-soft:#142334;--mode-border:#3b5677}
+body.mode-indirect{--mode:#b69cff;--mode-soft:#221a38;--mode-border:#57438a}
+body.mode-direct .current-stage{border-color:var(--mode);background:var(--mode-soft)}
+body.mode-indirect .current-stage{border-color:var(--mode);background:var(--mode-soft)}
+body.mode-direct .current-stage .stage-number{background:var(--mode);color:#091625;border-color:var(--mode)}
+body.mode-indirect .current-stage .stage-number{background:var(--mode);color:#160e30;border-color:var(--mode)}
+
+.toxo-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;padding:18px}
+.toxo-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.toxo-fact{padding:12px;border:1px solid #273545;border-radius:10px;background:#0b1017}
+.toxo-fact b{display:block;color:var(--teal);font-size:11px;margin-bottom:5px}
+.toxo-fact p,.toxo-copy{font-size:12px;line-height:1.6;color:#a5b2c3;margin:0}
+.toxo-steps{display:grid;gap:10px}
+.toxo-step{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid #273545;border-radius:10px;background:#0b1017;font-size:11px;line-height:1.55;color:#a5b2c3}
+.toxo-step strong{color:var(--ink)}
+.toxo-num{display:grid;place-items:center;flex:0 0 24px;height:24px;border-radius:50%;background:#202a37;color:var(--teal);font-weight:850;font-size:10px;border:1px solid #2e3d50}
+.toxo-callout{padding:12px 14px;border:1px solid var(--mode-border);background:var(--mode-soft);border-radius:10px;color:var(--ink);font-size:11px;line-height:1.6;margin-top:14px}
+
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.toxo-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.side{grid-template-columns:1fr}.intro{align-items:flex-start;flex-direction:column}.toxo-facts{grid-template-columns:1fr}.well-stage{justify-content:flex-start}.well-card{min-width:90px}.panel-head{align-items:flex-start;flex-direction:column}}
+</style></head>
+<body>
+<main>
+<section class="intro">
+  <div>
+    <div class="eyebrow">Simulação prática guiada</div>
+    <h1>ELISA <span class="title-direct">direto</span>, <span class="title-indirect">indireto</span> e teste de avidez</h1>
+    <p>Avance etapa por etapa, observe o que fica ligado ao poço após cada lavagem e acompanhe a revelação colorimétrica. Depois, aplique os conceitos em questões de interpretação. As ilustrações são esquemáticas e não substituem os controles de um kit diagnóstico real.</p>
+  </div>
+</section>
+
+<section id="simulacao" class="layout">
+  <section class="panel">
+    <div class="panel-head">
+      <div><h2 id="panelTitle">ELISA direto</h2></div>
+      <span class="pill" id="panelPillTag">Anticorpo conjugado à enzima</span>
+    </div>
+    <div class="work">
+      <div class="tabs">
+        <button class="tab active" data-mode="direct">ELISA direto</button>
+        <button class="tab" data-mode="indirect">ELISA indireto</button>
+      </div>
+      <div class="instruction" id="instruction"></div>
+      <div class="stephead"><span id="stepLabel"></span><span id="stepCount"></span></div>
+      <div class="progress"><div id="progressBar"></div></div>
+      
+      <div class="diagram" id="plateWrapContainer">
+        <div class="diagram-title"><span id="diagramTitle">Poço da placa</span><span class="pill" id="stepPill">Etapa 1 de 4</span></div>
+        <div class="well-stage" id="wellStage"></div>
+        <div class="legend">
+          <span><i class="key" style="background:#e56d79"></i>Antígeno</span>
+          <span><i class="key" id="legendAntibodyKey" style="background:#8fb4df"></i>Anticorpo</span>
+          <span><i class="key" style="background:#e7bd58"></i>Conjugado enzimático</span>
+          <span><i class="key" style="background:#e7bd58"></i>Produto colorido (Amarelo)</span>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn primary active-pulse" id="nextBtn">Executar próxima etapa →</button>
+        <button class="btn" id="resetBtn">Reiniciar etapa</button>
+      </div>
+      <div class="feedback show" id="feedback" role="status"></div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <section class="panel">
+      <div class="panel-head"><h2>Etapas do ensaio</h2><span class="pill" id="protocolPill">ELISA direto</span></div>
+      <div class="side-body"><div class="checklist" id="checklist"></div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>O que está sendo detectado?</h2></div>
+      <div class="side-body">
+        <div class="resultbox">
+          <h3>ALVO DO ENSAIO</h3>
+          <div class="result-value" id="target" style="color:var(--blue);">Antígeno</div>
+          <p id="purpose"></p>
+          <span class="badge" id="methodBadge"></span>
+        </div>
+        <p class="mini-note" id="interpretation"></p>
+      </div>
+    </section>
+  </aside>
+</section>
+
+<section id="toxoplasmose" class="panel avidity" style="margin-top:20px;">
+  <div class="panel-head">
+    <div>
+      <div class="section-main-title">Toxoplasmose: doença e diagnóstico sorológico</div>
+      <div class="sub" style="font-size:12px; color:var(--muted);">Por que pesquisamos IgG, IgM e avidez?</div>
+    </div>
+    <span class="pill">Aplicação clínica do ELISA indireto</span>
+  </div>
+  <div class="toxo-grid">
+    <div>
+      <p class="toxo-copy"><strong>Toxoplasmose</strong> é uma infecção causada pelo protozoário intracelular <i>Toxoplasma gondii</i>. A transmissão pode ocorrer pela ingestão de carne crua/malcozida com cistos, água ou alimentos contaminados com oocistos e por via transplacentária na gestação. A infecção requer atenção especial em gestantes e imunossuprimidos.</p>
+      <div class="toxo-facts">
+        <div class="toxo-fact"><b>IgM anti-Toxoplasma</b><p>Surge na fase inicial da infecção, mas pode persistir por longos períodos. Sozinha não confirma infecção recente.</p></div>
+        <div class="toxo-fact"><b>IgG anti-Toxoplasma</b><p>Indica contato prévio e memória imunológica. Um resultado isolado não determina a data precisa da contaminação.</p></div>
+      </div>
+      <div class="toxo-callout"><strong>Importante na gestação:</strong> A data provável da infecção altera o risco fetal. Resultados reagentes para IgM devem ser investigados com exames complementares e idade gestacional.</div>
+    </div>
+    <div>
+      <h3>Como é feita a investigação?</h3>
+      <div class="toxo-steps">
+        <div class="toxo-step"><span class="toxo-num">1</span><div><strong>Coleta de sangue venoso</strong><br>Obtenção do soro do paciente para análise de anticorpos específicos.</div></div>
+        <div class="toxo-step"><span class="toxo-num">2</span><div><strong>Pesquisa de IgG e IgM por ELISA</strong><br>O soro reage com antígenos imobilizados no poço da placa.</div></div>
+        <div class="toxo-step"><span class="toxo-num">3</span><div><strong>Revelação cromogênica</strong><br>A reação enzimática gera cor amarela proporcional à concentração de anticorpos.</div></div>
+        <div class="toxo-step"><span class="toxo-num">4</span><div><strong>Teste de Avidez de IgG</strong><br>Aplica-se ureia para testar a força de ligação das anticorpos e auxiliar na diferenciação de infecções recentes vs. antigas.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="avidez" class="panel avidity">
+  <div class="panel-head">
+    <div>
+      <div class="section-main-title">Teste de avidez da IgG</div>
+      <div class="sub" style="font-size:12px; color:var(--muted);">Aplicação complementar na sorologia para Toxoplasmose</div>
+    </div>
+    <span class="pill">Cálculo interativo</span>
+  </div>
+  <div class="work">
+    <p class="mini-note" style="margin-top:0; font-size:12px;">A avidez reflete a força de ligação entre anticorpos e antígenos, que aumenta com a maturação imune. A ureia atua dissociando ligações fracas (típicas de infecção recente).</p>
+    <div class="two-col" style="margin-top:16px">
+      <div>
+        <div class="resultbox">
+          <h3>O QUE A UREIA AVALIA?</h3>
+          <p>A densidade óptica (DO) da amostra tratada com ureia é comparada com a amostra sem tratamento. Quanto maior a permanência de IgG ligada, maior o índice de avidez.</p>
+        </div>
+        <div class="formula"><strong>Índice de avidez (%)</strong> = (DO com ureia ÷ DO sem ureia) × 100<br><span class="small">Exemplo: DO sem ureia = 1,200; DO com ureia = 0,480 → índice = 40,0%.</span></div>
+        <div class="two-col">
+          <label class="field">DO com ureia<input id="doUrea" type="number" min="0" step="0.001" value="0.480"></label>
+          <label class="field">DO sem ureia<input id="doControl" type="number" min="0.001" step="0.001" value="1.200"></label>
+        </div>
+        <button class="btn primary" id="calcBtn">Calcular índice</button>
+        <div class="resultbox" style="margin-top:14px">
+          <h3>RESULTADO CALCULADO</h3>
+          <div class="result-value" id="avidityResult">40,0%</div>
+          <p id="avidityMeaning">Avidez intermediária — resultado inconclusivo conforme os pontos de corte didáticos.</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:13px; margin-bottom:6px;">Tabela de interpretação</h3>
+        <div class="table-wrap">
+          <table class="avidity-table">
+            <thead><tr><th>Índice de avidez</th><th>Interpretação</th></tr></thead>
+            <tbody>
+              <tr><td><b>&lt; 30%</b></td><td><span class="low">Baixa avidez</span><br>Compatível com resposta imune recente (fase aguda).</td></tr>
+              <tr><td><b>30–60%</b></td><td><span class="mid">Avidez intermediária</span><br>Faixa inconclusiva; requer correlação com a clínica e histórico.</td></tr>
+              <tr><td><b>&gt; 60%</b></td><td><span class="high">Alta avidez</span><br>Sugere resposta imune antiga e maturada.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-note"><b>Atenção:</b> Os pontos de corte podem variar conforme o kit comercial. Em gestantes, alta avidez no primeiro trimestre ajuda a afastar infecção recente.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz" class="panel quiz">
+  <div class="panel-head">
+    <div>
+      <div class="section-main-title">Quiz de interpretação</div>
+      <div class="sub" style="font-size:12px; color:var(--muted);">Responda uma questão por vez e confira a justificativa</div>
+    </div>
+    <span class="pill">6 questões</span>
+  </div>
+  <div class="quiz-grid">
+    <div id="quizContainer" class="question">
+      <div class="quiz-header-bar">
+        <span class="quiz-small-progress" id="quizProgressNum">Questão 1 de 6</span>
+        <button class="btn" id="quizReset" style="padding:4px 8px; font-size:10px;">Reiniciar quiz</button>
+      </div>
+      <div id="questionBox"></div>
+      <div class="controls" style="margin-top:14px;">
+        <button class="btn primary" id="submitAnswerBtn">Responder questão</button>
+        <button class="btn" id="nextQuestionBtn" style="display:none;">Próxima questão →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-note" style="margin:24px 16px;"><b>Nota educacional:</b> Esta página é uma simulação educacional. Diagramas e cores são representações esquemáticas.</div>
+<footer class="footer">IMUNOLAB · SIMULADOR INTERATIVO DE ELISA E AVIDEZ · Referência: CDC &amp; DPDx Toxoplasmosis</footer>
+</main>
+
+<script>
+const modes={
+  direct:{
+    title:'ELISA direto',target:'Antígeno',targetColor:'var(--blue)',purpose:'Detecta antígeno presente na amostra por meio de um anticorpo específico conjugado a uma enzima.',badge:'Detecção de antígeno',interpret:'A cor amarela aparece quando a enzima ligada ao anticorpo reconhece o antígeno capturado.',
+    steps:[
+      {title:'1. Anticorpo de captura fixado',desc:'Anticorpo de captura adsorvido ao fundo do poço.',tag:'Etapa 1 · Revestimento',state:'capture'},
+      {title:'2. Amostra do paciente + Lavagem',desc:'O antígeno se liga ao anticorpo. A lavagem remove componentes não ligados.',tag:'Etapa 2 · Captura',state:'sample',wash:true},
+      {title:'3. Anticorpo conjugado + Lavagem',desc:'Anticorpo ligado à enzima reconhece o antígeno. Lavagem remove excedentes.',tag:'Etapa 3 · Conjugado',state:'conjugate',wash:true},
+      {title:'4. Substrato cromogênico',desc:'A enzima converte o substrato em cor amarela proporcional à quantidade de antígeno.',tag:'Etapa 4 · Revelação',state:'color'}
+    ]
+  },
+  indirect:{
+    title:'ELISA indireto',target:'Anticorpo do paciente',targetColor:'var(--purple)',purpose:'Detecta anticorpos específicos (ex: IgG anti-Toxoplasma) no soro do paciente.',badge:'Anti-IgG conjugado',interpret:'A cor amarela revela a presença de anticorpos do paciente ligados aos antígenos fixados.',
+    steps:[
+      {title:'1. Antígeno fixado',desc:'Antígenos específicos fixados no fundo da cavidade.',tag:'Etapa 1 · Revestimento',state:'antigen'},
+      {title:'2. Soro do paciente + Lavagem',desc:'Anticorpos do paciente ligam-se aos antígenos. Lavagem elimina resíduos.',tag:'Etapa 2 · Ligação IgG',state:'sample',wash:true},
+      {title:'3. Anti-IgG conjugado + Lavagem',desc:'Anticorpo secundário com enzima reconhece a IgG humana.',tag:'Etapa 3 · Conjugado',state:'conjugate',wash:true},
+      {title:'4. Substrato cromogênico',desc:'Desenvolvimento de cor amarela indicando reação positiva.',tag:'Etapa 4 · Revelação',state:'color'}
+    ]
+  }
+};
+
+let mode='direct',step=0;
+const $=id=>document.getElementById(id);
+
+function antibody(x,y,color='#8fb4df',scale=1){
+  return `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M0 16 L0 0 L-11 -12 M0 0 L11 -12"/><circle cx="-11" cy="-12" r="3" fill="${color}" stroke="none"/><circle cx="11" cy="-12" r="3" fill="${color}" stroke="none"/></g>`;
+}
+function antigen(x,y,color='#e56d79'){
+  return `<g transform="translate(${x} ${y})" fill="${color}" stroke="#f5a0a9" stroke-width=".8"><circle r="6"/><circle cx="-2" cy="-2" r="1.5" fill="#fff" stroke="none"/></g>`;
+}
+
+function wellSVG(state,modeNow,index){
+  const antibodyColor=modeNow==='direct'?'#8fb4df':'#b69cff';
+  const secondaryColor=modeNow==='direct'?'#b8d2f2':'#d4c6ff';
+  let liquid=state==='color'?'#e7bd58':'#142f50', objects='';
+  const xs=[31,49,67,85];
+  
+  if(state==='capture') objects=xs.map(x=>antibody(x,88,antibodyColor,.85)).join('');
+  if(state==='antigen') objects=xs.map(x=>antigen(x,88,'#e56d79')).join('');
+  if(state==='sample'){
+    if(modeNow==='direct') objects=xs.map(x=>antibody(x,88,antibodyColor,.85)).join('')+[40,58,76].map(x=>antigen(x,67,'#e56d79')).join('');
+    else objects=xs.map(x=>antigen(x,88,'#e56d79')).join('')+[40,58,76].map(x=>antibody(x,67,antibodyColor,.72)).join('');
+  }
+  if(state==='conjugate'||state==='color'){
+    if(modeNow==='direct') objects=xs.map(x=>antibody(x,88,antibodyColor,.85)).join('')+[40,58,76].map(x=>antigen(x,70,'#e56d79')).join('')+[40,58,76].map(x=>antibody(x,49,secondaryColor,.63)).join('')+[40,58,76].map(x=>`<circle cx="${x+10}" cy="37" r="4" fill="#e7bd58" stroke="#f5d98b" stroke-width="1"/>`).join('');
+    else objects=xs.map(x=>antigen(x,88,'#e56d79')).join('')+[40,58,76].map(x=>antibody(x,70,'#b69cff',.72)).join('')+[40,58,76].map(x=>antibody(x,49,secondaryColor,.6)).join('')+[40,58,76].map(x=>`<circle cx="${x+10}" cy="37" r="4" fill="#e7bd58" stroke="#f5d98b" stroke-width="1"/>`).join('');
+  }
+  if(state==='color'){
+    for(let i=0;i<12;i++){
+      let x=27+(i%4)*20,y=78+Math.floor(i/4)*9;
+      objects+=`<circle cx="${x}" cy="${y}" r="3.2" fill="#e7bd58" opacity=".95"/>`;
+    }
+  }
+  const wash=(state==='sample'||state==='conjugate')?'<path d="M18 58 Q58 65 98 58" stroke="#65d6c4" stroke-width="1.6" fill="none" stroke-dasharray="4 4" opacity=".85"/>':'';
+  return `<svg class="well-svg" viewBox="0 0 116 126" role="img"><defs><linearGradient id="glass${index}" x1="0" x2="1"><stop offset="0" stop-color="#273545" stop-opacity=".8"/><stop offset=".5" stop-color="#3f526d" stop-opacity=".65"/><stop offset="1" stop-color="#1d2836" stop-opacity=".8"/></linearGradient><linearGradient id="liq${index}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${liquid}"/><stop offset="1" stop-color="${liquid}" stop-opacity=".86"/></linearGradient></defs><ellipse cx="58" cy="110" rx="45" ry="7" fill="#000" opacity=".4"/><path d="M13 26 Q13 16 25 16 H91 Q103 16 103 26 L98 99 Q96 111 84 112 H32 Q20 111 18 99 Z" fill="url(#glass${index})" fill-opacity=".3" stroke="url(#glass${index})" stroke-width="3"/><path d="M19 44 H97 L93 96 Q92 104 82 105 H34 Q25 104 24 96 Z" fill="url(#liq${index})"/><ellipse cx="58" cy="44" rx="39" ry="7" fill="#65d6c4" fill-opacity=".3" stroke="#65d6c4" stroke-width="1.5"/><ellipse cx="58" cy="43" rx="34" ry="4" fill="${liquid}" fill-opacity=".9"/>${objects}${wash}<path d="M13 26 Q13 16 25 16 H91 Q103 16 103 26" fill="none" stroke="#3f526d" stroke-width="3"/></svg>`;
+}
+
+function updateButtonGlow() {
+  const nextBtn = $('nextBtn');
+  nextBtn.classList.remove('active-pulse');
+  if(step < modes[mode].steps.length - 1) {
+    nextBtn.classList.add('active-pulse');
+  }
+}
+
+function renderWells(){
+  const stage=$('wellStage'); stage.innerHTML='';
+  const states=mode==='direct'?['capture','sample','conjugate','color']:['antigen','sample','conjugate','color'];
+  const labels=mode==='direct'?['Anticorpo fixado','Amostra: antígeno','Anticorpo-enzima','Substrato: cor']:['Antígeno fixado','Soro: anticorpo','Anti-IgG-enzima','Substrato: cor'];
+  states.forEach((st,i)=>{
+    if(i){const a=document.createElement('div');a.className='arrow';a.innerHTML='→';stage.appendChild(a)}
+    const card=document.createElement('div');card.className='well-card '+(i===step?'current-stage':'');
+    const visualState=i<=step?st:'empty';
+    card.innerHTML=`<div class="stage-number">${i+1}</div><div class="water-drop"></div><div class="water-drop" style="animation-delay: 0.35s; left:35%;"></div><div class="water-drop" style="animation-delay: 0.7s; left:65%;"></div>${wellSVG(visualState,mode,'w'+mode+i)}<div class="well-label">${labels[i]}</div>${(i===1||i===2)?'<div class="wash-label">↻ Lavagem</div>':''}`;
+    stage.appendChild(card);
+  });
+}
+
+function render(){
+  document.body.classList.toggle('mode-direct',mode==='direct');
+  document.body.classList.toggle('mode-indirect',mode==='indirect');
+  
+  let m=modes[mode],s=m.steps[step];
+  $('instruction').innerHTML=`<b>${s.title}.</b> ${s.desc}`;
+  $('stepLabel').textContent=`Etapa ${step+1} · ${s.title}`;
+  $('stepCount').textContent=`${Math.round((step+1)/m.steps.length*100)}% concluído`;
+  $('progressBar').style.width=((step+1)/m.steps.length*100)+'\%';$('diagramTitle').textContent=s.tag;
+  $('stepPill').textContent=`Etapa ${step+1} de ${m.steps.length}`;
+  $('protocolPill').textContent=m.title;
+  $('panelTitle').textContent=m.title;
+  
+  let targetEl = $('target');
+  targetEl.textContent = m.target;
+  targetEl.style.color = m.targetColor;
+  targetEl.style.fontSize = mode==='indirect' ? '21px' : '26px';
+
+  $('purpose').textContent=m.purpose;
+  $('methodBadge').textContent=m.badge;
+  $('interpretation').innerHTML='<b>Princípio:</b> '+m.interpret;
+  
+  $('nextBtn').textContent=step===m.steps.length-1?'Sequência concluída ✓':'Executar próxima etapa →';
+  $('nextBtn').disabled=step===m.steps.length-1;
+  updateButtonGlow();
+
+  $('feedback').innerHTML=step===m.steps.length-1?`<b>Simulação concluída.</b> ${m.interpret}`:`<b>Observe o poço.</b> ${step===1||step===2?'A lavagem remove componentes não ligados.':'Verifique os elementos adicionados à cavidade.'}`;
+  
+  let list=$('checklist');list.innerHTML='';
+  m.steps.forEach((x,i)=>{
+    let d=document.createElement('div');d.className='check '+(i<=step?'done':'');
+    d.innerHTML=`<span class="num">${i+1}</span><span><b>${x.title}</b><br>${x.desc}</span>`;
+    list.appendChild(d);
+  });
+  
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===mode));
+  renderWells();
+}
+
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{mode=t.dataset.mode;step=0;render()}));
+
+$('nextBtn').addEventListener('click',()=>{
+  if(step<modes[mode].steps.length-1){
+    const currentCard = document.querySelector('.well-card.current-stage');
+    if (modes[mode].steps[step].wash && currentCard) {
+      currentCard.classList.add('well-wash-effect', 'washing');
+      setTimeout(() => {
+        currentCard.classList.remove('well-wash-effect', 'washing');
+        step++;
+        render();
+      }, 2500);
+    } else {
+      step++;
+      render();
+    }
+  }
+});
+
+$('resetBtn').addEventListener('click',()=>{step=0;render()});
+
+function calc(){
+  let a=parseFloat($('doControl').value),b=parseFloat($('doUrea').value);
+  if(!Number.isFinite(a)||!Number.isFinite(b)||a<=0||b<0){
+    $('avidityResult').textContent='—';$('avidityMeaning').textContent='Informe valores válidos maiores que zero.';
+    return;
+  }
+  let n=b/a*100;
+  $('avidityResult').textContent=n.toLocaleString('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1})+'\%';$('avidityMeaning').textContent=n<30?'Baixa avidez: sugere infecção recente (fase aguda).':n<=60?'Avidez intermediária: faixa inconclusiva.':'Alta avidez: sugere infecção antiga ou resposta maturada.';
+}
+
+$('calcBtn').addEventListener('click',calc);
+$('doControl').addEventListener('input',calc);$('doUrea').addEventListener('input',calc);
+
+const qs=[
+  {q:'No ELISA direto apresentado, qual é o alvo principal detectado?',o:['Anticorpos IgG do paciente','Antígeno presente na amostra','Somente IgM','A atividade dos linfócitos T'],a:1,e:'O ELISA direto utiliza anticorpos específicos fixados para capturar diretamente o antígeno presente na amostra.'},
+  {q:'No ELISA indireto para pesquisa de IgG, qual componente está conjugado à enzima?',o:['O antígeno fixado','A IgG do paciente','O anticorpo secundário anti-IgG humana','A solução de lavagem'],a:2,e:'O anticorpo secundário anti-IgG humana carrega a enzima e liga-se aos anticorpos IgG do paciente.'},
+  {q:'Qual é a principal finalidade das etapas de lavagem?',o:['Aumentar a quantidade de antígeno','Remover componentes não ligados e evitar reações falso-positivas','Produzir cor','Substituir os anticorpos'],a:1,e:'A lavagem é crucial para remover resíduos não ligados e diminuir o ruído de fundo (sinal inespecífico).'},
+  {q:'Uma amostra apresenta DO sem ureia de 1,000 e DO com ureia de 0,250. Qual é o índice de avidez?',o:['25%','40%','75%','250%'],a:0,e:'(0,250 ÷ 1,000) × 100 = 25%. Trata-se de baixa avidez (< 30%).'},
+  {q:'Pelo quadro de pontos de corte, um índice de avidez de 72% é classificado como:',o:['Baixa avidez','Avidez intermediária','Alta avidez','Resultado indeterminado'],a:2,e:'Índices acima de 60% indicam alta avidez, sinalizando uma resposta imune madura.'},
+  {q:'Na investigação sorológica habitual da toxoplasmose, qual afirmação está correta?',o:['IgM positiva comprova infecção recente sem exceção','IgG positiva isolada determina a data exata do contágio','IgG e IgM são avaliadas conjuntamente; a interpretação depende do contexto','A avidez substitui o ELISA convencional'],a:2,e:'A sorologia deve ser interpretada de forma integrada (IgG, IgM, avidez e histórico da paciente).'}
+];
+
+let currentQuizIndex = 0;
+let userAnswers = {};
+
+function renderQuizQuestion() {
+  const q = qs[currentQuizIndex];
+  const qBox = $('questionBox');
+  qBox.innerHTML = `
+    <p>${q.q}</p>
+    ${q.o.map((o, j) => `
+      <label class="option" data-o="${j}">
+        <input type="radio" name="quizChoice" value="${j}" ${userAnswers[currentQuizIndex] === j ? 'checked' : ''}>
+        <span>${o}</span>
+      </label>
+    `).join('')}
+    <div class="qfeedback hide" id="quizFeedback"></div>
+  `;
+
+  $('quizProgressNum').textContent = `Questão ${currentQuizIndex + 1} de ${qs.length}`;
+  
+  const isAnswered = userAnswers[currentQuizIndex] !== undefined;
+  if (isAnswered) {
+    showQuizFeedback(currentQuizIndex);
+    $('submitAnswerBtn').style.display = 'none';$('nextQuestionBtn').style.display = 'inline-block';
+  } else {
+    $('submitAnswerBtn').style.display = 'inline-block';$('nextQuestionBtn').style.display = 'none';
+  }
+
+  if (currentQuizIndex === qs.length - 1 && isAnswered) {
+    $('nextQuestionBtn').textContent = 'Ver pontuação final ✓';
+  } else {
+    $('nextQuestionBtn').textContent = 'Próxima questão →';
+  }
+}
+
+function showQuizFeedback(index) {
+  const q = qs[index];
+  const chosen = userAnswers[index];
+  const fb = $('quizFeedback');
+  if(!fb) return;
+  fb.classList.remove('hide');
+  
+  document.querySelectorAll('.option').forEach(l => {
+    let n = Number(l.dataset.o);
+    l.classList.remove('correct', 'wrong');
+    if (n === q.a) l.classList.add('correct');
+    if (chosen !== undefined && n === chosen && n !== q.a) l.classList.add('wrong');
+  });
+
+  fb.innerHTML = `<b>${chosen === q.a ? 'Correto!' : 'Incorreto.'}</b> ${q.e}`;
+}
+
+$('submitAnswerBtn').addEventListener('click', () => {
+  const sel = document.querySelector('input[name="quizChoice"]:checked');
+  if(!sel) {
+    alert('Por favor, selecione uma alternativa antes de responder.');
+    return;
+  }
+  userAnswers[currentQuizIndex] = Number(sel.value);
+  showQuizFeedback(currentQuizIndex);
+  $('submitAnswerBtn').style.display = 'none';$('nextQuestionBtn').style.display = 'inline-block';
+});
+
+$('nextQuestionBtn').addEventListener('click', () => {
+  if (currentQuizIndex < qs.length - 1) {
+    currentQuizIndex++;
+    renderQuizQuestion();
+  } else {
+    let scoreCount = 0;
+    qs.forEach((item, idx) => {
+      if(userAnswers[idx] === item.a) scoreCount++;
+    });
+    $('questionBox').innerHTML = `
+      <div style="text-align:center; padding: 20px;">
+        <h3 style="color:var(--teal); font-size:20px; margin-bottom:10px;">Quiz Finalizado!</h3>
+        <p style="font-size:16px;">Sua pontuação final foi de <b>${scoreCount} de ${qs.length}</b>.</p>
+        <p class="small" style="margin-top:10px;">${scoreCount === qs.length ? 'Excelente! Você dominou todos os conceitos.' : 'Bom trabalho! Revise os pontos em dúvida e tente novamente.'}</p>
+      </div>
+    `;
+    $('submitAnswerBtn').style.display = 'none';
+    $('nextQuestionBtn').style.display = 'none';$('quizProgressNum').textContent = 'Concluído';
+  }
+});
+
+$('quizReset').addEventListener('click', () => {
+  currentQuizIndex = 0;
+  userAnswers = {};
+  $('submitAnswerBtn').style.display = 'inline-block';$('nextQuestionBtn').style.display = 'none';
+  renderQuizQuestion();
+});
+
+render();
+calc();
+renderQuizQuestion();
+</script>
+</body>
+</html>
