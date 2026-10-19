@@ -470,7 +470,7 @@ function App() {
                 <div className="float-tag tag-c">
                   <span className="tag-dot orange" /> Anticorpo
                 </div>
-                <div className="hero-spark spark-one">✳</div>
+                <div className="hero-spark spark-one"></div>
                 <div className="hero-spark spark-two">+</div>
               </div>
             </div>
@@ -1557,7 +1557,7 @@ function App() {
 
         <footer className="footer">
           <span>© ImunoLab · Monitoria de Imunologia</span>
-          <span>Feito para estudar melhor <span className="footer-heart">✳</span></span>
+          <span>Feito para estudar melhor <span className="footer-heart"></span></span>
           <span>Idealizado por: Caroline Filippi - Monitora de Imunologia da Escola de Medicina da PUCPR.</span>
         </footer>
       </main>
